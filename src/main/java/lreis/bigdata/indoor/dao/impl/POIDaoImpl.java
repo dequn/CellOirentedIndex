@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dq on 4/29/16.
@@ -107,7 +106,7 @@ public class POIDaoImpl implements IPOIDao {
             if (last != node) {
 
                 if (list.size() > 0) {
-                    list.get(list.size() - 1).setOutTime(lastTime);
+                    list.get(list.size() - 1).setExitTime(lastTime);
                 }
 
                 TraceNode tn = new TraceNode();

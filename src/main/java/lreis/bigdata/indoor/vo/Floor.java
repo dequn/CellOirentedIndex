@@ -12,7 +12,7 @@ import java.util.List;
 public class Floor {
 
     String floorShp;
-    List<Shop> shops;
+    List<Cell> cells;
     STRtree strTree;
 
 
@@ -28,11 +28,11 @@ public class Floor {
         this.floorShp = floorShp;
     }
 
-    public List<Shop> getShops() {
-        if (this.shops == null) {
-            this.shops = FloorShpUtils.getShopList(this.floorShp);
+    public List<Cell> getCells() {
+        if (this.cells == null) {
+            this.cells = FloorShpUtils.getCellList(this.floorShp);
         }
-        return shops;
+        return cells;
     }
 
 
@@ -52,9 +52,9 @@ public class Floor {
         if (floorShp == null) return;
 
         this.strTree = new STRtree();
-        for (Shop shop : this.getShops()) {
-            Envelope envelope = shop.getGeom().getEnvelopeInternal();
-            this.strTree.insert(envelope, shop);
+        for (Cell cell : this.getCells()) {
+            Envelope envelope = cell.getGeom().getEnvelopeInternal();
+            this.strTree.insert(envelope, cell);
         }
 
     }

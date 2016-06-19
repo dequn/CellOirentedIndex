@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 /**
  * Created by dq on 4/25/16.
  */
-public class ShopTest {
+public class CellTest {
 
     @Test
     public void getName() throws Exception {

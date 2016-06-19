@@ -6,7 +6,7 @@ package lreis.bigdata.indoor.vo;
 public class TraceNode {
     private Integer polygonNum;
     private Long entryTime;
-    private Long outTime;
+    private Long exitTime;
 
 
     public TraceNode() {
@@ -14,7 +14,7 @@ public class TraceNode {
 
     public TraceNode(Integer polygonNum, Long outTime, Long entryTime) {
         this.polygonNum = polygonNum;
-        this.outTime = outTime;
+        this.exitTime = outTime;
         this.entryTime = entryTime;
     }
 
@@ -34,12 +34,12 @@ public class TraceNode {
         this.entryTime = entryTime;
     }
 
-    public Long getOutTime() {
-        return outTime;
+    public Long getExitTime() {
+        return exitTime;
     }
 
-    public void setOutTime(Long outTime) {
-        this.outTime = outTime;
+    public void setExitTime(Long exitTime) {
+        this.exitTime = exitTime;
     }
 
 

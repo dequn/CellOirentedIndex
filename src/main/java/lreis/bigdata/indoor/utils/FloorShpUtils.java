@@ -1,14 +1,13 @@
 package lreis.bigdata.indoor.utils;
 
 import com.vividsolutions.jts.geom.Geometry;
-import lreis.bigdata.indoor.vo.Shop;
+import lreis.bigdata.indoor.vo.Cell;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.Transaction;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.data.shapefile.ShapefileDataStoreFactory;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
@@ -50,8 +49,8 @@ public class FloorShpUtils {
      * @param floorShpFileName
      * @return 返回楼层内的商店列表
      */
-    public static List<Shop> getShopList(String floorShpFileName) {
-        List<Shop> list = new ArrayList<Shop>();
+    public static List<Cell> getCellList(String floorShpFileName) {
+        List<Cell> list = new ArrayList<Cell>();
         ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
         try {
             ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(floorShpFileName).toURI().toURL());
@@ -71,13 +70,13 @@ public class FloorShpUtils {
                 String category = feature.getAttribute("style").toString();
 
 
-                Shop shop = new Shop();
-                shop.setFloorNum(floorNum);
-                shop.setName(name);
-                shop.setNodeNum(nodeNum);
-                shop.setGeom(geom);
-                shop.setCategory(category);
-                list.add(shop);
+                Cell cell = new Cell();
+                cell.setFloorNum(floorNum);
+                cell.setName(name);
+                cell.setNodeNum(nodeNum);
+                cell.setGeom(geom);
+                cell.setCategory(category);
+                list.add(cell);
 
 
             }
@@ -139,8 +138,4 @@ public class FloorShpUtils {
     }
 
 
-    public static void quadFloor(Geometry floorBound) {
-
-
-    }
 }

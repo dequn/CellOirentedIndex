@@ -1,6 +1,6 @@
 package lreis.bigdata.indoor.dao.impl;
 
-import lreis.bigdata.indoor.dao.IShopDao;
+import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.index.FloorSTRIndex;
 import lreis.bigdata.indoor.vo.POI;
 import org.apache.hadoop.hbase.Cell;
@@ -16,13 +16,13 @@ import java.util.*;
 /**
  * Created by dq on 5/3/16.
  */
-public class ShopDaoImpl implements IShopDao {
+public class CellDaoImpl implements ICellDao {
 
     private Connection conn;
     private String tableName = "wifi";
     private byte[] columnFamily = Bytes.toBytes("data");
 
-    public ShopDaoImpl(Connection conn) {
+    public CellDaoImpl(Connection conn) {
         super();
         this.conn = conn;
     }
@@ -30,18 +30,18 @@ public class ShopDaoImpl implements IShopDao {
     /**
      * return List of POIs, beginTimeStamp and endTimeStamp are unix TimeStamps without milliseconds.
      *
-     * @param shopName
+     * @param cellName
      * @param beginTimeStamp
      * @param endTimeStamp
      * @return List<POI>
      * @throws IOException
      */
-    public List<POI> getPOIsByShopName(String shopName, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<POI> getPOIsByCellName(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
 
         List<POI> list = new ArrayList<POI>();
 
-        List<Integer> numList = FloorSTRIndex.names.get(shopName);
+        List<Integer> numList = FloorSTRIndex.names.get(cellName);
 
         FilterList fls = new FilterList(FilterList.Operator.MUST_PASS_ONE); // can be in multi polygons
 
@@ -107,8 +107,8 @@ public class ShopDaoImpl implements IShopDao {
         return list;
     }
 
-    public int countMacInShop(String shopName, Long beginTimeStamp, Long endTimeStamp) throws IOException {
-        List<POI> list = this.getPOIsByShopName(shopName, beginTimeStamp, endTimeStamp);
+    public int countMacInCell(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+        List<POI> list = this.getPOIsByCellName(cellName, beginTimeStamp, endTimeStamp);
         Map<String, Integer> map = new HashMap<String, Integer>();
         for (POI poi : list) {
             if (map.containsKey(poi.getMac())) {
@@ -121,7 +121,7 @@ public class ShopDaoImpl implements IShopDao {
 
     }
 
-    public List<POI> getPOISBeenToShops(List<Integer> nodeNumList, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<POI> getPOISBeenToCells(List<Integer> nodeNumList, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
         FilterList filter = new FilterList(FilterList.Operator.MUST_PASS_ONE);
 

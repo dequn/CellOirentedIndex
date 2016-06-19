@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by dq on 4/6/16.
  */
-public class Shop {
+public class Cell {
 
     protected String name;
     protected Integer nodeNum;
@@ -16,7 +16,7 @@ public class Shop {
     protected String category;
     protected Geometry geom;
 
-    public Shop() {
+    public Cell() {
     }
 
     public String getName() {

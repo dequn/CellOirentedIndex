@@ -3,7 +3,7 @@ package lreis.bigdata.indoor.index;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.index.strtree.STRtree;
 import lreis.bigdata.indoor.utils.FloorShpUtils;
-import lreis.bigdata.indoor.vo.Shop;
+import lreis.bigdata.indoor.vo.Cell;
 
 import java.util.List;
 
@@ -41,11 +41,11 @@ public class FloorSTRTree {
 
         this.tree = new STRtree();
 
-        List<Shop> shops = FloorShpUtils.getShopList(this.floorShp);
-        for (Shop shop : shops) {
+        List<Cell> cells = FloorShpUtils.getCellList(this.floorShp);
+        for (Cell cell : cells) {
             Envelope envelope;
-            envelope = shop.getGeom().getEnvelopeInternal();
-            this.tree.insert(envelope, shop);
+            envelope = cell.getGeom().getEnvelopeInternal();
+            this.tree.insert(envelope, cell);
         }
 
     }

@@ -1,5 +1,6 @@
 import lreis.bigdata.indoor.utils.FloorShpUtils;
-import lreis.bigdata.indoor.vo.Shop;
+import lreis.bigdata.indoor.vo.Cell;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.List;
  */
 public class FloorShpUtilsTest {
 
+
+//    private String f4Shp = "/Users/dq/subject_study/20150915_xddyc_download/860100010020300001_f4.dbf";
+    private String f4Shp = "D:\\big_joy\\20150915_xddyc_download\\860100010020300001_f4.dbf";
+
     @Test
     public void getFloorNum() throws Exception {
 
@@ -17,12 +22,13 @@ public class FloorShpUtilsTest {
     @Test
     public void read() throws Exception {
 
-        List<Shop> list = FloorShpUtils.getShopList("/Users/dq/subject_study/20150915_xddyc_download/860100010020300001_f4.dbf");
-        for (Shop l : list) {
-            System.out.println(l);
+        List<Cell> list = FloorShpUtils.getCellList(f4Shp);
+        for (Cell cell : list) {
+            System.out.println(cell);
         }
     }
 
+    @Ignore
     @Test
     public void setPolygonNum() throws Exception {
 

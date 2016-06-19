@@ -129,8 +129,8 @@ public class POI {
         if (FloorSTRIndex.floorIdx.get(this.getFloorNum()) == null) {
             return -1;
         } else {
-            List<Shop> list = FloorSTRIndex.floorIdx.get(this.getFloorNum()).query(point.getEnvelopeInternal());
-            for (Shop item : list) {
+            List<Cell> list = FloorSTRIndex.floorIdx.get(this.getFloorNum()).query(point.getEnvelopeInternal());
+            for (Cell item : list) {
                 if (item.getGeom().contains(point)) {
                     return item.getNodeNum();
                 }

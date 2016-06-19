@@ -2,7 +2,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import lreis.bigdata.indoor.index.FloorSTRIndex;
-import lreis.bigdata.indoor.vo.Shop;
+import lreis.bigdata.indoor.vo.Cell;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -47,9 +47,9 @@ public class PositioningDataUtils {
         if (FloorSTRIndex.floorIdx.get(floorNum) == null) {
             throw new Exception(String.format("Index of Floor %s has not been built!", floorNum));
         } else {
-            List<Shop> list = FloorSTRIndex.floorIdx.get(floorNum).query(p.getEnvelopeInternal());
+            List<Cell> list = FloorSTRIndex.floorIdx.get(floorNum).query(p.getEnvelopeInternal());
 
-            for (Shop item : list) {
+            for (Cell item : list) {
                 if (item.getGeom().contains(p)) {
                     return item.getNodeNum();
                 }

@@ -4,7 +4,7 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.index.SpatialIndex;
 import com.vividsolutions.jts.index.strtree.STRtree;
 import lreis.bigdata.indoor.utils.FloorShpUtils;
-import lreis.bigdata.indoor.vo.Shop;
+import lreis.bigdata.indoor.vo.Cell;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,15 +27,15 @@ public class FloorSTRIndex {
     }
 
 
-    private static void build(String floor, List<Shop> shopList) {
+    private static void build(String floor, List<Cell> cellList) {
 
-        STRtree stRtree = new STRtree(shopList.size());
+        STRtree stRtree = new STRtree(cellList.size());
 
-        for (Shop shop : shopList
+        for (Cell cell : cellList
                 ) {
             Envelope ene;
-            ene = shop.getGeom().getEnvelopeInternal();
-            stRtree.insert(ene, shop);
+            ene = cell.getGeom().getEnvelopeInternal();
+            stRtree.insert(ene, cell);
         }
 
         FloorSTRIndex.floorIdx.put(floor, stRtree);
@@ -50,7 +50,7 @@ public class FloorSTRIndex {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Shop> list = FloorShpUtils.getShopList(floorShpFileName);
+        List<Cell> list = FloorShpUtils.getCellList(floorShpFileName);
 
         if (floorIdx == null) {
             floorIdx = new HashMap<String, SpatialIndex>();
@@ -61,25 +61,25 @@ public class FloorSTRIndex {
     }
 
 
-    public static void buildNameIdx(List<Shop> shopList) {
+    public static void buildNameIdx(List<Cell> cellList) {
         if (names == null) {
             names = new HashMap<String, ArrayList<Integer>>();
         }
-        for (Shop shop : shopList) {
-            if (names.get(shop.getName()) == null) {
-                names.put(shop.getName(), new ArrayList<Integer>());
+        for (Cell cell : cellList) {
+            if (names.get(cell.getName()) == null) {
+                names.put(cell.getName(), new ArrayList<Integer>());
             }
-            names.get(shop.getName()).add(shop.getNodeNum());
+            names.get(cell.getName()).add(cell.getNodeNum());
         }
     }
 
 
-    public static void buildNodesIdx(List<Shop> shopList) {
+    public static void buildNodesIdx(List<Cell> cellList) {
         if (nodes == null) {
-            nodes = new String[shopList.size() + 1];
+            nodes = new String[cellList.size() + 1];
         }
-        for (Shop shop : shopList) {
-            nodes[shop.getNodeNum()] = shop.getName();
+        for (Cell cell : cellList) {
+            nodes[cell.getNodeNum()] = cell.getName();
         }
     }
 

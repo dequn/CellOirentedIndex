@@ -14,7 +14,7 @@ public interface IPOIDao {
     boolean insertPOI(POI poi) throws IOException;
 
     /**
-     * return a list of shops the mac has been , maybe and allow return to a shop on second time ,so use a list.
+     * return a list of cells the mac has been , maybe and allow return to a cell on second time ,so use a list.
      *
      * @param mac
      * @param beginTimeStamp
@@ -22,7 +22,7 @@ public interface IPOIDao {
      * @return
      * @throws IOException
      */
-    public List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+     List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 
 
 }
