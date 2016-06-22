@@ -11,7 +11,7 @@ public class RecordUtils {
 
     public static long calcTimeStamp(String strTime) throws ParseException {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long time = sdf.parse(strTime).getTime() / 1000;
+        Long time = sdf.parse(strTime).getTime() / 1000;
         return time;
     }
 
