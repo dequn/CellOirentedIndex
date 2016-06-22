@@ -45,48 +45,7 @@ public class FloorShpUtils {
     }
 
 
-    /**
-     * @param floorShpFileName
-     * @return 返回楼层内的商店列表
-     */
-    public static List<Cell> getCellList(String floorShpFileName) {
-        List<Cell> list = new ArrayList<Cell>();
-        ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
-        try {
-            ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(floorShpFileName).toURI().toURL());
-            sds.setCharset(Charset.forName("GBK"));
-            SimpleFeatureSource featureSource = sds.getFeatureSource();
-            SimpleFeatureIterator iterator = featureSource.getFeatures().features();
 
-
-            String floorNum = FloorShpUtils.getFloorNum(floorShpFileName);
-            while (iterator.hasNext()) {
-
-                SimpleFeature feature = iterator.next();
-
-                Geometry geom = (Geometry) feature.getDefaultGeometry();
-                Integer nodeNum = ((Long) feature.getAttribute("poi_no")).intValue();
-                String name = (String) feature.getAttribute("name_CHN");
-                String category = feature.getAttribute("style").toString();
-
-
-                Cell cell = new Cell();
-                cell.setFloorNum(floorNum);
-                cell.setName(name);
-                cell.setNodeNum(nodeNum);
-                cell.setGeom(geom);
-                cell.setCategory(category);
-                list.add(cell);
-
-
-            }
-
-            iterator.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
 
 
     /**
@@ -101,7 +60,7 @@ public class FloorShpUtils {
             for (String file :
                     floorFiles) {
                 ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(file).toURI().toURL());
-                sds.setCharset(Charset.forName("GBK"));
+                sds.setCharset(Charset.forName("UTF-8"));
 
 
                 FeatureWriter<SimpleFeatureType, SimpleFeature> writer = sds.getFeatureWriter(sds.getTypeNames()[0], Transaction.AUTO_COMMIT);

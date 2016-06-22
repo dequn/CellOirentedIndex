@@ -36,40 +36,38 @@ public class POIDaoImpl implements IPOIDao {
 
     public boolean insertPOI(POI poi) throws IOException {
 
-        if ((poi.getStrX() == null || poi.getStrX().equals("")) || (poi.getStrY() == null || poi.getStrY().equals("")))
+        if (poi.getX() == null || poi.getY() == null) {
             return false;
+        }
         if (poi.getMac() == null || poi.getMac().equals("")) {
             return false;
         }
-        if (poi.getStrTime() == null || poi.getStrTime().equals("")) {
-            return false;
-        }
-        if (poi.getFloorNum().equals("-1")) {
+        if (poi.getTime() == null) {
             return false;
         }
 
         Table table = this.conn.getTable(TableName.valueOf(this.tableName));
 
-        String row = poi.getRow();
-        byte[] bRow = Bytes.toBytes(poi.getRow());
 
-        Put put = new Put(bRow);
-        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(poi.getStrTime()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi.getOriginalFloorNum()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes(poi.getStrX()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes(poi.getStrY()));
-
-        table.put(put);
-
-
-        String idxRow = row.substring(14) + row.substring(4, 14) + row.substring(0, 4);
-        this.add2Index(idxRow);
-
+//        String row = poi.getRow();
+//        byte[] bRow = Bytes.toBytes(poi.getRow());
+//
+//        Put put = new Put(bRow);
+//        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(poi.getStrTime()));
+//        put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
+//        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi.getOriginalFloorNum()));
+//        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes(poi.getStrX()));
+//        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes(poi.getStrY()));
+//
+//        table.put(put);
+//
+//
+//        String idxRow = row.substring(14) + row.substring(4, 14) + row.substring(0, 4);
+//        this.add2Index(idxRow);
         return true;
     }
 
-    //TODO: need do on server side
+
     @Override
     public List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException {
         List<TraceNode> list = new ArrayList<TraceNode>();
@@ -123,7 +121,6 @@ public class POIDaoImpl implements IPOIDao {
 
         return list;
     }
-
 
     private boolean add2Index(String row) throws IOException {
 

@@ -1,16 +1,21 @@
 package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.ICellDao;
-import lreis.bigdata.indoor.index.FloorSTRIndex;
+import lreis.bigdata.indoor.utils.RecordUtils;
+import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.POI;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.*;
+import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
+import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -41,7 +46,13 @@ public class CellDaoImpl implements ICellDao {
 
         List<POI> list = new ArrayList<POI>();
 
-        List<Integer> numList = FloorSTRIndex.names.get(cellName);
+        List<Integer> numList = new ArrayList<Integer>();
+//        List<lreis.bigdata.indoor.vo.Cell> cells = Building.getCellsByName(cellName);
+        List<lreis.bigdata.indoor.vo.Cell> cells = null;
+
+        for (lreis.bigdata.indoor.vo.Cell cell : cells) {
+            numList.add(cell.getNodeNum());
+        }
 
         FilterList fls = new FilterList(FilterList.Operator.MUST_PASS_ONE); // can be in multi polygons
 
@@ -73,20 +84,21 @@ public class CellDaoImpl implements ICellDao {
 
         for (Iterator<Result> it = resultScanner.iterator(); it.hasNext(); ) {
             Result result = it.next();
-            List<Cell> cells = result.listCells();
+            List<Cell> hCells = result.listCells();
+
             POI poi = new POI();
 
-
-            for (Cell cell : cells) {
+            for (Cell cell : hCells) {
 
                 String qualifier = new String(CellUtil.cloneQualifier(cell));
                 String value = new String(CellUtil.cloneValue(cell), "UTF-8");
+
                 if (qualifier.equals("x")) {
-                    poi.setStrX(value);
+                    poi.setX(Float.parseFloat(value) / 1000);
                 }
                 if (qualifier.equals("y")) {
+                    poi.setX(Float.parseFloat(value) / -1000);
 
-                    poi.setStrY(value);
                 }
                 if (qualifier.equals("floor")) {
 
@@ -97,7 +109,12 @@ public class CellDaoImpl implements ICellDao {
                     poi.setMac(value);
                 }
                 if (qualifier.equals("time")) {
-                    poi.setStrTime(value);
+                    try {
+                        long time = RecordUtils.calcTimeStamp(value);
+                        poi.setTime(time);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             list.add(poi);

@@ -31,7 +31,8 @@ public class main {
             IPOIDao dao = DaoFactory.getPOIDao();
             while ((line = reader.readLine()) != null) {
                 String[] items = line.split(",");
-                POI poi = new POI(items[0], items[4], items[2], items[3], items[1]);
+                POI poi = new POI();
+//                POI poi = new POI(items[0], items[4], items[2], items[3], items[1]);
                 dao.insertPOI(poi);
             }
             reader.close();
