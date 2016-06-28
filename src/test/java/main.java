@@ -33,7 +33,7 @@ public class main {
                 String[] items = line.split(",");
                 POI poi = new POI();
 //                POI poi = new POI(items[0], items[4], items[2], items[3], items[1]);
-                dao.insertPOI(poi);
+                dao.insertPOI2HBase(poi);
             }
             reader.close();
         } catch (FileNotFoundException e1) {
@@ -42,6 +42,8 @@ public class main {
             e1.printStackTrace();
         }
         System.out.println("------------- put data end-------------------");
+
+
     }
 
 

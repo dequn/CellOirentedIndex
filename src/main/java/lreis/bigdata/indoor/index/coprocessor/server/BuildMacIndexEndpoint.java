@@ -3,10 +3,7 @@ package lreis.bigdata.indoor.index.coprocessor.server;
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
 import com.google.protobuf.Service;
-import javafx.scene.control.Tab;
 import lreis.bigdata.indoor.index.coprocessor.BuildMacIndex;
-import lreis.bigdata.indoor.vo.POI;
-import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.TableName;
@@ -16,7 +13,6 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by dq on 5/11/16.

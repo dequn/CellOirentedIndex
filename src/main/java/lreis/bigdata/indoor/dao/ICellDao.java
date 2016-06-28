@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface ICellDao {
 
-     List<POI> getPOIsByCellName(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    List<POI> getPOIsByCellName(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 
-     int countMacInCell(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    int countMacInCell(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 
-     List<POI> getPOISBeenToCells(List<Integer> nodeNumList, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    List<POI> getPOISBeenToCells(List<Integer> nodeNumList, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 }

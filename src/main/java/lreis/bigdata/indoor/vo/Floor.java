@@ -28,17 +28,17 @@ public class Floor {
     private List<Cell> cells = null;
     private STRtree strTree = null;// spatial index of cells
     private HashMap<String, ArrayList<Cell>> name2CellMap = null;// use for get cells by name.
-    private HashMap<Integer,Cell> num2CellMap = null;// user fot get cell by cell num.
+    private HashMap<Integer, Cell> num2CellMap = null;// user fot get cell by cell num.
     private GridIndex gridIndex = null;//grid index
 
 
-      public Floor(String floorNum, String floorShp) {
+    public Floor(String floorNum, String floorShp) {
         this.floorNum = floorNum;
         this.floorShp = floorShp;
         this.init();
     }
 
-    public void init(){
+    public void init() {
         this.buildIndex();
     }
 
@@ -73,7 +73,7 @@ public class Floor {
         return this.strTree;
     }
 
-    public Cell queryInSTR(Point p){
+    public Cell queryInSTR(Point p) {
         List<Cell> list = this.strTree.query(p.getEnvelopeInternal());
         for (Cell c : list) {
             if (c.getGeom().contains(p)) {
@@ -83,28 +83,25 @@ public class Floor {
         return null;
     }
 
-    public Cell queryInGrid(Point p){
+    public Cell queryInGrid(Point p) {
         List<Cell> list = this.gridIndex.query(p);
         if (list.size() == 1) {
             return list.get(0);
-        }
-        else{
+        } else {
             return null;
         }
     }
 
 
-    public List<Cell> getCellsByName(String name){
+    public List<Cell> getCellsByName(String name) {
         if (this.floorShp == null) {
-            return  null;
+            return null;
         }
         if (this.name2CellMap == null) {
             this.buildIndex();
         }
         return this.name2CellMap.get(name);
     }
-
-
 
 
     private void readCells() {
@@ -157,9 +154,6 @@ public class Floor {
         if (this.cells == null) this.readCells();
 
 
-
-
-
         // init three indices
         this.strTree = new STRtree();
         this.name2CellMap = new HashMap<String, ArrayList<Cell>>();
@@ -184,8 +178,6 @@ public class Floor {
 
         this.gridIndex = new GridIndex(this);
     }
-
-
 
 
 }

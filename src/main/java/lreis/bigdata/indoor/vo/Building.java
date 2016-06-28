@@ -9,12 +9,15 @@ import java.util.List;
  */
 public class Building {
 
-    private  HashMap<String, Floor> floors = new HashMap<String, Floor>();// get floor by floorNum.
-//    private  List<Cell> cells = new ArrayList<Cell>();// use for get cell by num,num from 1 to n.
+    private static Building instance = null;
+
+    private HashMap<String, Floor> floors = new HashMap<String, Floor>();// get floor by floorNum.
+    //    private  List<Cell> cells = new ArrayList<Cell>();// use for get cell by num,num from 1 to n.
     private Cell[] cells = new Cell[300];
 
     /**
      * Query which Cell the point dropped in.
+     *
      * @param floor
      * @param poi
      * @param method
@@ -31,25 +34,25 @@ public class Building {
 
     }
 
-    public  void addFloor( Floor floor) {
+    public void addFloor(Floor floor) {
         floors.put(floor.getFloorNum(), floor);
 
         for (Cell cell : floor.getCells()) {
 //            cells.add(cell.getNodeNum(), cell);
-        cells[cell.getNodeNum()] = cell;
+            cells[cell.getNodeNum()] = cell;
         }
 
     }
 
-    public Cell queryCell(POI poi, POI.QueryMethod method){
-        return queryCell(this.floors.get(poi.getFloorNum()),poi,method);
+    public Cell queryCell(POI poi, POI.QueryMethod method) {
+        return queryCell(this.floors.get(poi.getFloorNum()), poi, method);
     }
 
-    public  Floor getFloor(String floorNum) {
+    public Floor getFloor(String floorNum) {
         return floors.get(floorNum);
     }
 
-    public  List<Cell> getCellsByName(String name) {
+    public List<Cell> getCellsByName(String name) {
         List<Cell> result = new ArrayList<Cell>();
         for (Floor floor : floors.values()) {
             result.addAll(floor.getCellsByName(name));
@@ -57,11 +60,22 @@ public class Building {
         return result;
     }
 
-    public  Cell getCellByNum(Integer num) {
+    public Cell getCellByNum(Integer num) {
 //        return cells.get(num);
         return cells[num];
     }
 
 
+
+    public static Building getInstatnce(){
+        if (instance == null) {
+            instance = new Building();
+        }
+        return  instance;
+    }
+
+
+    private Building(){
+    }
 
 }

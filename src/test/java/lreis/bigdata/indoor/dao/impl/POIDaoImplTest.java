@@ -2,7 +2,6 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
-import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.junit.Test;
 

@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="CellOrientedIndex" />
         <module name="readShp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="CellOrientedIndex" target="1.6" />
       <module name="readShp" target="1.6" />
     </bytecodeTargetLevel>
   </component>

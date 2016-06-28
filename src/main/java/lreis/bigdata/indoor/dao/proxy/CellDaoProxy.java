@@ -2,8 +2,7 @@ package lreis.bigdata.indoor.dao.proxy;
 
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dao.impl.CellDaoImpl;
-import lreis.bigdata.indoor.dbc.IHBaseConnection;
-import lreis.bigdata.indoor.factory.DbcFactory;
+import lreis.bigdata.indoor.dbc.HBaseConnection;
 import lreis.bigdata.indoor.vo.POI;
 
 import java.io.IOException;
@@ -17,8 +16,8 @@ public class CellDaoProxy implements ICellDao {
     private ICellDao dao = null;
 
     public CellDaoProxy() throws IOException {
-        IHBaseConnection conn = DbcFactory.getConnection();
-        this.dao = new CellDaoImpl(conn.getConnection());
+        HBaseConnection hConn = new HBaseConnection();
+        this.dao = new CellDaoImpl(hConn.getConnection());
     }
 
     public List<POI> getPOIsByCellName(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException {

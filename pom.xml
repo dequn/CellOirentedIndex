@@ -30,11 +30,11 @@
             <artifactId>gt-shapefile</artifactId>
             <version>${geotools.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-referencing</artifactId>
-            <version>${geotools.version}</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.geotools</groupId>-->
+        <!--<artifactId>gt-referencing</artifactId>-->
+        <!--<version>${geotools.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.vividsolutions</groupId>
             <artifactId>jts</artifactId>
@@ -70,7 +70,6 @@
             <artifactId>phoenix</artifactId>
             <version>4.7.0-HBase-1.1</version>
         </dependency>
-
 
 
         <!--<dependency>-->

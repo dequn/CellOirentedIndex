@@ -6,8 +6,6 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by dq on 5/10/16.
  */
@@ -15,8 +13,8 @@ public class HBaseConnectionTest {
 
     @Test
     public void createTable() throws Exception {
-
-        String tableName = "wifi";
+        System.setProperty("hadoop.home.dir", "C:\\Users\\Q\\Desktop\\winutils.exe");
+        String tableName = "pois";
 
         HTableDescriptor tableDesc = new HTableDescriptor(TableName.valueOf(tableName));
 
@@ -29,7 +27,7 @@ public class HBaseConnectionTest {
             tableDesc.addFamily(desc);
         }
 
-        HBaseConnection conn = (HBaseConnection) DbcFactory.getConnection();
+        HBaseConnection conn = DbcFactory.getHBaseConnection();
 
         if (conn.createTable(tableDesc)) {
 
@@ -37,7 +35,6 @@ public class HBaseConnectionTest {
         } else {
             System.out.println(String.format("Table %s created Failed!", tableDesc.getNameAsString()));
         }
-
 
 
     }

@@ -19,11 +19,11 @@ import java.util.Queue;
  */
 public class GridIndex {
 
+    static double Fractor = 0.8;
+    static double MinGridArea = 100.0;
     Floor floor;
     HashMap<Grid, Cell> grid2CellMap;
     STRtree gridIndex = null;
-    static double Fractor = 0.8;
-    static double MinGridArea = 100.0;
 
     public GridIndex(Floor floor) {
         this.floor = floor;
@@ -37,7 +37,7 @@ public class GridIndex {
         // strindex of grid
         this.gridIndex = new STRtree();
         for (Grid grid : this.grid2CellMap.keySet()) {
-                this.gridIndex.insert(grid.getGeom().getEnvelopeInternal(),this.grid2CellMap.get(grid));
+            this.gridIndex.insert(grid.getGeom().getEnvelopeInternal(), this.grid2CellMap.get(grid));
         }
     }
 
@@ -106,7 +106,7 @@ public class GridIndex {
     }
 
 
-    public List<Cell> query(Point point){
+    public List<Cell> query(Point point) {
         return this.gridIndex.query(point.getEnvelopeInternal());
     }
 

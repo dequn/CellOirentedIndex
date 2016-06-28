@@ -1,19 +1,14 @@
 package lreis.bigdata.indoor.utils;
 
-import com.vividsolutions.jts.geom.Geometry;
-import lreis.bigdata.indoor.vo.Cell;
 import org.geotools.data.FeatureWriter;
 import org.geotools.data.Transaction;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.data.shapefile.ShapefileDataStoreFactory;
-import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.data.simple.SimpleFeatureSource;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
 import java.io.File;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,9 +38,6 @@ public class FloorShpUtils {
         }
         return floorNum;
     }
-
-
-
 
 
     /**

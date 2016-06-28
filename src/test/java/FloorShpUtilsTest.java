@@ -8,7 +8,7 @@ import org.junit.Test;
 public class FloorShpUtilsTest {
 
 
-//    private String f4Shp = "/Users/dq/subject_study/floors/20040.dbf";
+    //    private String f4Shp = "/Users/dq/subject_study/floors/20040.dbf";
     private String f4Shp = "D:\\big_joy\\floors\\20040.dbf";
 
     @Test

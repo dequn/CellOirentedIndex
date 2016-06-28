@@ -11,29 +11,33 @@ import java.io.IOException;
 /**
  * Created by dq on 4/29/16.
  */
-public class HBaseConnection implements IHBaseConnection {
+public class HBaseConnection {
+
+
 
     private static Configuration conf = null;
-    private Connection conn = null;
 
     static {
-
         conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "hadoop-master,hadoop-slave1,hadoop-slave2");
+        conf.set("hbase.zookeeper.quorum", "192.168.6.131,192.168.6.132,192.168.6.142");
         conf.set("hbase.zookeeper.property.clientPort", "2181");
     }
 
-
-    public Connection getConnection() throws IOException {
-        this.conn = ConnectionFactory.createConnection(conf);
-        return this.conn;
+    public static Connection createConnection() throws IOException {
+        return ConnectionFactory.createConnection(conf);
+    }
+    public Connection conn = null;
+    public HBaseConnection(){
+        try {
+            conn = HBaseConnection.createConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void close() throws IOException {
-        this.conn.close();
+    public Connection getConnection(){
+        return  this.conn;
     }
-
-
     public boolean createTable(HTableDescriptor desc) {
 
         Admin admin = null;
@@ -56,12 +60,12 @@ public class HBaseConnection implements IHBaseConnection {
             e.printStackTrace();
         }
 
-        return  false;
+        return false;
 
     }
 
 
-    public void dropTable(String tableName) {
+    public boolean dropTable(String tableName) {
         Admin admin = null;
         try {
             admin = conn.getAdmin();
@@ -69,11 +73,15 @@ public class HBaseConnection implements IHBaseConnection {
             admin.deleteTable(TableName.valueOf((tableName)));
             System.out.println("delete table " + (tableName) + " ok.");
             admin.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-
         }
+        return false;
+    }
 
+    public void close() throws IOException {
+        this.conn.close();
     }
 
 

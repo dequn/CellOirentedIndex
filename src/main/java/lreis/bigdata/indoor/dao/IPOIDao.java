@@ -4,6 +4,7 @@ import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface IPOIDao {
 
-    boolean insertPOI(POI poi) throws IOException;
+    boolean insertPOI2HBase(POI poi) throws IOException;
 
     /**
      * return a list of cells the mac has been , maybe and allow return to a cell on second time ,so use a list.
@@ -22,7 +23,8 @@ public interface IPOIDao {
      * @return
      * @throws IOException
      */
-     List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 
+    boolean insertPOI2Postgres(POI poi) throws SQLException, IOException, ClassNotFoundException;
 
 }

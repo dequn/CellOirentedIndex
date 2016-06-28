@@ -1,6 +1,6 @@
-
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by dq on 4/13/16.
  */
 public class HBase {
+    public static AtomicInteger count = new AtomicInteger();
     private static Configuration conf = null;
     private static Connection conn = null;
     private static Admin admin = null;
-    public static AtomicInteger count = new AtomicInteger();
 
     static {
 

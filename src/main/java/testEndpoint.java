@@ -1,10 +1,8 @@
-import lreis.bigdata.indoor.dbc.HBaseConnection;
 import lreis.bigdata.indoor.factory.DbcFactory;
 import lreis.bigdata.indoor.index.coprocessor.BuildMacIndex;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.client.coprocessor.Batch;
 import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
@@ -23,7 +21,7 @@ public class testEndpoint {
         Connection conn;
         try {
 
-            conn = DbcFactory.getConnection().getConnection();
+            conn = DbcFactory.getHBaseConnection().getConnection();
             Admin admin = conn.getAdmin();
             Table table = conn.getTable(TableName.valueOf("idx_mac"));
             final BuildMacIndex.buildMacIndexRequest req = BuildMacIndex.buildMacIndexRequest.newBuilder().build();

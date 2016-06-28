@@ -2,6 +2,7 @@ package lreis.bigdata.indoor.dao.impl;
 
 
 import lreis.bigdata.indoor.dao.IPOIDao;
+import lreis.bigdata.indoor.dbc.PostgreConn;
 import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.apache.hadoop.hbase.TableName;
@@ -13,6 +14,7 @@ import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +23,9 @@ import java.util.List;
  * Created by dq on 4/29/16.
  */
 public class POIDaoImpl implements IPOIDao {
+
+
+    private PostgreConn pConn;
 
     protected Connection conn;
     protected String tableName = "wifi";
@@ -33,8 +38,11 @@ public class POIDaoImpl implements IPOIDao {
         this.conn = conn;
     }
 
+    public POIDaoImpl(PostgreConn conn) {
+        this.pConn = conn;
+    }
 
-    public boolean insertPOI(POI poi) throws IOException {
+    public boolean insertPOI2HBase(POI poi) throws IOException {
 
         if (poi.getX() == null || poi.getY() == null) {
             return false;
@@ -49,21 +57,27 @@ public class POIDaoImpl implements IPOIDao {
         Table table = this.conn.getTable(TableName.valueOf(this.tableName));
 
 
-//        String row = poi.getRow();
-//        byte[] bRow = Bytes.toBytes(poi.getRow());
-//
-//        Put put = new Put(bRow);
-//        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(poi.getStrTime()));
-//        put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
-//        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi.getOriginalFloorNum()));
-//        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes(poi.getStrX()));
-//        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes(poi.getStrY()));
-//
-//        table.put(put);
-//
-//
-//        String idxRow = row.substring(14) + row.substring(4, 14) + row.substring(0, 4);
-//        this.add2Index(idxRow);
+        String row = POI.calRowkey(poi);
+        byte[] bRow = Bytes.toBytes(row);
+
+        Put put = new Put(bRow);
+
+        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(poi
+                .getTime()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi
+                .getFloorNum()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("x"),Bytes.toBytes((int)(poi.getX
+                () * 1000)));
+        put.addColumn(this.columnFamily, Bytes.toBytes("y"),Bytes.toBytes((int)(poi.getY
+                () * 1000)));
+
+        table.put(put);
+
+
+        // mac index
+        String idxRow = row.substring(14) + row.substring(4, 14) + row.substring(0, 4);
+        this.add2Index(idxRow);
         return true;
     }
 
@@ -120,6 +134,18 @@ public class POIDaoImpl implements IPOIDao {
 
 
         return list;
+    }
+
+    @Override
+    public boolean insertPOI2Postgres(POI poi) throws SQLException, IOException, ClassNotFoundException {
+
+
+        String sql = String.format("INSERT INTO imo(rowkey,x,y,mac,time,floor) VALUES" +
+                " (%s,%s,%s,%s,%s,%s)", POI.calRowkey(poi), (int) (poi.getX() * 1000),
+                (int) (poi.getY() * 1000), poi.getMac(), poi.getTime(), poi.getFloorNum());
+
+
+        return false;
     }
 
     private boolean add2Index(String row) throws IOException {

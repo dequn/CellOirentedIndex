@@ -16,9 +16,9 @@ public class CalGridTest {
 
     @Test
     public void getGrid2CellMap() throws Exception {
-        Floor floor = new Floor("20030",shpFile);
+        Floor floor = new Floor("20030", shpFile);
         GridIndex gridIndex = new GridIndex(floor);
-        Map<Grid,Cell > map = gridIndex.getGrid2CellMap();
+        Map<Grid, Cell> map = gridIndex.getGrid2CellMap();
         System.out.print(map.size());
 
     }

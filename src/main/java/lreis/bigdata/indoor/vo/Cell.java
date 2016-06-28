@@ -2,9 +2,6 @@ package lreis.bigdata.indoor.vo;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by dq on 4/6/16.
  */

@@ -1,6 +1,6 @@
 package lreis.bigdata.indoor.index;
 
-import lreis.bigdata.indoor.dbc.IHBaseConnection;
+import lreis.bigdata.indoor.dbc.HBaseConnection;
 import lreis.bigdata.indoor.factory.DbcFactory;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
@@ -22,7 +22,7 @@ public class SecondaryIndex {
 
         tableDesc.addFamily(new HColumnDescriptor("data"));
 
-        IHBaseConnection conn = DbcFactory.getConnection();
+        HBaseConnection conn = DbcFactory.getHBaseConnection();
 
         try {
             conn.getConnection();
@@ -39,14 +39,11 @@ public class SecondaryIndex {
     }
 
 
-
-    public boolean buildMacIndex(){
+    public boolean buildMacIndex() {
 
         return false;
 
     }
-
-
 
 
 }

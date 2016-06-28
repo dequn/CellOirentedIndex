@@ -4,1003 +4,1072 @@
 package lreis.bigdata.indoor.index.coprocessor;
 
 public final class BuildMacIndex {
-  private BuildMacIndex() {}
-  public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistry registry) {
-  }
-  public interface buildMacIndexRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:buildMacIndexRequest)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code buildMacIndexRequest}
-   */
-  public static final class buildMacIndexRequest extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:buildMacIndexRequest)
-      buildMacIndexRequestOrBuilder {
-    // Use buildMacIndexRequest.newBuilder() to construct.
-    private buildMacIndexRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private buildMacIndexRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_buildMacIndexRequest_descriptor;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_buildMacIndexResponse_descriptor;
+    private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_buildMacIndexRequest_fieldAccessorTable;
+    private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_buildMacIndexResponse_fieldAccessorTable;
+    private static com.google.protobuf.Descriptors.FileDescriptor
+            descriptor;
 
-    private static final buildMacIndexRequest defaultInstance;
-    public static buildMacIndexRequest getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public buildMacIndexRequest getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private buildMacIndexRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_descriptor;
+    static {
+        java.lang.String[] descriptorData = {
+                "\n\021buildMacIdx.proto\"\026\n\024buildMacIndexRequ" +
+                        "est\")\n\025buildMacIndexResponse\022\020\n\010rowCount" +
+                        "\030\001 \001(\0032V\n\024BuildMacIndexService\022>\n\rbuildM" +
+                        "acIndex\022\025.buildMacIndexRequest\032\026.buildMa" +
+                        "cIndexResponseB<\n&lreis.bigdata.indoor.i" +
+                        "ndex.coprocessorB\rBuildMacIndexH\001\210\001\001"
+        };
+        com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+                new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+                    public com.google.protobuf.ExtensionRegistry assignDescriptors(
+                            com.google.protobuf.Descriptors.FileDescriptor root) {
+                        descriptor = root;
+                        return null;
+                    }
+                };
+        com.google.protobuf.Descriptors.FileDescriptor
+                .internalBuildGeneratedFileFrom(descriptorData,
+                        new com.google.protobuf.Descriptors.FileDescriptor[]{
+                        }, assigner);
+        internal_static_buildMacIndexRequest_descriptor =
+                getDescriptor().getMessageTypes().get(0);
+        internal_static_buildMacIndexRequest_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                internal_static_buildMacIndexRequest_descriptor,
+                new java.lang.String[]{});
+        internal_static_buildMacIndexResponse_descriptor =
+                getDescriptor().getMessageTypes().get(1);
+        internal_static_buildMacIndexResponse_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+                internal_static_buildMacIndexResponse_descriptor,
+                new java.lang.String[]{"RowCount",});
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.Builder.class);
+    private BuildMacIndex() {
     }
 
-    public static com.google.protobuf.Parser<buildMacIndexRequest> PARSER =
-        new com.google.protobuf.AbstractParser<buildMacIndexRequest>() {
-      public buildMacIndexRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new buildMacIndexRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<buildMacIndexRequest> getParserForType() {
-      return PARSER;
+    public static void registerAllExtensions(
+            com.google.protobuf.ExtensionRegistry registry) {
     }
 
-    private void initFields() {
+    public static com.google.protobuf.Descriptors.FileDescriptor
+    getDescriptor() {
+        return descriptor;
     }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
+    public interface buildMacIndexRequestOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:buildMacIndexRequest)
+            com.google.protobuf.MessageOrBuilder {
     }
+    public interface buildMacIndexResponseOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:buildMacIndexResponse)
+            com.google.protobuf.MessageOrBuilder {
 
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      getUnknownFields().writeTo(output);
-    }
+        /**
+         * <code>optional int64 rowCount = 1;</code>
+         */
+        boolean hasRowCount();
 
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
+        /**
+         * <code>optional int64 rowCount = 1;</code>
+         */
+        long getRowCount();
     }
 
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
     /**
      * Protobuf type {@code buildMacIndexRequest}
      */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:buildMacIndexRequest)
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_descriptor;
-      }
+    public static final class buildMacIndexRequest extends
+            com.google.protobuf.GeneratedMessage implements
+            // @@protoc_insertion_point(message_implements:buildMacIndexRequest)
+            buildMacIndexRequestOrBuilder {
+        private static final buildMacIndexRequest defaultInstance;
+        private static final long serialVersionUID = 0L;
+        public static com.google.protobuf.Parser<buildMacIndexRequest> PARSER =
+                new com.google.protobuf.AbstractParser<buildMacIndexRequest>() {
+                    public buildMacIndexRequest parsePartialFrom(
+                            com.google.protobuf.CodedInputStream input,
+                            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                            throws com.google.protobuf.InvalidProtocolBufferException {
+                        return new buildMacIndexRequest(input, extensionRegistry);
+                    }
+                };
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.Builder.class);
-      }
-
-      // Construct using lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        static {
+            defaultInstance = new buildMacIndexRequest(true);
+            defaultInstance.initFields();
         }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
 
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
+        private final com.google.protobuf.UnknownFieldSet unknownFields;
+        private byte memoizedIsInitialized = -1;
+        private int memoizedSerializedSize = -1;
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_descriptor;
-      }
-
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest getDefaultInstanceForType() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance();
-      }
-
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest build() {
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
+        // Use buildMacIndexRequest.newBuilder() to construct.
+        private buildMacIndexRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+            super(builder);
+            this.unknownFields = builder.getUnknownFields();
         }
-        return result;
-      }
 
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest buildPartial() {
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest result = new lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest(this);
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) {
-          return mergeFrom((lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
+        private buildMacIndexRequest(boolean noInit) {
+            this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
         }
-      }
 
-      public Builder mergeFrom(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest other) {
-        if (other == lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:buildMacIndexRequest)
-    }
-
-    static {
-      defaultInstance = new buildMacIndexRequest(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:buildMacIndexRequest)
-  }
-
-  public interface buildMacIndexResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:buildMacIndexResponse)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>optional int64 rowCount = 1;</code>
-     */
-    boolean hasRowCount();
-    /**
-     * <code>optional int64 rowCount = 1;</code>
-     */
-    long getRowCount();
-  }
-  /**
-   * Protobuf type {@code buildMacIndexResponse}
-   */
-  public static final class buildMacIndexResponse extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:buildMacIndexResponse)
-      buildMacIndexResponseOrBuilder {
-    // Use buildMacIndexResponse.newBuilder() to construct.
-    private buildMacIndexResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private buildMacIndexResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final buildMacIndexResponse defaultInstance;
-    public static buildMacIndexResponse getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public buildMacIndexResponse getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private buildMacIndexResponse(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
+        private buildMacIndexRequest(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            initFields();
+            com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                    com.google.protobuf.UnknownFieldSet.newBuilder();
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!parseUnknownField(input, unknownFields,
+                                    extensionRegistry, tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e.getMessage()).setUnfinishedMessage(this);
+            } finally {
+                this.unknownFields = unknownFields.build();
+                makeExtensionsImmutable();
             }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              rowCount_ = input.readInt64();
-              break;
-            }
-          }
         }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
+
+        public static buildMacIndexRequest getDefaultInstance() {
+            return defaultInstance;
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_descriptor;
-    }
+            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_descriptor;
+        }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return PARSER.parseDelimitedFrom(input);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return Builder.create();
+        }
+
+        public static Builder newBuilder(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest prototype) {
+            return newBuilder().mergeFrom(prototype);
+        }
+
+        public buildMacIndexRequest getDefaultInstanceForType() {
+            return defaultInstance;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.Builder.class);
+            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.Builder.class);
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<buildMacIndexRequest> getParserForType() {
+            return PARSER;
+        }
+
+        private void initFields() {
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            getSerializedSize();
+            getUnknownFields().writeTo(output);
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSerializedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            size += getUnknownFields().getSerializedSize();
+            memoizedSerializedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        protected java.lang.Object writeReplace()
+                throws java.io.ObjectStreamException {
+            return super.writeReplace();
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return newBuilder(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        /**
+         * Protobuf type {@code buildMacIndexRequest}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:buildMacIndexRequest)
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequestOrBuilder {
+            // Construct using lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_descriptor;
+            }
+
+            private static Builder create() {
+                return new Builder();
+            }
+
+            protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                return this;
+            }
+
+            public Builder clone() {
+                return create().mergeFrom(buildPartial());
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexRequest_descriptor;
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest getDefaultInstanceForType() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance();
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest build() {
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest buildPartial() {
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest result = new lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest(this);
+                onBuilt();
+                return result;
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) {
+                    return mergeFrom((lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest other) {
+                if (other == lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance())
+                    return this;
+                this.mergeUnknownFields(other.getUnknownFields());
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) e.getUnfinishedMessage();
+                    throw e;
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:buildMacIndexRequest)
+        }
+
+        // @@protoc_insertion_point(class_scope:buildMacIndexRequest)
     }
 
-    public static com.google.protobuf.Parser<buildMacIndexResponse> PARSER =
-        new com.google.protobuf.AbstractParser<buildMacIndexResponse>() {
-      public buildMacIndexResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new buildMacIndexResponse(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<buildMacIndexResponse> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    public static final int ROWCOUNT_FIELD_NUMBER = 1;
-    private long rowCount_;
-    /**
-     * <code>optional int64 rowCount = 1;</code>
-     */
-    public boolean hasRowCount() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional int64 rowCount = 1;</code>
-     */
-    public long getRowCount() {
-      return rowCount_;
-    }
-
-    private void initFields() {
-      rowCount_ = 0L;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, rowCount_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, rowCount_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
     /**
      * Protobuf type {@code buildMacIndexResponse}
      */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:buildMacIndexResponse)
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_descriptor;
-      }
+    public static final class buildMacIndexResponse extends
+            com.google.protobuf.GeneratedMessage implements
+            // @@protoc_insertion_point(message_implements:buildMacIndexResponse)
+            buildMacIndexResponseOrBuilder {
+        public static final int ROWCOUNT_FIELD_NUMBER = 1;
+        private static final buildMacIndexResponse defaultInstance;
+        private static final long serialVersionUID = 0L;
+        public static com.google.protobuf.Parser<buildMacIndexResponse> PARSER =
+                new com.google.protobuf.AbstractParser<buildMacIndexResponse>() {
+                    public buildMacIndexResponse parsePartialFrom(
+                            com.google.protobuf.CodedInputStream input,
+                            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                            throws com.google.protobuf.InvalidProtocolBufferException {
+                        return new buildMacIndexResponse(input, extensionRegistry);
+                    }
+                };
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.Builder.class);
-      }
-
-      // Construct using lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        static {
+            defaultInstance = new buildMacIndexResponse(true);
+            defaultInstance.initFields();
         }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
 
-      public Builder clear() {
-        super.clear();
-        rowCount_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
+        private final com.google.protobuf.UnknownFieldSet unknownFields;
+        private int bitField0_;
+        private long rowCount_;
+        private byte memoizedIsInitialized = -1;
+        private int memoizedSerializedSize = -1;
 
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_descriptor;
-      }
-
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse getDefaultInstanceForType() {
-        return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance();
-      }
-
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse build() {
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
+        // Use buildMacIndexResponse.newBuilder() to construct.
+        private buildMacIndexResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+            super(builder);
+            this.unknownFields = builder.getUnknownFields();
         }
-        return result;
-      }
 
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildPartial() {
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse result = new lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
+        private buildMacIndexResponse(boolean noInit) {
+            this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
         }
-        result.rowCount_ = rowCount_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
 
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) {
-          return mergeFrom((lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
+        private buildMacIndexResponse(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            initFields();
+            int mutable_bitField0_ = 0;
+            com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+                    com.google.protobuf.UnknownFieldSet.newBuilder();
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!parseUnknownField(input, unknownFields,
+                                    extensionRegistry, tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 8: {
+                            bitField0_ |= 0x00000001;
+                            rowCount_ = input.readInt64();
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e.getMessage()).setUnfinishedMessage(this);
+            } finally {
+                this.unknownFields = unknownFields.build();
+                makeExtensionsImmutable();
+            }
         }
-      }
 
-      public Builder mergeFrom(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse other) {
-        if (other == lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance()) return this;
-        if (other.hasRowCount()) {
-          setRowCount(other.getRowCount());
+        public static buildMacIndexResponse getDefaultInstance() {
+            return defaultInstance;
         }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
 
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_descriptor;
         }
-        return this;
-      }
-      private int bitField0_;
 
-      private long rowCount_ ;
-      /**
-       * <code>optional int64 rowCount = 1;</code>
-       */
-      public boolean hasRowCount() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional int64 rowCount = 1;</code>
-       */
-      public long getRowCount() {
-        return rowCount_;
-      }
-      /**
-       * <code>optional int64 rowCount = 1;</code>
-       */
-      public Builder setRowCount(long value) {
-        bitField0_ |= 0x00000001;
-        rowCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 rowCount = 1;</code>
-       */
-      public Builder clearRowCount() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        rowCount_ = 0L;
-        onChanged();
-        return this;
-      }
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
 
-      // @@protoc_insertion_point(builder_scope:buildMacIndexResponse)
-    }
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
 
-    static {
-      defaultInstance = new buildMacIndexResponse(true);
-      defaultInstance.initFields();
-    }
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
 
-    // @@protoc_insertion_point(class_scope:buildMacIndexResponse)
-  }
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
 
-  /**
-   * Protobuf service {@code BuildMacIndexService}
-   */
-  public static abstract class BuildMacIndexService
-      implements com.google.protobuf.Service {
-    protected BuildMacIndexService() {}
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input);
+        }
 
-    public interface Interface {
-      /**
-       * <code>rpc buildMacIndex(.buildMacIndexRequest) returns (.buildMacIndexResponse);</code>
-       */
-      public abstract void buildMacIndex(
-          com.google.protobuf.RpcController controller,
-          lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
-          com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done);
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input, extensionRegistry);
+        }
 
-    }
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return PARSER.parseDelimitedFrom(input);
+        }
 
-    public static com.google.protobuf.Service newReflectiveService(
-        final Interface impl) {
-      return new BuildMacIndexService() {
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input);
+        }
+
+        public static lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return Builder.create();
+        }
+
+        public static Builder newBuilder(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse prototype) {
+            return newBuilder().mergeFrom(prototype);
+        }
+
+        public buildMacIndexResponse getDefaultInstanceForType() {
+            return defaultInstance;
+        }
+
         @java.lang.Override
-        public  void buildMacIndex(
-            com.google.protobuf.RpcController controller,
-            lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
-            com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done) {
-          impl.buildMacIndex(controller, request, done);
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return this.unknownFields;
         }
 
-      };
-    }
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.Builder.class);
+        }
 
-    public static com.google.protobuf.BlockingService
-        newReflectiveBlockingService(final BlockingInterface impl) {
-      return new com.google.protobuf.BlockingService() {
-        public final com.google.protobuf.Descriptors.ServiceDescriptor
+        @java.lang.Override
+        public com.google.protobuf.Parser<buildMacIndexResponse> getParserForType() {
+            return PARSER;
+        }
+
+        /**
+         * <code>optional int64 rowCount = 1;</code>
+         */
+        public boolean hasRowCount() {
+            return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+
+        /**
+         * <code>optional int64 rowCount = 1;</code>
+         */
+        public long getRowCount() {
+            return rowCount_;
+        }
+
+        private void initFields() {
+            rowCount_ = 0L;
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            getSerializedSize();
+            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                output.writeInt64(1, rowCount_);
+            }
+            getUnknownFields().writeTo(output);
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSerializedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt64Size(1, rowCount_);
+            }
+            size += getUnknownFields().getSerializedSize();
+            memoizedSerializedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        protected java.lang.Object writeReplace()
+                throws java.io.ObjectStreamException {
+            return super.writeReplace();
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return newBuilder(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        /**
+         * Protobuf type {@code buildMacIndexResponse}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:buildMacIndexResponse)
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponseOrBuilder {
+            private int bitField0_;
+            private long rowCount_;
+
+            // Construct using lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_descriptor;
+            }
+
+            private static Builder create() {
+                return new Builder();
+            }
+
+            protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.class, lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                rowCount_ = 0L;
+                bitField0_ = (bitField0_ & ~0x00000001);
+                return this;
+            }
+
+            public Builder clone() {
+                return create().mergeFrom(buildPartial());
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return getDescriptor();
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.internal_static_buildMacIndexResponse_descriptor;
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse getDefaultInstanceForType() {
+                return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance();
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse build() {
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildPartial() {
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse result = new lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse(this);
+                int from_bitField0_ = bitField0_;
+                int to_bitField0_ = 0;
+                if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+                    to_bitField0_ |= 0x00000001;
+                }
+                result.rowCount_ = rowCount_;
+                result.bitField0_ = to_bitField0_;
+                onBuilt();
+                return result;
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) {
+                    return mergeFrom((lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse other) {
+                if (other == lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance())
+                    return this;
+                if (other.hasRowCount()) {
+                    setRowCount(other.getRowCount());
+                }
+                this.mergeUnknownFields(other.getUnknownFields());
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) e.getUnfinishedMessage();
+                    throw e;
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            /**
+             * <code>optional int64 rowCount = 1;</code>
+             */
+            public boolean hasRowCount() {
+                return ((bitField0_ & 0x00000001) == 0x00000001);
+            }
+
+            /**
+             * <code>optional int64 rowCount = 1;</code>
+             */
+            public long getRowCount() {
+                return rowCount_;
+            }
+
+            /**
+             * <code>optional int64 rowCount = 1;</code>
+             */
+            public Builder setRowCount(long value) {
+                bitField0_ |= 0x00000001;
+                rowCount_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional int64 rowCount = 1;</code>
+             */
+            public Builder clearRowCount() {
+                bitField0_ = (bitField0_ & ~0x00000001);
+                rowCount_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:buildMacIndexResponse)
         }
 
-        public final com.google.protobuf.Message callBlockingMethod(
-            com.google.protobuf.Descriptors.MethodDescriptor method,
-            com.google.protobuf.RpcController controller,
-            com.google.protobuf.Message request)
-            throws com.google.protobuf.ServiceException {
-          if (method.getService() != getDescriptor()) {
-            throw new java.lang.IllegalArgumentException(
-              "Service.callBlockingMethod() given method descriptor for " +
-              "wrong service type.");
-          }
-          switch(method.getIndex()) {
-            case 0:
-              return impl.buildMacIndex(controller, (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest)request);
-            default:
-              throw new java.lang.AssertionError("Can't get here.");
-          }
-        }
-
-        public final com.google.protobuf.Message
-            getRequestPrototype(
-            com.google.protobuf.Descriptors.MethodDescriptor method) {
-          if (method.getService() != getDescriptor()) {
-            throw new java.lang.IllegalArgumentException(
-              "Service.getRequestPrototype() given method " +
-              "descriptor for wrong service type.");
-          }
-          switch(method.getIndex()) {
-            case 0:
-              return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance();
-            default:
-              throw new java.lang.AssertionError("Can't get here.");
-          }
-        }
-
-        public final com.google.protobuf.Message
-            getResponsePrototype(
-            com.google.protobuf.Descriptors.MethodDescriptor method) {
-          if (method.getService() != getDescriptor()) {
-            throw new java.lang.IllegalArgumentException(
-              "Service.getResponsePrototype() given method " +
-              "descriptor for wrong service type.");
-          }
-          switch(method.getIndex()) {
-            case 0:
-              return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance();
-            default:
-              throw new java.lang.AssertionError("Can't get here.");
-          }
-        }
-
-      };
+        // @@protoc_insertion_point(class_scope:buildMacIndexResponse)
     }
 
     /**
-     * <code>rpc buildMacIndex(.buildMacIndexRequest) returns (.buildMacIndexResponse);</code>
+     * Protobuf service {@code BuildMacIndexService}
      */
-    public abstract void buildMacIndex(
-        com.google.protobuf.RpcController controller,
-        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
-        com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done);
+    public static abstract class BuildMacIndexService
+            implements com.google.protobuf.Service {
+        protected BuildMacIndexService() {
+        }
 
-    public static final
-        com.google.protobuf.Descriptors.ServiceDescriptor
+        public static com.google.protobuf.Service newReflectiveService(
+                final Interface impl) {
+            return new BuildMacIndexService() {
+                @java.lang.Override
+                public void buildMacIndex(
+                        com.google.protobuf.RpcController controller,
+                        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
+                        com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done) {
+                    impl.buildMacIndex(controller, request, done);
+                }
+
+            };
+        }
+
+        public static com.google.protobuf.BlockingService
+        newReflectiveBlockingService(final BlockingInterface impl) {
+            return new com.google.protobuf.BlockingService() {
+                public final com.google.protobuf.Descriptors.ServiceDescriptor
+                getDescriptorForType() {
+                    return getDescriptor();
+                }
+
+                public final com.google.protobuf.Message callBlockingMethod(
+                        com.google.protobuf.Descriptors.MethodDescriptor method,
+                        com.google.protobuf.RpcController controller,
+                        com.google.protobuf.Message request)
+                        throws com.google.protobuf.ServiceException {
+                    if (method.getService() != getDescriptor()) {
+                        throw new java.lang.IllegalArgumentException(
+                                "Service.callBlockingMethod() given method descriptor for " +
+                                        "wrong service type.");
+                    }
+                    switch (method.getIndex()) {
+                        case 0:
+                            return impl.buildMacIndex(controller, (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) request);
+                        default:
+                            throw new java.lang.AssertionError("Can't get here.");
+                    }
+                }
+
+                public final com.google.protobuf.Message
+                getRequestPrototype(
+                        com.google.protobuf.Descriptors.MethodDescriptor method) {
+                    if (method.getService() != getDescriptor()) {
+                        throw new java.lang.IllegalArgumentException(
+                                "Service.getRequestPrototype() given method " +
+                                        "descriptor for wrong service type.");
+                    }
+                    switch (method.getIndex()) {
+                        case 0:
+                            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance();
+                        default:
+                            throw new java.lang.AssertionError("Can't get here.");
+                    }
+                }
+
+                public final com.google.protobuf.Message
+                getResponsePrototype(
+                        com.google.protobuf.Descriptors.MethodDescriptor method) {
+                    if (method.getService() != getDescriptor()) {
+                        throw new java.lang.IllegalArgumentException(
+                                "Service.getResponsePrototype() given method " +
+                                        "descriptor for wrong service type.");
+                    }
+                    switch (method.getIndex()) {
+                        case 0:
+                            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance();
+                        default:
+                            throw new java.lang.AssertionError("Can't get here.");
+                    }
+                }
+
+            };
+        }
+
+        public static final com.google.protobuf.Descriptors.ServiceDescriptor
         getDescriptor() {
-      return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.getDescriptor().getServices().get(0);
-    }
-    public final com.google.protobuf.Descriptors.ServiceDescriptor
+            return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.getDescriptor().getServices().get(0);
+        }
+
+        public static Stub newStub(
+                com.google.protobuf.RpcChannel channel) {
+            return new Stub(channel);
+        }
+
+        public static BlockingInterface newBlockingStub(
+                com.google.protobuf.BlockingRpcChannel channel) {
+            return new BlockingStub(channel);
+        }
+
+        /**
+         * <code>rpc buildMacIndex(.buildMacIndexRequest) returns (.buildMacIndexResponse);</code>
+         */
+        public abstract void buildMacIndex(
+                com.google.protobuf.RpcController controller,
+                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
+                com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done);
+
+        public final com.google.protobuf.Descriptors.ServiceDescriptor
         getDescriptorForType() {
-      return getDescriptor();
-    }
+            return getDescriptor();
+        }
 
-    public final void callMethod(
-        com.google.protobuf.Descriptors.MethodDescriptor method,
-        com.google.protobuf.RpcController controller,
-        com.google.protobuf.Message request,
-        com.google.protobuf.RpcCallback<
-          com.google.protobuf.Message> done) {
-      if (method.getService() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "Service.callMethod() given method descriptor for wrong " +
-          "service type.");
-      }
-      switch(method.getIndex()) {
-        case 0:
-          this.buildMacIndex(controller, (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest)request,
-            com.google.protobuf.RpcUtil.<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse>specializeCallback(
-              done));
-          return;
-        default:
-          throw new java.lang.AssertionError("Can't get here.");
-      }
-    }
+        public final void callMethod(
+                com.google.protobuf.Descriptors.MethodDescriptor method,
+                com.google.protobuf.RpcController controller,
+                com.google.protobuf.Message request,
+                com.google.protobuf.RpcCallback<
+                        com.google.protobuf.Message> done) {
+            if (method.getService() != getDescriptor()) {
+                throw new java.lang.IllegalArgumentException(
+                        "Service.callMethod() given method descriptor for wrong " +
+                                "service type.");
+            }
+            switch (method.getIndex()) {
+                case 0:
+                    this.buildMacIndex(controller, (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) request,
+                            com.google.protobuf.RpcUtil.<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse>specializeCallback(
+                                    done));
+                    return;
+                default:
+                    throw new java.lang.AssertionError("Can't get here.");
+            }
+        }
 
-    public final com.google.protobuf.Message
+        public final com.google.protobuf.Message
         getRequestPrototype(
-        com.google.protobuf.Descriptors.MethodDescriptor method) {
-      if (method.getService() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "Service.getRequestPrototype() given method " +
-          "descriptor for wrong service type.");
-      }
-      switch(method.getIndex()) {
-        case 0:
-          return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance();
-        default:
-          throw new java.lang.AssertionError("Can't get here.");
-      }
-    }
+                com.google.protobuf.Descriptors.MethodDescriptor method) {
+            if (method.getService() != getDescriptor()) {
+                throw new java.lang.IllegalArgumentException(
+                        "Service.getRequestPrototype() given method " +
+                                "descriptor for wrong service type.");
+            }
+            switch (method.getIndex()) {
+                case 0:
+                    return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest.getDefaultInstance();
+                default:
+                    throw new java.lang.AssertionError("Can't get here.");
+            }
+        }
 
-    public final com.google.protobuf.Message
+        public final com.google.protobuf.Message
         getResponsePrototype(
-        com.google.protobuf.Descriptors.MethodDescriptor method) {
-      if (method.getService() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "Service.getResponsePrototype() given method " +
-          "descriptor for wrong service type.");
-      }
-      switch(method.getIndex()) {
-        case 0:
-          return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance();
-        default:
-          throw new java.lang.AssertionError("Can't get here.");
-      }
+                com.google.protobuf.Descriptors.MethodDescriptor method) {
+            if (method.getService() != getDescriptor()) {
+                throw new java.lang.IllegalArgumentException(
+                        "Service.getResponsePrototype() given method " +
+                                "descriptor for wrong service type.");
+            }
+            switch (method.getIndex()) {
+                case 0:
+                    return lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance();
+                default:
+                    throw new java.lang.AssertionError("Can't get here.");
+            }
+        }
+
+        public interface Interface {
+            /**
+             * <code>rpc buildMacIndex(.buildMacIndexRequest) returns (.buildMacIndexResponse);</code>
+             */
+            public abstract void buildMacIndex(
+                    com.google.protobuf.RpcController controller,
+                    lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
+                    com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done);
+
+        }
+
+        public interface BlockingInterface {
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildMacIndex(
+                    com.google.protobuf.RpcController controller,
+                    lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request)
+                    throws com.google.protobuf.ServiceException;
+        }
+
+        public static final class Stub extends lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.BuildMacIndexService implements Interface {
+            private final com.google.protobuf.RpcChannel channel;
+
+            private Stub(com.google.protobuf.RpcChannel channel) {
+                this.channel = channel;
+            }
+
+            public com.google.protobuf.RpcChannel getChannel() {
+                return channel;
+            }
+
+            public void buildMacIndex(
+                    com.google.protobuf.RpcController controller,
+                    lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
+                    com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done) {
+                channel.callMethod(
+                        getDescriptor().getMethods().get(0),
+                        controller,
+                        request,
+                        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance(),
+                        com.google.protobuf.RpcUtil.generalizeCallback(
+                                done,
+                                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.class,
+                                lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance()));
+            }
+        }
+
+        private static final class BlockingStub implements BlockingInterface {
+            private final com.google.protobuf.BlockingRpcChannel channel;
+
+            private BlockingStub(com.google.protobuf.BlockingRpcChannel channel) {
+                this.channel = channel;
+            }
+
+            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildMacIndex(
+                    com.google.protobuf.RpcController controller,
+                    lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request)
+                    throws com.google.protobuf.ServiceException {
+                return (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) channel.callBlockingMethod(
+                        getDescriptor().getMethods().get(0),
+                        controller,
+                        request,
+                        lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance());
+            }
+
+        }
+
+        // @@protoc_insertion_point(class_scope:BuildMacIndexService)
     }
 
-    public static Stub newStub(
-        com.google.protobuf.RpcChannel channel) {
-      return new Stub(channel);
-    }
-
-    public static final class Stub extends lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.BuildMacIndexService implements Interface {
-      private Stub(com.google.protobuf.RpcChannel channel) {
-        this.channel = channel;
-      }
-
-      private final com.google.protobuf.RpcChannel channel;
-
-      public com.google.protobuf.RpcChannel getChannel() {
-        return channel;
-      }
-
-      public  void buildMacIndex(
-          com.google.protobuf.RpcController controller,
-          lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
-          com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done) {
-        channel.callMethod(
-          getDescriptor().getMethods().get(0),
-          controller,
-          request,
-          lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance(),
-          com.google.protobuf.RpcUtil.generalizeCallback(
-            done,
-            lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.class,
-            lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance()));
-      }
-    }
-
-    public static BlockingInterface newBlockingStub(
-        com.google.protobuf.BlockingRpcChannel channel) {
-      return new BlockingStub(channel);
-    }
-
-    public interface BlockingInterface {
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildMacIndex(
-          com.google.protobuf.RpcController controller,
-          lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request)
-          throws com.google.protobuf.ServiceException;
-    }
-
-    private static final class BlockingStub implements BlockingInterface {
-      private BlockingStub(com.google.protobuf.BlockingRpcChannel channel) {
-        this.channel = channel;
-      }
-
-      private final com.google.protobuf.BlockingRpcChannel channel;
-
-      public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildMacIndex(
-          com.google.protobuf.RpcController controller,
-          lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request)
-          throws com.google.protobuf.ServiceException {
-        return (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse) channel.callBlockingMethod(
-          getDescriptor().getMethods().get(0),
-          controller,
-          request,
-          lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse.getDefaultInstance());
-      }
-
-    }
-
-    // @@protoc_insertion_point(class_scope:BuildMacIndexService)
-  }
-
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_buildMacIndexRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_buildMacIndexRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_buildMacIndexResponse_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_buildMacIndexResponse_fieldAccessorTable;
-
-  public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
-    return descriptor;
-  }
-  private static com.google.protobuf.Descriptors.FileDescriptor
-      descriptor;
-  static {
-    java.lang.String[] descriptorData = {
-      "\n\021buildMacIdx.proto\"\026\n\024buildMacIndexRequ" +
-      "est\")\n\025buildMacIndexResponse\022\020\n\010rowCount" +
-      "\030\001 \001(\0032V\n\024BuildMacIndexService\022>\n\rbuildM" +
-      "acIndex\022\025.buildMacIndexRequest\032\026.buildMa" +
-      "cIndexResponseB<\n&lreis.bigdata.indoor.i" +
-      "ndex.coprocessorB\rBuildMacIndexH\001\210\001\001"
-    };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
-    internal_static_buildMacIndexRequest_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_buildMacIndexRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_buildMacIndexRequest_descriptor,
-        new java.lang.String[] { });
-    internal_static_buildMacIndexResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_buildMacIndexResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_buildMacIndexResponse_descriptor,
-        new java.lang.String[] { "RowCount", });
-  }
-
-  // @@protoc_insertion_point(outer_class_scope)
+    // @@protoc_insertion_point(outer_class_scope)
 }

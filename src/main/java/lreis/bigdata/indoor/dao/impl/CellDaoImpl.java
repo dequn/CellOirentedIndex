@@ -2,7 +2,6 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.utils.RecordUtils;
-import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.POI;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
