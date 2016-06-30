@@ -123,16 +123,41 @@ public class BuildingTest {
 
     @Test
     public void comparePostGISAndHBase() {
-
-
         try {
-            IPOIDao dao = DaoFactory.getPOIDao();
-            dao.insertPOI2Postgres(this.pois.get(1));
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+
+
+
+            FileWriter writer = new FileWriter(new File
+                    ("d:\\big_joy\\hbase_postgre_compare.txt"));
+            writer.write("pois,time\n");
+
+            IPOIDao dao = DaoFactory.getPostgrePOIDao();
+
+            Long timeBegin = System.currentTimeMillis();
+
+            for (POI poi : this.pois) {
+                dao.insertPOI(this.pois.get(1));
+            }
+
+            Long timeStop =  System.currentTimeMillis();
+
+            Long timeSpan = timeStop-timeBegin;
+
+
+
+             dao = DaoFactory.getHBasePOIDao();
+            timeBegin = System.currentTimeMillis();
+
+            for (POI poi : this.pois) {
+                dao.insertPOI(this.pois.get(1));
+            }
+             timeStop =  System.currentTimeMillis();
+
+             timeSpan = timeStop-timeBegin;
+
+
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 

@@ -28,12 +28,12 @@ public class main {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(dataFile));
             String line = null;
-            IPOIDao dao = DaoFactory.getPOIDao();
+            IPOIDao dao = DaoFactory.getHBasePOIDao();
             while ((line = reader.readLine()) != null) {
                 String[] items = line.split(",");
                 POI poi = new POI();
 //                POI poi = new POI(items[0], items[4], items[2], items[3], items[1]);
-                dao.insertPOI2HBase(poi);
+                dao.insertPOI(poi);
             }
             reader.close();
         } catch (FileNotFoundException e1) {

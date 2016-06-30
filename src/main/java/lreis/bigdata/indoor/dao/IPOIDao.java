@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface IPOIDao {
 
-    boolean insertPOI2HBase(POI poi) throws IOException;
+    boolean insertPOI(POI poi) throws IOException;
 
     /**
      * return a list of cells the mac has been , maybe and allow return to a cell on second time ,so use a list.
@@ -24,7 +24,5 @@ public interface IPOIDao {
      * @throws IOException
      */
     List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException;
-
-    boolean insertPOI2Postgres(POI poi) throws SQLException, IOException, ClassNotFoundException;
 
 }

@@ -93,7 +93,8 @@ public class POI {
         if (poi == null) {
             return null;
         }
-        return String.format("%s%s%s", Building.getInstatnce().queryCell(poi, QueryMethod.Grid), poi.getTime(), poi.getMac());
+        return String.format("%s%s%s", Building.getInstatnce().queryCell(poi,
+                QueryMethod.Grid).getNodeNum(), poi.getTime(), poi.getMac());
     }
 
     @Contract("null -> null")

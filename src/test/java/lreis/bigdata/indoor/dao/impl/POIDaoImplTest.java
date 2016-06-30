@@ -21,7 +21,7 @@ public class POIDaoImplTest {
     @Test
     public void getTraceByMac() throws Exception {
 
-        IPOIDao dao = DaoFactory.getPOIDao();
+        IPOIDao dao = DaoFactory.getHBasePOIDao();
 //        94DBC9B0F387
 //        00037F000000
         List<TraceNode> list = dao.getTraceByMac("94DBC9B0F387", 1396322620L, 1396322720L);

@@ -5,6 +5,7 @@ import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.PostgreConn;
 import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
+import java.sql.Timestamp;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
@@ -22,27 +23,22 @@ import java.util.List;
 /**
  * Created by dq on 4/29/16.
  */
-public class POIDaoImpl implements IPOIDao {
+public class HBasePOIDaoImpl implements IPOIDao {
 
 
-    private PostgreConn pConn;
 
     protected Connection conn;
-    protected String tableName = "wifi";
+    protected String tableName = "pois";
     protected String idxTableName = "idx_mac";
     protected byte[] columnFamily = Bytes.toBytes("data");
 
 
-    public POIDaoImpl(Connection conn) {
+    public HBasePOIDaoImpl(Connection conn) {
         super();
         this.conn = conn;
     }
 
-    public POIDaoImpl(PostgreConn conn) {
-        this.pConn = conn;
-    }
-
-    public boolean insertPOI2HBase(POI poi) throws IOException {
+    public boolean insertPOI(POI poi) throws IOException {
 
         if (poi.getX() == null || poi.getY() == null) {
             return false;
@@ -54,7 +50,12 @@ public class POIDaoImpl implements IPOIDao {
             return false;
         }
 
-        Table table = this.conn.getTable(TableName.valueOf(this.tableName));
+        Table table = null;
+        try {
+            table = this.conn.getTable(TableName.valueOf(this.tableName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         String row = POI.calRowkey(poi);
@@ -72,7 +73,11 @@ public class POIDaoImpl implements IPOIDao {
         put.addColumn(this.columnFamily, Bytes.toBytes("y"),Bytes.toBytes((int)(poi.getY
                 () * 1000)));
 
-        table.put(put);
+        try {
+            table.put(put);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         // mac index
@@ -136,17 +141,6 @@ public class POIDaoImpl implements IPOIDao {
         return list;
     }
 
-    @Override
-    public boolean insertPOI2Postgres(POI poi) throws SQLException, IOException, ClassNotFoundException {
-
-
-        String sql = String.format("INSERT INTO imo(rowkey,x,y,mac,time,floor) VALUES" +
-                " (%s,%s,%s,%s,%s,%s)", POI.calRowkey(poi), (int) (poi.getX() * 1000),
-                (int) (poi.getY() * 1000), poi.getMac(), poi.getTime(), poi.getFloorNum());
-
-
-        return false;
-    }
 
     private boolean add2Index(String row) throws IOException {
 
