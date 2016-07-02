@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.ac.lreis</groupId>
-    <artifactId>indoor-mo</artifactId>
+    <artifactId>CellOrientedIndex</artifactId>
     <version>1.0-SNAPSHOT</version>
 
 
