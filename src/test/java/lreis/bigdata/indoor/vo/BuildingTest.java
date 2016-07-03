@@ -8,7 +8,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -74,19 +73,18 @@ public class BuildingTest {
     }
 
 
-
     @Ignore
     @Test
     public void CompareEfficiencyBetweenGridAndSTR() {
 
-        int compareNum = 1000;
+        int compareNum = 5000;
         try {
             FileWriter writer = new FileWriter(new File("d:\\big_joy\\compare.txt"));
             writer.write("time,compareNum,grid(ms),STR(ms)\n");
             while (compareNum < this.pois.size()) {
 
-                //针对一定数量的pois对比十次
-                for (int j = 0; j < 10; j++) {
+                //针对一定数量的pois对比3次
+                for (int j = 0; j < 3; j++) {
 
                     long start = System.currentTimeMillis();
 
@@ -109,7 +107,7 @@ public class BuildingTest {
                     System.out.println("STR query time of " + compareNum + " POIs is " + (stop - start));
 
                 }
-                compareNum *= 5;
+                compareNum += 5000;
             }
             writer.close();
 
@@ -126,41 +124,53 @@ public class BuildingTest {
         try {
 
 
-
-
             FileWriter writer = new FileWriter(new File
                     ("d:\\big_joy\\hbase_postgre_compare.txt"));
-            writer.write("pois,time\n");
+            writer.write("times,pois,time\n");
 
             IPOIDao dao = DaoFactory.getPostgrePOIDao();
 
-            Long timeBegin = System.currentTimeMillis();
+            int startNum = 0;
+            int endNum = 10000;
+            int groupNum = 1;
+            while (endNum < this.pois.size()) {
 
-            for (POI poi : this.pois) {
-                dao.insertPOI(this.pois.get(1));
+
+                for (int i = 0; i < 3; i++) {
+                    Long timeBegin = System.currentTimeMillis();
+
+
+//                    for (int j = startNum; j < endNum; j++) {
+//                        dao.insertPOI(this.pois.get(j));
+//                    }
+
+                    Long timeStop = System.currentTimeMillis();
+                    Long timeSpan = timeStop - timeBegin;
+
+                    writer.write(String.format("%s,%s", endNum-startNum, timeSpan));
+
+                    dao = DaoFactory.getHBasePOIDao();
+                    timeBegin = System.currentTimeMillis();
+
+                    for (int j = startNum; j < endNum; j++) {
+                        dao.insertPOI(this.pois.get(j));
+                    }
+
+                    timeStop = System.currentTimeMillis();
+                    timeSpan = timeStop - timeBegin;
+
+                    writer.write(String.format("%s,%s,%s", i, endNum-startNum, timeSpan));
+
+                }
+                startNum = endNum;
+                groupNum += 1;
+                endNum += 10000 * groupNum;
+
+
             }
-
-            Long timeStop =  System.currentTimeMillis();
-
-            Long timeSpan = timeStop-timeBegin;
-
-
-
-             dao = DaoFactory.getHBasePOIDao();
-            timeBegin = System.currentTimeMillis();
-
-            for (POI poi : this.pois) {
-                dao.insertPOI(this.pois.get(1));
-            }
-             timeStop =  System.currentTimeMillis();
-
-             timeSpan = timeStop-timeBegin;
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
     }
 
