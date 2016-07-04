@@ -12,15 +12,14 @@ import java.util.List;
  */
 public class FloorShpUtilsTest {
 
-    @Ignore
     @Test
     public void setPolygonNum() throws Exception {
 
         List<String> files = new ArrayList<String>();
-        files.add("/Users/dq/subject_study/floors/20040.dbf");
-        files.add("/Users/dq/subject_study/floors/20030.dbf");
-        files.add("/Users/dq/subject_study/floors/20020.dbf");
-        files.add("/Users/dq/subject_study/floors/20010.dbf");
+        files.add("/home/zdq/big_joy/floors/20040.dbf");
+        files.add("/home/zdq/big_joy/floors/20030.dbf");
+        files.add("/home/zdq/big_joy/floors/20020.dbf");
+        files.add("/home/zdq/big_joy/floors/20010.dbf");
 
         FloorShpUtils.setPolygonNum(files);
 

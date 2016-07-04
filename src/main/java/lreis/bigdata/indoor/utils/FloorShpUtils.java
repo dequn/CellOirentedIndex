@@ -57,18 +57,6 @@ public class FloorShpUtils {
 
                 FeatureWriter<SimpleFeatureType, SimpleFeature> writer = sds.getFeatureWriter(sds.getTypeNames()[0], Transaction.AUTO_COMMIT);
 
-//                SimpleFeatureSource featureSource = sds.getFeatureSource();
-//                SimpleFeatureIterator iterator = featureSource.getFeatures().features();
-//                while (iterator.hasNext()) {
-//                    System.out.println(i);
-//                    SimpleFeature feature = iterator.next();
-//                    Property p = feature.getProperty("poi_no");
-//                    p.setValue(i);
-////                    feature.setAttribute("poi_no", String.format("%04d", i));
-//                    i++;
-//                   feature.setValue(p);
-//                }
-//                iterator.close();
 
                 while (writer.hasNext()) {
                     System.out.println(i);

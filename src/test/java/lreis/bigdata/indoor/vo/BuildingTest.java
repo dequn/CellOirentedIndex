@@ -17,17 +17,28 @@ import java.util.ArrayList;
 public class BuildingTest {
 
     String[] floorShps = new String[]{
-//            "D:\\big_joy\\floors\\20010.dbf",// topology error
+//            "D:\\big_joy\\floors\\20010.dbf",
 //            "D:\\big_joy\\floors\\20020.dbf",
 //            "D:\\big_joy\\floors\\20030.dbf",
-            "D:\\big_joy\\floors\\20040.dbf"
+//            "D:\\big_joy\\floors\\20040.dbf"
+
+
+            "/home/zdq/big_joy/floors/20010.dbf",
+            "/home/zdq/big_joy/floors/20020.dbf",
+            "/home/zdq/big_joy/floors/20030.dbf",
+            "/home/zdq/big_joy/floors/20040.dbf",
     };
 
     String[] pointFiles = new String[]{
 //            "D:\\big_joy\\points\\0401\\20010.csv",
 //            "D:\\big_joy\\points\\0401\\20020.csv",
 //            "D:\\big_joy\\points\\0401\\20030.csv",
-            "D:\\big_joy\\points\\0401\\20040.csv",
+//            "D:\\big_joy\\points\\0401\\20040.csv",
+
+            "/home/zdq/big_joy/points/0401/20010.csv",
+            "/home/zdq/big_joy/points/0401/20020.csv",
+            "/home/zdq/big_joy/points/0401/20030.csv",
+            "/home/zdq/big_joy/points/0401/20040.csv",
     };
 
 
@@ -39,7 +50,8 @@ public class BuildingTest {
         Building building = Building.getInstatnce();
 
         for (String file : floorShps) {
-            building.addFloor(new Floor(file.substring(18, 23), file));
+//            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
+            building.addFloor(new Floor(file.substring(25, 30), file));// for linux
         }
     }
 
@@ -124,11 +136,11 @@ public class BuildingTest {
         try {
 
 
-            FileWriter writer = new FileWriter(new File
-                    ("d:\\big_joy\\hbase_postgre_compare.txt"));
-            writer.write("times,pois,time\n");
+//            FileWriter writer = new FileWriter(new File("d:\\big_joy\\hbase_postgre_compare.txt"));
+            FileWriter writer = new FileWriter(new File("/home/zdq/big_joy/hbase_postgre_compare.text"));
+            writer.write("times,pois,postgre_time,hbase_time\n");
 
-            IPOIDao dao = DaoFactory.getPostgrePOIDao();
+            IPOIDao dao = null;
 
             int startNum = 0;
             int endNum = 10000;
@@ -136,38 +148,39 @@ public class BuildingTest {
             while (endNum < this.pois.size()) {
 
 
-                for (int i = 0; i < 3; i++) {
-                    Long timeBegin = System.currentTimeMillis();
+                dao = DaoFactory.getPostgrePOIDao();
 
+                Long timeBegin = System.currentTimeMillis();
 
-//                    for (int j = startNum; j < endNum; j++) {
-//                        dao.insertPOI(this.pois.get(j));
-//                    }
-
-                    Long timeStop = System.currentTimeMillis();
-                    Long timeSpan = timeStop - timeBegin;
-
-                    writer.write(String.format("%s,%s", endNum-startNum, timeSpan));
-
-                    dao = DaoFactory.getHBasePOIDao();
-                    timeBegin = System.currentTimeMillis();
-
-                    for (int j = startNum; j < endNum; j++) {
-                        dao.insertPOI(this.pois.get(j));
-                    }
-
-                    timeStop = System.currentTimeMillis();
-                    timeSpan = timeStop - timeBegin;
-
-                    writer.write(String.format("%s,%s,%s", i, endNum-startNum, timeSpan));
-
+                for (int j = startNum; j < endNum; j++) {
+                    dao.insertPOI(this.pois.get(j));
                 }
+
+                Long timeStop = System.currentTimeMillis();
+                Long timeSpan = timeStop - timeBegin;
+
+                writer.write(String.format("%s,%s,%s", groupNum, endNum - startNum, timeSpan));
+
+                dao = DaoFactory.getHBasePOIDao();
+                timeBegin = System.currentTimeMillis();
+
+                for (int j = startNum; j < endNum; j++) {
+                    dao.insertPOI(this.pois.get(j));
+                }
+
+                timeStop = System.currentTimeMillis();
+                timeSpan = timeStop - timeBegin;
+
+                writer.write(String.format(",%s\n", timeSpan));
+
+
                 startNum = endNum;
                 groupNum += 1;
                 endNum += 10000 * groupNum;
 
-
             }
+
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -116,7 +116,6 @@ public class Floor {
             SimpleFeatureIterator iterator = featureSource.getFeatures().features();
 
 
-            String floorNum = FloorShpUtils.getFloorNum(this.floorShp);
             while (iterator.hasNext()) {
 
                 SimpleFeature feature = iterator.next();

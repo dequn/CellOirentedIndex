@@ -25,41 +25,46 @@ import java.util.List;
  */
 public class HBasePOIDaoImpl implements IPOIDao {
 
+    protected final String tableName = "pois";
+    protected String idxTableName = "idx_mac";
+
 
 
     protected Connection conn;
-    protected String tableName = "pois";
-    protected String idxTableName = "idx_mac";
+
     protected byte[] columnFamily = Bytes.toBytes("data");
 
+    protected  Table poiTable = null;
+    protected Table idxTable = null;
 
-    public HBasePOIDaoImpl(Connection conn) {
+
+    public HBasePOIDaoImpl(Connection conn) throws IOException {
         super();
         this.conn = conn;
+
+            poiTable = this.conn.getTable(TableName.valueOf(this.tableName));
+            idxTable = this.conn.getTable(TableName.valueOf(this.idxTableName));
+
     }
 
     public boolean insertPOI(POI poi) throws IOException {
 
-        if (poi.getX() == null || poi.getY() == null) {
+        if (poi == null
+                ) {
             return false;
         }
-        if (poi.getMac() == null || poi.getMac().equals("")) {
-            return false;
-        }
-        if (poi.getTime() == null) {
+
+        String rowkey =
+                POI.calRowkey(poi);
+        if (rowkey == null) {
             return false;
         }
 
         Table table = null;
-        try {
-            table = this.conn.getTable(TableName.valueOf(this.tableName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
-        String row = POI.calRowkey(poi);
-        byte[] bRow = Bytes.toBytes(row);
+
+        byte[] bRow = Bytes.toBytes(rowkey);
 
         Put put = new Put(bRow);
 
@@ -74,14 +79,14 @@ public class HBasePOIDaoImpl implements IPOIDao {
                 () * 1000)));
 
         try {
-            table.put(put);
+            poiTable.put(put);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         // mac index
-        String idxRow = row.substring(14) + row.substring(4, 14) + row.substring(0, 4);
+        String idxRow = rowkey.substring(14) + rowkey.substring(4, 14) + rowkey.substring(0, 4);
         this.add2Index(idxRow);
         return true;
     }
@@ -144,7 +149,6 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
     private boolean add2Index(String row) throws IOException {
 
-        Table idxTable = this.conn.getTable(TableName.valueOf(this.idxTableName));
         Put put = new Put(Bytes.toBytes(row));
         put.addColumn(Bytes.toBytes("data"), Bytes.toBytes(""), Bytes.toBytes(""));
         idxTable.put(put);

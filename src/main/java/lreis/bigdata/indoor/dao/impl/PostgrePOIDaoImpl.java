@@ -23,8 +23,19 @@ public class PostgrePOIDaoImpl implements IPOIDao {
 
     @Override
     public boolean insertPOI(POI poi) {
+
+        if (poi == null
+                ) {
+            return false;
+        }
+
+        String rowkey =
+                POI.calRowkey(poi);
+        if (rowkey == null) {
+            return false;
+        }
         String sql = String.format("INSERT INTO imo(rowkey,x,y,mac,time,floor) VALUES" +
-                        " ('%s',%s,%s,'%s','%s','%s')", POI.calRowkey(poi), (int) (poi.getX() * 1000),
+                        " ('%s',%s,%s,'%s','%s','%s')",rowkey , (int) (poi.getX() * 1000),
                 (int) (poi.getY() * -1000), poi.getMac(), new Timestamp(poi.getTime()
                         * 1000),
                 poi
@@ -35,7 +46,7 @@ public class PostgrePOIDaoImpl implements IPOIDao {
             this.pConn.getConnection().prepareStatement(sql).execute();        return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 

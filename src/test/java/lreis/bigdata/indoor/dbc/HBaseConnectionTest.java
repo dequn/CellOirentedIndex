@@ -4,6 +4,9 @@ import lreis.bigdata.indoor.factory.DbcFactory;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Admin;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -11,9 +14,10 @@ import org.junit.Test;
  */
 public class HBaseConnectionTest {
 
+
     @Test
     public void createTable() throws Exception {
-        System.setProperty("hadoop.home.dir", "C:\\Users\\Q\\Desktop\\winutils.exe");
+//        System.setProperty("hadoop.home.dir", "C:\\Users\\Q\\Desktop\\winutils.exe");
         String tableName = "pois";
 
         HTableDescriptor tableDesc = new HTableDescriptor(TableName.valueOf(tableName));
@@ -37,5 +41,16 @@ public class HBaseConnectionTest {
         }
 
 
+    }
+
+
+    @Ignore
+    @Before
+    public void deleteTable(){
+        String tableName = "pois";
+
+        HBaseConnection conn = DbcFactory.getHBaseConnection();
+
+       conn.dropTable(tableName);
     }
 }
