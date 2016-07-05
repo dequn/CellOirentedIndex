@@ -1,89 +1,19 @@
 package lreis.bigdata.indoor.vo;
 
+import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
-import lreis.bigdata.indoor.utils.RecordUtils;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.*;
-import java.text.ParseException;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by Q on 2016/6/21.
  */
 public class BuildingTest {
-
-    String[] floorShps = new String[]{
-//            "D:\\big_joy\\floors\\20010.dbf",
-//            "D:\\big_joy\\floors\\20020.dbf",
-//            "D:\\big_joy\\floors\\20030.dbf",
-//            "D:\\big_joy\\floors\\20040.dbf"
-
-
-            "/home/zdq/big_joy/floors/20010.dbf",
-            "/home/zdq/big_joy/floors/20020.dbf",
-            "/home/zdq/big_joy/floors/20030.dbf",
-            "/home/zdq/big_joy/floors/20040.dbf",
-    };
-
-    String[] pointFiles = new String[]{
-//            "D:\\big_joy\\points\\0401\\20010.csv",
-//            "D:\\big_joy\\points\\0401\\20020.csv",
-//            "D:\\big_joy\\points\\0401\\20030.csv",
-//            "D:\\big_joy\\points\\0401\\20040.csv",
-
-            "/home/zdq/big_joy/points/0401/20010.csv",
-            "/home/zdq/big_joy/points/0401/20020.csv",
-            "/home/zdq/big_joy/points/0401/20030.csv",
-            "/home/zdq/big_joy/points/0401/20040.csv",
-    };
-
-
-    ArrayList<POI> pois = new ArrayList<POI>();
-
-
-    @Before
-    public void BuildingInit() {
-        Building building = Building.getInstatnce();
-
-        for (String file : floorShps) {
-//            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
-            building.addFloor(new Floor(file.substring(25, 30), file));// for linux
-        }
-    }
-
-    @Before
-    public void readPOIs() {
-        for (String file : pointFiles) {
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    String items[] = line.split(",");
-
-                    String mac = items[0];
-                    String floorNum = items[1];
-                    Float x = Float.parseFloat(items[2]) / 1000;
-                    Float y = Float.parseFloat(items[3]) / -1000;
-                    long time = RecordUtils.calcTimeStamp(items[4]);
-                    this.pois.add(new POI(mac, time, x, y, floorNum));
-                }
-                reader.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
 
     @Ignore
     @Test
@@ -93,7 +23,7 @@ public class BuildingTest {
         try {
             FileWriter writer = new FileWriter(new File("d:\\big_joy\\compare.txt"));
             writer.write("time,compareNum,grid(ms),STR(ms)\n");
-            while (compareNum < this.pois.size()) {
+            while (compareNum < TestStatic.pois.size()) {
 
                 //针对一定数量的pois对比3次
                 for (int j = 0; j < 3; j++) {
@@ -101,7 +31,7 @@ public class BuildingTest {
                     long start = System.currentTimeMillis();
 
                     for (int i = 0; i < compareNum; i++) {
-                        POI poi = this.pois.get(i);
+                        POI poi = TestStatic.pois.get(i);
                         Building.queryCell(Building.getInstatnce().getFloor(poi.getFloorNum()),
                                 poi, POI
                                         .QueryMethod.Grid);
@@ -111,7 +41,7 @@ public class BuildingTest {
                     System.out.println("Grid query time of " + compareNum + " POIs is " + (stop - start));
                     start = System.currentTimeMillis();
                     for (int i = 0; i < compareNum; i++) {
-                        POI poi = this.pois.get(i);
+                        POI poi = TestStatic.pois.get(i);
                         Building.queryCell(Building.getInstatnce().getFloor(poi.getFloorNum()), poi, POI.QueryMethod.STR);
                     }
                     stop = System.currentTimeMillis();
@@ -138,14 +68,14 @@ public class BuildingTest {
 
 //            FileWriter writer = new FileWriter(new File("d:\\big_joy\\hbase_postgre_compare.txt"));
             FileWriter writer = new FileWriter(new File("/home/zdq/big_joy/hbase_postgre_compare.text"));
-//            writer.write("times,pois,postgre_time,hbase_time\n");
+            writer.write("times,pois,postgre_time,hbase_time\n");
 
             IPOIDao dao = null;
 
             int startNum = 0;
             int endNum = 10000;
             int groupNum = 1;
-            while (endNum < this.pois.size()) {
+            while (endNum < TestStatic.pois.size()) {
 
 
                 dao = DaoFactory.getPostgrePOIDao();
@@ -153,28 +83,28 @@ public class BuildingTest {
                 Long timeBegin = System.currentTimeMillis();
 
                 for (int j = startNum; j < endNum; j++) {
-                    dao.insertPOI(this.pois.get(j));
+                    dao.insertPOI(TestStatic.pois.get(j));
                 }
 
                 Long timeStop = System.currentTimeMillis();
                 Long timeSpan = timeStop - timeBegin;
 
-//                writer.write(String.format("%s,%s,%s", groupNum, endNum - startNum, timeSpan));
+                writer.write(String.format("%s,%s,%s", groupNum, endNum - startNum, timeSpan));
                 System.out.println("postgresql_time is " + timeSpan);
 
-//                dao = DaoFactory.getHBasePOIDao();
-//                timeBegin = System.currentTimeMillis();
-//
-//                for (int j = startNum; j < endNum; j++) {
-//                    dao.insertPOI(this.pois.get(j));
-//                }
-//
-//                timeStop = System.currentTimeMillis();
-//                timeSpan = timeStop - timeBegin;
-//                System.out.println("hbase_time is " + timeSpan);
-//
-//                writer.write(String.format(",%s\n", timeSpan));
-//
+                dao = DaoFactory.getHBasePOIDao();
+                timeBegin = System.currentTimeMillis();
+
+                for (int j = startNum; j < endNum; j++) {
+                    dao.insertPOI(TestStatic.pois.get(j));
+                }
+
+                timeStop = System.currentTimeMillis();
+                timeSpan = timeStop - timeBegin;
+                System.out.println("hbase_time is " + timeSpan);
+
+                writer.write(String.format(",%s\n", timeSpan));
+
 
                 startNum = endNum;
                 groupNum += 1;

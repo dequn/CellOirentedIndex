@@ -2,8 +2,9 @@ package lreis.bigdata.indoor.factory;
 
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dao.IPOIDao;
-import lreis.bigdata.indoor.dao.proxy.CellDaoProxy;
+import lreis.bigdata.indoor.dao.proxy.HBaseCellDaoProxy;
 import lreis.bigdata.indoor.dao.proxy.HBasePOIDaoProxy;
+import lreis.bigdata.indoor.dao.proxy.PostgreCellDaoProxy;
 import lreis.bigdata.indoor.dao.proxy.PostgrePOIDaoProxy;
 
 import java.io.IOException;
@@ -16,9 +17,15 @@ public class DaoFactory {
         return new HBasePOIDaoProxy();
     }
 
-    public static ICellDao getCellDao() throws IOException {
-        return new CellDaoProxy();
+    public static ICellDao getHBaseCellDao() throws IOException {
+        return new HBaseCellDaoProxy();
     }
+
+    public static ICellDao getPostgreCellDao() {
+
+        return new PostgreCellDaoProxy();
+    }
+
 
     public static IPOIDao getPostgrePOIDao() {
         return new PostgrePOIDaoProxy();

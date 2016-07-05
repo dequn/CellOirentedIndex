@@ -1,8 +1,10 @@
 package lreis.bigdata.indoor.dao;
 
+import lreis.bigdata.indoor.vo.Cell;
 import lreis.bigdata.indoor.vo.POI;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,9 +12,9 @@ import java.util.List;
  */
 public interface ICellDao {
 
-    List<POI> getPOIsByCellName(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    List<POI> getPOIsByCell(Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException;
 
-    int countMacInCell(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    int countMacInCell(Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException;
 
-    List<POI> getPOISBeenToCells(List<Integer> nodeNumList, Long beginTimeStamp, Long endTimeStamp) throws IOException;
+    List<POI> getPOISBeenToAllCells(List<Cell> cells, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 }

@@ -20,13 +20,13 @@ import java.util.*;
 /**
  * Created by dq on 5/3/16.
  */
-public class CellDaoImpl implements ICellDao {
+public class HBaseCellDaoImpl implements ICellDao {
 
     private Connection conn;
     private String tableName = "wifi";
     private byte[] columnFamily = Bytes.toBytes("data");
 
-    public CellDaoImpl(Connection conn) {
+    public HBaseCellDaoImpl(Connection conn) {
         super();
         this.conn = conn;
     }
@@ -34,47 +34,41 @@ public class CellDaoImpl implements ICellDao {
     /**
      * return List of POIs, beginTimeStamp and endTimeStamp are unix TimeStamps without milliseconds.
      *
-     * @param cellName
+     * @param cell
      * @param beginTimeStamp
      * @param endTimeStamp
      * @return List<POI>
      * @throws IOException
      */
-    public List<POI> getPOIsByCellName(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<POI> getPOIsByCell(lreis.bigdata.indoor.vo.Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
+        if (cell == null) {
+            return null;
+        }
+        if (beginTimeStamp > endTimeStamp) {
+            return null;
+        }
 
         List<POI> list = new ArrayList<POI>();
 
-        List<Integer> numList = new ArrayList<Integer>();
-//        List<lreis.bigdata.indoor.vo.Cell> cells = Building.getCellsByName(cellName);
-        List<lreis.bigdata.indoor.vo.Cell> cells = null;
 
-        for (lreis.bigdata.indoor.vo.Cell cell : cells) {
-            numList.add(cell.getNodeNum());
-        }
-
-        FilterList fls = new FilterList(FilterList.Operator.MUST_PASS_ONE); // can be in multi polygons
-
-        for (Integer num : numList) {
+        int num = cell.getNodeNum();
 
 
-            FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
+        FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
 
-            BinaryPrefixComparator comp = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, beginTimeStamp)));
-            RowFilter filter = new RowFilter(CompareFilter.CompareOp.GREATER_OR_EQUAL, comp);
+        BinaryPrefixComparator comp = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, beginTimeStamp)));
+        RowFilter filter = new RowFilter(CompareFilter.CompareOp.GREATER_OR_EQUAL, comp);
 
-            BinaryPrefixComparator comp2 = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, endTimeStamp)));
-            RowFilter filter2 = new RowFilter(CompareFilter.CompareOp.LESS_OR_EQUAL, comp2);
+        BinaryPrefixComparator comp2 = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, endTimeStamp)));
+        RowFilter filter2 = new RowFilter(CompareFilter.CompareOp.LESS_OR_EQUAL, comp2);
 
-            fl.addFilter(filter);
-            fl.addFilter(filter2);
+        fl.addFilter(filter);
+        fl.addFilter(filter2);
 
-            fls.addFilter(fl);
-
-        }
 
         Scan scan = new Scan();
-        scan.setFilter(fls);
+        scan.setFilter(fl);
 
         scan.addFamily(this.columnFamily);
         Table table = this.conn.getTable(TableName.valueOf(this.tableName));
@@ -87,10 +81,10 @@ public class CellDaoImpl implements ICellDao {
 
             POI poi = new POI();
 
-            for (Cell cell : hCells) {
+            for (Cell c : hCells) {
 
-                String qualifier = new String(CellUtil.cloneQualifier(cell));
-                String value = new String(CellUtil.cloneValue(cell), "UTF-8");
+                String qualifier = new String(CellUtil.cloneQualifier(c));
+                String value = new String(CellUtil.cloneValue(c), "UTF-8");
 
                 if (qualifier.equals("x")) {
                     poi.setX(Float.parseFloat(value) / 1000);
@@ -123,8 +117,8 @@ public class CellDaoImpl implements ICellDao {
         return list;
     }
 
-    public int countMacInCell(String cellName, Long beginTimeStamp, Long endTimeStamp) throws IOException {
-        List<POI> list = this.getPOIsByCellName(cellName, beginTimeStamp, endTimeStamp);
+    public int countMacInCell(lreis.bigdata.indoor.vo.Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+        List<POI> list = this.getPOIsByCell(cell, beginTimeStamp, endTimeStamp);
         Map<String, Integer> map = new HashMap<String, Integer>();
         for (POI poi : list) {
             if (map.containsKey(poi.getMac())) {
@@ -137,12 +131,12 @@ public class CellDaoImpl implements ICellDao {
 
     }
 
-    public List<POI> getPOISBeenToCells(List<Integer> nodeNumList, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<POI> getPOISBeenToAllCells(List<lreis.bigdata.indoor.vo.Cell> cells, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
         FilterList filter = new FilterList(FilterList.Operator.MUST_PASS_ONE);
 
-        for (Integer num : nodeNumList) {
-
+        for (lreis.bigdata.indoor.vo.Cell cell : cells) {
+            Integer num = cell.getNodeNum();
             FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);
 
             BinaryPrefixComparator comp = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, beginTimeStamp)));
@@ -178,7 +172,7 @@ public class CellDaoImpl implements ICellDao {
             map.get(node).add(mac);
         }
 
-        Set<String> result = map.get(nodeNumList.get(0));
+        Set<String> result = map.get(cells.get(0));
 
         for (Set<String> s : map.values()) {
             result.retainAll(s);

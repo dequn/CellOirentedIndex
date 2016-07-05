@@ -57,6 +57,9 @@ public class POI {
     }
 
     private void updatePoint() {
+        if (this.x == null || this.y == null) {
+            return;
+        }
         Coordinate coordinate = new Coordinate(this.x, this.y);
         GeometryFactory gf = new GeometryFactory();
         this.point = gf.createPoint(coordinate);
