@@ -8,7 +8,6 @@ import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**

@@ -138,7 +138,7 @@ public class BuildingTest {
 
 //            FileWriter writer = new FileWriter(new File("d:\\big_joy\\hbase_postgre_compare.txt"));
             FileWriter writer = new FileWriter(new File("/home/zdq/big_joy/hbase_postgre_compare.text"));
-            writer.write("times,pois,postgre_time,hbase_time\n");
+//            writer.write("times,pois,postgre_time,hbase_time\n");
 
             IPOIDao dao = null;
 
@@ -159,20 +159,22 @@ public class BuildingTest {
                 Long timeStop = System.currentTimeMillis();
                 Long timeSpan = timeStop - timeBegin;
 
-                writer.write(String.format("%s,%s,%s", groupNum, endNum - startNum, timeSpan));
+//                writer.write(String.format("%s,%s,%s", groupNum, endNum - startNum, timeSpan));
+                System.out.println("postgresql_time is " + timeSpan);
 
-                dao = DaoFactory.getHBasePOIDao();
-                timeBegin = System.currentTimeMillis();
-
-                for (int j = startNum; j < endNum; j++) {
-                    dao.insertPOI(this.pois.get(j));
-                }
-
-                timeStop = System.currentTimeMillis();
-                timeSpan = timeStop - timeBegin;
-
-                writer.write(String.format(",%s\n", timeSpan));
-
+//                dao = DaoFactory.getHBasePOIDao();
+//                timeBegin = System.currentTimeMillis();
+//
+//                for (int j = startNum; j < endNum; j++) {
+//                    dao.insertPOI(this.pois.get(j));
+//                }
+//
+//                timeStop = System.currentTimeMillis();
+//                timeSpan = timeStop - timeBegin;
+//                System.out.println("hbase_time is " + timeSpan);
+//
+//                writer.write(String.format(",%s\n", timeSpan));
+//
 
                 startNum = endNum;
                 groupNum += 1;

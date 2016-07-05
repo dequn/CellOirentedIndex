@@ -1,6 +1,5 @@
 package lreis.bigdata.indoor.utils;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;

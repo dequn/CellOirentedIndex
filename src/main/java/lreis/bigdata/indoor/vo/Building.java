@@ -15,6 +15,9 @@ public class Building {
     //    private  List<Cell> cells = new ArrayList<Cell>();// use for get cell by num,num from 1 to n.
     private Cell[] cells = new Cell[300];
 
+    private Building() {
+    }
+
     /**
      * Query which Cell the point dropped in.
      *
@@ -32,6 +35,13 @@ public class Building {
             return null;
         }
 
+    }
+
+    public static Building getInstatnce() {
+        if (instance == null) {
+            instance = new Building();
+        }
+        return instance;
     }
 
     public void addFloor(Floor floor) {
@@ -63,19 +73,6 @@ public class Building {
     public Cell getCellByNum(Integer num) {
 //        return cells.get(num);
         return cells[num];
-    }
-
-
-
-    public static Building getInstatnce(){
-        if (instance == null) {
-            instance = new Building();
-        }
-        return  instance;
-    }
-
-
-    private Building(){
     }
 
 }

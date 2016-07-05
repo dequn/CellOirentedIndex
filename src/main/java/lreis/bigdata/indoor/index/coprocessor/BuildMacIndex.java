@@ -63,10 +63,12 @@ public final class BuildMacIndex {
     getDescriptor() {
         return descriptor;
     }
+
     public interface buildMacIndexRequestOrBuilder extends
             // @@protoc_insertion_point(interface_extends:buildMacIndexRequest)
             com.google.protobuf.MessageOrBuilder {
     }
+
     public interface buildMacIndexResponseOrBuilder extends
             // @@protoc_insertion_point(interface_extends:buildMacIndexResponse)
             com.google.protobuf.MessageOrBuilder {

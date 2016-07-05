@@ -2,10 +2,8 @@ package lreis.bigdata.indoor.dao.impl;
 
 
 import lreis.bigdata.indoor.dao.IPOIDao;
-import lreis.bigdata.indoor.dbc.PostgreConn;
 import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
-import java.sql.Timestamp;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
@@ -15,7 +13,6 @@ import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,24 +23,32 @@ import java.util.List;
 public class HBasePOIDaoImpl implements IPOIDao {
 
     protected final String tableName = "pois";
-    protected String idxTableName = "idx_mac";
-
+    protected final String idxTableName = "idx_mac";
 
 
     protected Connection conn;
 
     protected byte[] columnFamily = Bytes.toBytes("data");
 
-    protected  Table poiTable = null;
-    protected Table idxTable = null;
+//    protected Table poiTable = null;
+//    protected Table idxTable = null;
+
+    protected BufferedMutator poiTable = null;
+    protected BufferedMutator idxTable = null;
 
 
     public HBasePOIDaoImpl(Connection conn) throws IOException {
         super();
         this.conn = conn;
 
-            poiTable = this.conn.getTable(TableName.valueOf(this.tableName));
-            idxTable = this.conn.getTable(TableName.valueOf(this.idxTableName));
+//        poiTable = this.conn.getTable(TableName.valueOf(this.tableName));
+//        idxTable = this.conn.getTable(TableName.valueOf(this.idxTableName));
+
+        poiTable = this.conn.getBufferedMutator(TableName.valueOf(this.tableName));
+        idxTable = this.conn.getBufferedMutator(TableName.valueOf(this.idxTableName));
+
+//        System.out.println(poiTable.getWriteBufferSize());
+//        System.out.println(idxTable.getWriteBufferSize());
 
     }
 
@@ -60,9 +65,6 @@ public class HBasePOIDaoImpl implements IPOIDao {
             return false;
         }
 
-        Table table = null;
-
-
 
         byte[] bRow = Bytes.toBytes(rowkey);
 
@@ -73,13 +75,14 @@ public class HBasePOIDaoImpl implements IPOIDao {
         put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
         put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi
                 .getFloorNum()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("x"),Bytes.toBytes((int)(poi.getX
+        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes((int) (poi.getX
                 () * 1000)));
-        put.addColumn(this.columnFamily, Bytes.toBytes("y"),Bytes.toBytes((int)(poi.getY
+        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes((int) (poi.getY
                 () * 1000)));
 
         try {
-            poiTable.put(put);
+            poiTable.mutate(put);
+//     poiTable.put(put);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,8 +154,10 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
         Put put = new Put(Bytes.toBytes(row));
         put.addColumn(Bytes.toBytes("data"), Bytes.toBytes(""), Bytes.toBytes(""));
-        idxTable.put(put);
+//        idxTable.put(put);
+        idxTable.mutate(put);
         return true;
+
 
     }
 

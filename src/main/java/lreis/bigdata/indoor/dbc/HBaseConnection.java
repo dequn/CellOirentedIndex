@@ -14,7 +14,6 @@ import java.io.IOException;
 public class HBaseConnection {
 
 
-
     private static Configuration conf = null;
 
     static {
@@ -23,11 +22,9 @@ public class HBaseConnection {
         conf.set("hbase.zookeeper.property.clientPort", "2181");
     }
 
-    public static Connection createConnection() throws IOException {
-        return ConnectionFactory.createConnection(conf);
-    }
     public Connection conn = null;
-    public HBaseConnection(){
+
+    public HBaseConnection() {
         try {
             conn = HBaseConnection.createConnection();
         } catch (IOException e) {
@@ -35,9 +32,14 @@ public class HBaseConnection {
         }
     }
 
-    public Connection getConnection(){
-        return  this.conn;
+    public static Connection createConnection() throws IOException {
+        return ConnectionFactory.createConnection(conf);
     }
+
+    public Connection getConnection() {
+        return this.conn;
+    }
+
     public boolean createTable(HTableDescriptor desc) {
 
         Admin admin = null;

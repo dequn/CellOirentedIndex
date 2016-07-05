@@ -33,6 +33,29 @@ public class POI {
 
     }
 
+    @Contract("null -> null")
+    public static String calRowkey(POI poi) {
+        if (poi == null) {
+            return null;
+        }
+        Cell cell = Building.getInstatnce().queryCell(poi,
+                QueryMethod.Grid);
+        if (cell == null) {
+            return null;
+        }
+        return String.format("%04d%s%s", cell.getNodeNum(), poi.getTime(), poi.getMac());
+    }
+
+    @Contract("null -> null")
+    public static String calMacIndexRowkey(POI poi) {
+
+        if (poi == null) {
+            return null;
+        }
+        return String.format("%s%s%04d", poi.getMac(), poi.getTime(), Building.getInstatnce().queryCell
+                (poi, QueryMethod.Grid));
+    }
+
     private void updatePoint() {
         Coordinate coordinate = new Coordinate(this.x, this.y);
         GeometryFactory gf = new GeometryFactory();
@@ -87,28 +110,5 @@ public class POI {
     }
 
     public enum QueryMethod {Grid, STR}
-
-    @Contract("null -> null")
-    public static String calRowkey(POI poi) {
-        if (poi == null) {
-            return null;
-        }
-        Cell cell = Building.getInstatnce().queryCell(poi,
-                QueryMethod.Grid);
-        if (cell == null) {
-            return null;
-        }
-        return String.format("%04d%s%s", cell.getNodeNum(), poi.getTime(), poi.getMac());
-    }
-
-    @Contract("null -> null")
-    public static String calMacIndexRowkey(POI poi) {
-
-        if (poi == null) {
-            return null;
-        }
-        return String.format("%s%s%04d", poi.getMac(), poi.getTime(), Building.getInstatnce().queryCell
-                (poi, QueryMethod.Grid));
-    }
 
 }

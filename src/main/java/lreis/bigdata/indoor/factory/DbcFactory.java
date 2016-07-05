@@ -14,8 +14,9 @@ public class DbcFactory {
     public static HBaseConnection getHBaseConnection() {
         return new HBaseConnection();
     }
+
     @Contract(" -> !null")
-    public static PostgreConn getPostgreConn(){
+    public static PostgreConn getPostgreConn() {
         try {
             return new PostgreConn();
         } catch (ClassNotFoundException e) {

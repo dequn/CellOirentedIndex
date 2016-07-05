@@ -17,19 +17,20 @@ public class PostgrePOIDaoProxy implements IPOIDao {
 
 
     private PostgrePOIDaoImpl dao = null;
-    public PostgrePOIDaoProxy( ){
+
+    public PostgrePOIDaoProxy() {
         PostgreConn pConn = DbcFactory.getPostgreConn();
         this.dao = new PostgrePOIDaoImpl(pConn);
     }
 
 
     @Override
-    public boolean insertPOI(POI poi)   {
+    public boolean insertPOI(POI poi) {
         return this.dao.insertPOI(poi);
     }
 
     @Override
     public List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException {
-        return this.dao.getTraceByMac(mac,beginTimeStamp,endTimeStamp);
+        return this.dao.getTraceByMac(mac, beginTimeStamp, endTimeStamp);
     }
 }

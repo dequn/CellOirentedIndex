@@ -4,7 +4,6 @@ import lreis.bigdata.indoor.factory.DbcFactory;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -46,11 +45,11 @@ public class HBaseConnectionTest {
 
     @Ignore
     @Before
-    public void deleteTable(){
+    public void deleteTable() {
         String tableName = "pois";
 
         HBaseConnection conn = DbcFactory.getHBaseConnection();
 
-       conn.dropTable(tableName);
+        conn.dropTable(tableName);
     }
 }

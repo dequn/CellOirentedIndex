@@ -11,15 +11,14 @@ import java.sql.SQLException;
 public class PostgreConn implements IConnection {
 
 
-    private Connection conn = null;
-
     private static String DRIVER = "org.postgresql.Driver";
-//    private static String HOST = "localhost";
-        private static String HOST = "192.168.6.131";
+    //    private static String HOST = "localhost";
+    private static String HOST = "192.168.6.131";
     private static String PORT = "5432";
     private static String DBNAME = "big_data_zdq";
     private static String USERNAME = "postgres";
     private static String PASSWORD = "postgres";
+    private Connection conn = null;
 
     public PostgreConn() throws ClassNotFoundException, SQLException {
         String url = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DBNAME;

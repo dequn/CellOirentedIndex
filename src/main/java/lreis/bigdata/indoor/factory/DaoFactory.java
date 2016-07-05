@@ -20,7 +20,7 @@ public class DaoFactory {
         return new CellDaoProxy();
     }
 
-    public static IPOIDao getPostgrePOIDao(){
+    public static IPOIDao getPostgrePOIDao() {
         return new PostgrePOIDaoProxy();
     }
 }

@@ -19,6 +19,7 @@ public class PostgrePOIDaoImpl implements IPOIDao {
 
     public PostgrePOIDaoImpl(PostgreConn pConn) {
         this.pConn = pConn;
+
     }
 
     @Override
@@ -35,7 +36,7 @@ public class PostgrePOIDaoImpl implements IPOIDao {
             return false;
         }
         String sql = String.format("INSERT INTO imo(rowkey,x,y,mac,time,floor) VALUES" +
-                        " ('%s',%s,%s,'%s','%s','%s')",rowkey , (int) (poi.getX() * 1000),
+                        " ('%s',%s,%s,'%s','%s','%s')", rowkey, (int) (poi.getX() * 1000),
                 (int) (poi.getY() * -1000), poi.getMac(), new Timestamp(poi.getTime()
                         * 1000),
                 poi
@@ -43,12 +44,12 @@ public class PostgrePOIDaoImpl implements IPOIDao {
 
 
         try {
-            this.pConn.getConnection().prepareStatement(sql).execute();        return true;
+            this.pConn.getConnection().prepareStatement(sql).execute();
+            return true;
 
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
-
 
 
         return false;
