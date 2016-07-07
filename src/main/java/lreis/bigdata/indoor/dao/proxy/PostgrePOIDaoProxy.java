@@ -8,6 +8,7 @@ import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,7 +31,12 @@ public class PostgrePOIDaoProxy implements IPOIDao {
     }
 
     @Override
-    public List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException {
-        return this.dao.getTraceByMac(mac, beginTimeStamp, endTimeStamp);
+    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+        return this.dao.getBeenToCellsByMac(mac, beginTimeStamp, endTimeStamp);
+    }
+
+    @Override
+    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException {
+        return null;
     }
 }

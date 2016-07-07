@@ -48,13 +48,12 @@ public class PostgreCellDaoImplTest {
     public void countMacInCell() throws Exception {
         Cell cell = Building.getInstatnce().getCellByNum(201);
         int num = this.dao.countMacInCell(cell, 1396281619L, 1396281625L);
-
-
     }
 
     @Ignore
     @Test
     public void getPOISBeenToAllCells() throws Exception {
+
 
     }
 

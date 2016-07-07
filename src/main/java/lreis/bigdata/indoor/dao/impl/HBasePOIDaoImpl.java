@@ -2,6 +2,7 @@ package lreis.bigdata.indoor.dao.impl;
 
 
 import lreis.bigdata.indoor.dao.IPOIDao;
+import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.apache.hadoop.hbase.TableName;
@@ -13,7 +14,10 @@ import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -96,8 +100,49 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
 
     @Override
-    public List<TraceNode> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException {
-        List<TraceNode> list = new ArrayList<TraceNode>();
+    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+
+        if (mac == null || mac.equals("") || mac.length() != 12) {
+            return null;
+        }
+        if (beginTimeStamp > endTimeStamp) {
+            return null;
+        }
+
+        POI[] trace = (POI[]) this.getTraceByMac(mac, beginTimeStamp,
+                endTimeStamp).toArray();
+
+        List<TraceNode> result = new ArrayList<TraceNode>();
+        TraceNode last = new TraceNode(trace[0].getCellIn(), trace[0].getTime(),
+                trace[0].getTime());
+        result.add(last);
+
+        for (int i = 1; i < trace.length; i++) {
+            if (trace[i].getCellIn() != last.getCell()) {
+
+                last = new TraceNode(trace[i].getCellIn(), trace[i].getTime(), trace[i]
+                        .getTime());
+                result.add(last);
+            } else {
+                last.setExitTime(trace[i].getTime());
+            }
+        }
+
+
+        return result;
+    }
+
+    @Override
+    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
+
+        if (mac == null || mac.equals("") || mac.length() != 12) {
+            return null;
+        }
+        if (beginTimeStamp > endTimeStamp) {
+            return null;
+        }
+
+        List<POI> res = new ArrayList<POI>();
 
         FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
 
@@ -118,35 +163,46 @@ public class HBasePOIDaoImpl implements IPOIDao {
         Table table = this.conn.getTable(TableName.valueOf(this.idxTableName));
 
         ResultScanner resultScanner = table.getScanner(scan);
-
-        int last = 0;
-        Long lastTime = 0L;
         for (Iterator<Result> it = resultScanner.iterator(); it.hasNext(); ) {
             Result result = it.next();
             String row = new String(result.getRow());
-            Integer node = Integer.parseInt(row.substring(22));
-            Long time = Long.parseLong(row.substring(12, 22));
+
+            long time = Timestamp.valueOf(new String(result.getValue(Bytes
+                            .toBytes
+                                    ("data"),
+                    Bytes
+                            .toBytes
+                                    ("time")))).getTime();
+            int x = Integer.parseInt(new String(result.getValue(Bytes
+                            .toBytes
+                                    ("data"),
+                    Bytes
+                            .toBytes
+                                    ("x"))));
+            int y = Integer.parseInt(new String(result.getValue(Bytes
+                            .toBytes
+                                    ("data"),
+                    Bytes
+                            .toBytes
+                                    ("y"))));
+
+            String floor = new String(result.getValue(Bytes.toBytes("data"), Bytes
+                    .toBytes
+                            ("floor")));
 
 
-            if (last != node) {
+            POI poi = new POI(mac, time, (float) x / 1000, (float) y / -1000, floor);
+            poi.setCellIn(Building.getInstatnce().getCellByNum(Integer.parseInt(row
+                    .substring(0, 4))));
 
-                if (list.size() > 0) {
-                    list.get(list.size() - 1).setExitTime(lastTime);
-                }
+            res.add(poi);
 
-                TraceNode tn = new TraceNode();
-                tn.setPolygonNum(node);
-                tn.setEntryTime(time);
-                list.add(tn);
-                last = node;
-                lastTime = time;
-            } else {
-                lastTime = time;
-            }
+            Collections.sort(res, new POI());
+
         }
 
 
-        return list;
+        return res;
     }
 
 

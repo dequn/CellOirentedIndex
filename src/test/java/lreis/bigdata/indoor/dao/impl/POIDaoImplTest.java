@@ -24,7 +24,7 @@ public class POIDaoImplTest {
         IPOIDao dao = DaoFactory.getHBasePOIDao();
 //        94DBC9B0F387
 //        00037F000000
-        List<TraceNode> list = dao.getTraceByMac("94DBC9B0F387", 1396322620L, 1396322720L);
+        List<TraceNode> list = dao.getBeenToCellsByMac("94DBC9B0F387", 1396322620L, 1396322720L);
         for (TraceNode node : list) {
 //            System.out.println(Building.getCellByNum(node.getPolygonNum()).getName());
         }
