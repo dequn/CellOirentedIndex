@@ -4,6 +4,7 @@ import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.TraceNode;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -126,14 +127,17 @@ public class QueryEfficiencyTest {
             "7CFADF5846C6"
     };
 
-    static long beginTime = 1396396800;
+    static long beginTime = 1396310400L;//8:00:00
 
-    static long[] endTimes = new long[13];
+    static long[] endTimes = new long[14];
 
     static {
-        for (int i = 0; i < 13; i++) {
+
+
+        TestStatic.BuildingInit();
+        for (int i = 0; i < 14; i++) {
             endTimes[i] = new Timestamp(beginTime * 1000 + (i + 1) * 3600 * 1000)
-                    .getTime();
+                    .getTime()/1000;
         }
 
     }
@@ -143,7 +147,8 @@ public class QueryEfficiencyTest {
     public void comparePOIInCells() {
 
         try {
-            Writer writer = new FileWriter(new File("d:\\big_joy\\query_pois_in_cell.txt"));
+//            Writer writer = new FileWriter(new File("d:\\big_joy\\query_pois_in_cell.txt"));
+            Writer writer = new FileWriter(new File("/home/zdq/big_joy/query_pois_in_cell.txt"));
             writer.write("cell,begin_time,end_time,hbase_time_consume," +
                     "postgre_time_consume,count_um\n");//mean
 
@@ -156,10 +161,12 @@ public class QueryEfficiencyTest {
 
     }
 
+    @Ignore
     @Test
     public void compareGetTrace() {
         try {
-            Writer writer = new FileWriter(new File("d:\\big_joy\\get_trace.txt"));
+//            Writer writer = new FileWriter(new File("d:\\big_joy\\get_trace.txt"));
+            Writer writer = new FileWriter(new File("/home/zdq/big_joy/get_trace.txt"));
             writer.write("mac,begin_time,end_time,hbase_time_consume," +
                     "hbase_trace_length," +
                     "postgre_time_consume,postgre_trace_length\n");
@@ -179,6 +186,48 @@ public class QueryEfficiencyTest {
 
                     tb = System.currentTimeMillis();
                     list = pDao.getTraceByMac(mac, beginTime, endTime);
+                    te = System.currentTimeMillis();
+
+                    writer.write(String.format(",%s,%s\n", te - tb, list != null ? list
+                            .size() : 0));
+                }
+            }
+            writer.close();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @Test
+    public void compareGetBeenToCells() {
+        try {
+//            Writer writer = new FileWriter(new File("d:\\big_joy\\get_been_to_cells.txt"));
+            Writer writer = new FileWriter(new File("/home/zdq/big_joy/get_been_to_cells.txt"));
+            writer.write("mac,begin_time,end_time,hbase_time_consume," +
+                    "hbase_trace_length," +
+                    "postgre_time_consume,postgre_trace_length\n");
+
+            IPOIDao hDao = DaoFactory.getHBasePOIDao();
+            IPOIDao pDao = DaoFactory.getPostgrePOIDao();
+            for (String mac : QueryEfficiencyTest.macs) {
+
+                for (long endTime : QueryEfficiencyTest.endTimes) {
+                    long tb = System.currentTimeMillis();
+                    List<TraceNode> list = hDao.getBeenToCellsByMac(mac, beginTime, endTime);
+                    long te = System.currentTimeMillis();
+                    writer.write(String.format("%s,%s,%s,%s,%s", mac, new Timestamp
+                            (beginTime * 1000).toString(), new Timestamp
+                            (endTime * 1000).toString(), te - tb, list != null ? list
+                            .size() : 0));
+
+                    tb = System.currentTimeMillis();
+                    list = pDao.getBeenToCellsByMac(mac, beginTime, endTime);
                     te = System.currentTimeMillis();
 
                     writer.write(String.format(",%s,%s\n", te - tb, list != null ? list

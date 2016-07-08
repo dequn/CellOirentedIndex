@@ -40,4 +40,9 @@ public class HBasePOIDaoProxy implements IPOIDao {
 
     }
 
+    @Override
+    public void close() throws IOException, SQLException {
+        this.dao.close();
+    }
+
 }

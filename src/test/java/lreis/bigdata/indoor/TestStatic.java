@@ -17,25 +17,25 @@ import java.util.ArrayList;
  */
 public class TestStatic {
     static final String[] floorShps = new String[]{
-            "D:\\big_joy\\floors\\20010.dbf",
+//            "D:\\big_joy\\floors\\20010.dbf",
 //            "D:\\big_joy\\floors\\20020.dbf",
 //            "D:\\big_joy\\floors\\20030.dbf",
 //            "D:\\big_joy\\floors\\20040.dbf"
 //
 //
-//            "/home/zdq/big_joy/floors/20010.dbf",
-//            "/home/zdq/big_joy/floors/20020.dbf",
-//            "/home/zdq/big_joy/floors/20030.dbf",
-//            "/home/zdq/big_joy/floors/20040.dbf",
+            "/home/zdq/big_joy/floors/20010.dbf",
+            "/home/zdq/big_joy/floors/20020.dbf",
+            "/home/zdq/big_joy/floors/20030.dbf",
+            "/home/zdq/big_joy/floors/20040.dbf",
     };
 
     static final String[] pointFiles = new String[]{
-            "D:\\big_joy\\points\\0401\\20010.csv",
+//            "D:\\big_joy\\points\\0401\\20010.csv",
 //            "D:\\big_joy\\points\\0401\\20020.csv",
 //            "D:\\big_joy\\points\\0401\\20030.csv",
 //            "D:\\big_joy\\points\\0401\\20040.csv",
 
-//            "/home/zdq/big_joy/points/0401/20010.csv",
+            "/home/zdq/big_joy/points/0401/20010.csv",
 //            "/home/zdq/big_joy/points/0401/20020.csv",
 //            "/home/zdq/big_joy/points/0401/20030.csv",
 //            "/home/zdq/big_joy/points/0401/20040.csv",
@@ -49,8 +49,8 @@ public class TestStatic {
         Building building = Building.getInstatnce();
 
         for (String file : floorShps) {
-            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
-//            building.addFloor(new Floor(file.substring(25, 30), file));// for linux
+//            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
+            building.addFloor(new Floor(file.substring(25, 30), file));// for linux
         }
     }
 

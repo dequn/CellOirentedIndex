@@ -39,4 +39,10 @@ public class PostgrePOIDaoProxy implements IPOIDao {
     public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException {
         return null;
     }
+
+    @Override
+    public void close() throws IOException, SQLException {
+        this.dao
+                .close();
+    }
 }

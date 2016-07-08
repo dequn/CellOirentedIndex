@@ -26,4 +26,6 @@ public interface IPOIDao {
     List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException;
 
     List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException;
+
+    public void close() throws IOException, SQLException;
 }

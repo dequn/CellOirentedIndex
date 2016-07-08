@@ -7,10 +7,7 @@ import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
-import org.apache.hadoop.hbase.filter.CompareFilter;
-import org.apache.hadoop.hbase.filter.FilterList;
-import org.apache.hadoop.hbase.filter.RowFilter;
+import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
@@ -34,8 +31,6 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
     protected byte[] columnFamily = Bytes.toBytes("data");
 
-//    protected Table poiTable = null;
-//    protected Table idxTable = null;
 
     protected BufferedMutator poiTable = null;
     protected BufferedMutator idxTable = null;
@@ -45,14 +40,8 @@ public class HBasePOIDaoImpl implements IPOIDao {
         super();
         this.conn = conn;
 
-//        poiTable = this.conn.getTable(TableName.valueOf(this.tableName));
-//        idxTable = this.conn.getTable(TableName.valueOf(this.idxTableName));
-
         poiTable = this.conn.getBufferedMutator(TableName.valueOf(this.tableName));
         idxTable = this.conn.getBufferedMutator(TableName.valueOf(this.idxTableName));
-
-//        System.out.println(poiTable.getWriteBufferSize());
-//        System.out.println(idxTable.getWriteBufferSize());
 
     }
 
@@ -74,18 +63,18 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
         Put put = new Put(bRow);
 
-        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(poi
-                .getTime()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(new Timestamp(poi.getTime() * 1000).toString()));
         put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi
-                .getFloorNum()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes((int) (poi.getX
-                () * 1000)));
-        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes((int) (poi.getY
-                () * 1000)));
+        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi.getFloorNum()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes((Integer.toString((int) (poi.getX() * 1000)))));
+        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes((Integer.toString((int) (poi.getY() * -1000)))));
+
+
+
 
         try {
             poiTable.mutate(put);
+//            poiTable.flush();
 //     poiTable.put(put);
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,22 +98,43 @@ public class HBasePOIDaoImpl implements IPOIDao {
             return null;
         }
 
-        POI[] trace = (POI[]) this.getTraceByMac(mac, beginTimeStamp,
-                endTimeStamp).toArray();
-
         List<TraceNode> result = new ArrayList<TraceNode>();
-        TraceNode last = new TraceNode(trace[0].getCellIn(), trace[0].getTime(),
-                trace[0].getTime());
-        result.add(last);
 
-        for (int i = 1; i < trace.length; i++) {
-            if (trace[i].getCellIn() != last.getCell()) {
+        FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
 
-                last = new TraceNode(trace[i].getCellIn(), trace[i].getTime(), trace[i]
-                        .getTime());
+        BinaryPrefixComparator comp = new BinaryPrefixComparator(Bytes.toBytes(String.format("%s%d0000", mac, beginTimeStamp)));
+        RowFilter filter = new RowFilter(CompareFilter.CompareOp.GREATER_OR_EQUAL, comp);
+
+
+
+        BinaryPrefixComparator comp2 = new BinaryPrefixComparator(Bytes.toBytes(String.format("%s%d0300", mac, endTimeStamp)));
+        RowFilter filter2 = new RowFilter(CompareFilter.CompareOp.LESS_OR_EQUAL, comp2);
+
+        fl.addFilter(filter);
+        fl.addFilter(filter2);
+
+
+        Scan scan = new Scan();
+        scan.setStartRow(Bytes.toBytes(String.format("%s%d0000", mac, beginTimeStamp)));
+        scan.setStopRow(Bytes.toBytes(String.format("%s%d0300", mac, endTimeStamp)));
+
+//        scan.setFilter(new WhileMatchFilter(fl));
+        scan.setFilter(fl);
+
+        scan.addFamily(this.columnFamily);
+        Table table = this.conn.getTable(TableName.valueOf(this.idxTableName));
+        ResultScanner resultScanner = table.getScanner(scan);
+
+        TraceNode last = null;
+        for (Iterator<Result> it = resultScanner.iterator(); it.hasNext(); ) {
+            Result res = it.next();
+            String row = new String(res.getRow());
+            if (last == null || Integer.parseInt(row.substring(22)) != last.getPolygonNum()) {
+                last.setExitTime(Long.parseLong(row.substring(12,22)));
+                last = new TraceNode(Integer.parseInt(row.substring(22)), Long.parseLong(row.substring(12, 22)), Long.parseLong(row.substring(12, 22)));
                 result.add(last);
             } else {
-                last.setExitTime(trace[i].getTime());
+                last.setExitTime(Long.parseLong(row.substring(12, 22)));
             }
         }
 
@@ -157,8 +167,8 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
 
         Scan scan = new Scan();
-        scan.setFilter(fl);
-
+//        scan.setFilter(fl);
+        scan.setFilter(new WhileMatchFilter(fl));
         scan.addFamily(this.columnFamily);
         Table table = this.conn.getTable(TableName.valueOf(this.idxTableName));
 
@@ -206,15 +216,25 @@ public class HBasePOIDaoImpl implements IPOIDao {
     }
 
 
-    private boolean add2Index(String row) throws IOException {
+    private boolean add2Index(String row ) throws IOException {
 
-        Put put = new Put(Bytes.toBytes(row));
-        put.addColumn(Bytes.toBytes("data"), Bytes.toBytes(""), Bytes.toBytes(""));
-//        idxTable.put(put);
-        idxTable.mutate(put);
+
+
+        Put p = new Put(Bytes.toBytes(row));
+        p.addColumn(Bytes.toBytes("data"),Bytes.toBytes(""),Bytes.toBytes(""));
+        idxTable.mutate(p);
         return true;
 
 
     }
+
+
+    @Override
+    public void close() throws IOException {
+        this.poiTable.close();
+        this.idxTable.close();
+        this.conn.close();;
+    }
+
 
 }
