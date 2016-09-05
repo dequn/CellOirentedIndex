@@ -4,12 +4,13 @@ import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.vo.POI;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by zdq on 7/8/16.
@@ -25,20 +26,23 @@ public class IngestPoints {
         TestStatic.readPOIs();
     }
 
+
+
+    @Ignore
     @Test
     public void HBaseIngest() {
 
         try {
             dao = DaoFactory.getHBasePOIDao();
-            for (
-                    POI poi : TestStatic.pois) {
+            for ( POI poi : TestStatic.pois) {
                 this.dao.insertPOI(poi);
-
             }
             this.dao.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -60,9 +64,35 @@ public class IngestPoints {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
+
+    @Test
+    public void PhoenixIngest(){
+
+
+
+        try {
+            dao = DaoFactory.getPhoenixPOIDao();
+            for (POI poi : TestStatic.pois) {
+                this.dao.insertPOI(poi);
+            }
+            this.dao.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 
 
 }

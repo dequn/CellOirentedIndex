@@ -36,9 +36,9 @@ public class TestStatic {
 //            "D:\\big_joy\\points\\0401\\20040.csv",
 
             "/home/zdq/big_joy/points/0401/20010.csv",
-//            "/home/zdq/big_joy/points/0401/20020.csv",
-//            "/home/zdq/big_joy/points/0401/20030.csv",
-//            "/home/zdq/big_joy/points/0401/20040.csv",
+            "/home/zdq/big_joy/points/0401/20020.csv",
+            "/home/zdq/big_joy/points/0401/20030.csv",
+            "/home/zdq/big_joy/points/0401/20040.csv",
     };
 
 

@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public interface IConnection {
 
-    Connection getConnection();
+    Connection getConnection() throws ClassNotFoundException, SQLException;
 
     void close() throws IOException, SQLException;
 }

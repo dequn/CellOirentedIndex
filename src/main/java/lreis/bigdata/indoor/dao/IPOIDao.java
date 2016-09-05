@@ -27,5 +27,5 @@ public interface IPOIDao {
 
     List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException;
 
-    public void close() throws IOException, SQLException;
+    public void close() throws IOException, SQLException, ClassNotFoundException;
 }

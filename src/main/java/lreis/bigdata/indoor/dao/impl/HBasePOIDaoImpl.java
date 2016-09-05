@@ -23,13 +23,13 @@ import java.util.List;
  */
 public class HBasePOIDaoImpl implements IPOIDao {
 
-    protected final String tableName = "pois";
-    protected final String idxTableName = "idx_mac";
+    protected final String tableName = "BIGJOY.POIS";
+    protected final String idxTableName = "BIGJOY.POIS_MAC_IDX";
 
 
     protected Connection conn;
 
-    protected byte[] columnFamily = Bytes.toBytes("data");
+    protected byte[] columnFamily = Bytes.toBytes("0");
 
 
     protected BufferedMutator poiTable = null;
@@ -130,7 +130,9 @@ public class HBasePOIDaoImpl implements IPOIDao {
             Result res = it.next();
             String row = new String(res.getRow());
             if (last == null || Integer.parseInt(row.substring(22)) != last.getPolygonNum()) {
-                last.setExitTime(Long.parseLong(row.substring(12,22)));
+                if(last!=null) {
+                    last.setExitTime(Long.parseLong(row.substring(12, 22)));
+                }
                 last = new TraceNode(Integer.parseInt(row.substring(22)), Long.parseLong(row.substring(12, 22)), Long.parseLong(row.substring(12, 22)));
                 result.add(last);
             } else {
@@ -221,7 +223,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
 
         Put p = new Put(Bytes.toBytes(row));
-        p.addColumn(Bytes.toBytes("data"),Bytes.toBytes(""),Bytes.toBytes(""));
+        p.addColumn(Bytes.toBytes("0"),Bytes.toBytes(""),Bytes.toBytes(""));
         idxTable.mutate(p);
         return true;
 

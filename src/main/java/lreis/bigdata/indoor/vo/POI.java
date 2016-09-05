@@ -38,17 +38,22 @@ public class POI implements Comparator<POI> {
     }
 
     @Contract("null -> null")
-    public static String calRowkey(POI poi) {
+    public static String calRowkey(POI poi, QueryMethod method) {
         if (poi == null) {
             return null;
         }
         Cell cell = Building.getInstatnce().queryCell(poi,
-                QueryMethod.Grid);
+                method);
         if (cell == null) {
             return null;
         }
         poi.setCellIn(cell);
         return String.format("%04d%s%s", cell.getNodeNum(), poi.getTime(), poi.getMac());
+    }
+
+    @Contract("null -> null")
+    public static String calRowkey(POI poi) {
+        return POI.calRowkey(poi, QueryMethod.Grid);
     }
 
     @Contract("null -> null")

@@ -10,8 +10,10 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 
@@ -30,7 +32,6 @@ public class POIDaoImplTest {
     }
 
 
-    @Ignore
     @Test
     public void insertPOI() throws Exception {
 
@@ -59,6 +60,8 @@ public class POIDaoImplTest {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,16 +86,28 @@ public class POIDaoImplTest {
     //C86F1D78824413963455500204
 
 
+
     @Test
-    public void postgreSQLGetBeenToCellsTest(){
+    public void postgreSQLGetBeenToCellsTest() {
 
         IPOIDao dao = DaoFactory.getPostgrePOIDao();
 
         try {
             long bt = System.currentTimeMillis();
-            List<TraceNode> list = dao.getBeenToCellsByMac("C86F1D788244", 1396310400L,1396346400L);
+            List<TraceNode> list = dao.getBeenToCellsByMac("C86F1D788244", 1396310400L, 1396346400L);
             long et = System.currentTimeMillis();
             System.out.println(et - bt);
+
+
+            FileWriter writer = new FileWriter("/home/zdq/big_joy/semantics_trace.example.txt");
+            for (
+                    TraceNode node : list
+                    ) {
+                writer.write(String.format("%s,%s,%s,%d\n", node.getCell().getName(), new Timestamp(node.getEntryTime()*1000).toString(), new Timestamp(node.getExitTime()*1000).toString(),node.getExitTime() - node.getEntryTime()));
+
+                System.out.println(node.getCell().getName() + "," + (node.getExitTime() - node.getEntryTime()));
+            }
+            writer.close();
 
         } catch (IOException e) {
             e.printStackTrace();

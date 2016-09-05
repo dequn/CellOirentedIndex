@@ -1,8 +1,10 @@
 package lreis.bigdata.indoor.factory;
 
 import lreis.bigdata.indoor.dbc.HBaseConnection;
+import lreis.bigdata.indoor.dbc.PhoenixConn;
 import lreis.bigdata.indoor.dbc.PostgreConn;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 
@@ -15,6 +17,7 @@ public class DbcFactory {
         return new HBaseConnection();
     }
 
+    @Nullable
     @Contract(" -> !null")
     public static PostgreConn getPostgreConn() {
         try {
@@ -24,6 +27,20 @@ public class DbcFactory {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+
+    @Nullable
+    public static PhoenixConn getPhoenixConn(){
+        try {
+            return new PhoenixConn();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

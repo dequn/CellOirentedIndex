@@ -17,12 +17,12 @@ public class HBaseConnectionTest {
     @Test
     public void createTable() throws Exception {
 //        System.setProperty("hadoop.home.dir", "C:\\Users\\Q\\Desktop\\winutils.exe");
-        String tableName = "pois";
+        String tableName = "BIGJOY.POIS";
 
         HTableDescriptor tableDesc = new HTableDescriptor(TableName.valueOf(tableName));
 
         tableDesc.setValue("prefix_split_policy.prefix_length", "4");
-        String[] cfs = {"data"};
+        String[] cfs = {"0"};
 
         for (int i = 0; i < cfs.length; i++) {
             HColumnDescriptor desc = new HColumnDescriptor(cfs[i]);
@@ -46,7 +46,7 @@ public class HBaseConnectionTest {
     @Ignore
     @Before
     public void deleteTable() {
-        String tableName = "pois";
+        String tableName = "BIGJOY.POIS";
 
         HBaseConnection conn = DbcFactory.getHBaseConnection();
 
