@@ -4,12 +4,11 @@ import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.IConnection;
 import lreis.bigdata.indoor.vo.POI;
 import lreis.bigdata.indoor.vo.TraceNode;
+import org.apache.commons.net.ntp.TimeStamp;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,8 +38,8 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
 
         String sql = String.format("UPSERT INTO bigjoy.imos(id,floor,time,mac,x,y,cell) VALUES ('%s', '%s', '%s','%s', %s ,%s ,'%s')", rowkey,
-                poi.getFloorNum(), new Timestamp( poi.getTime() * 1000),poi.getMac(),(int) (poi.getX() * 1000),
-                (int) (poi.getY() * -1000),poi.getCellIn().getNodeNum().toString());
+                poi.getFloorNum(), new Timestamp(poi.getTime() * 1000), poi.getMac(), (int) (poi.getX() * 1000),
+                (int) (poi.getY() * -1000), poi.getCellIn().getNodeNum().toString());
 
 
         try {
@@ -60,6 +59,31 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
     @Override
     public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+
+
+        List<TraceNode> res = new ArrayList<TraceNode>();
+
+        if (mac == null || mac.equals("")) {
+            return res;
+        }
+
+        if (beginTimeStamp > endTimeStamp) {
+            return res;
+        }
+
+        String sql = String.format("SELECT mac, cell, time FROM bigjoy.imos WHERE mac = '%S' ADN time BETWEEN to_timestamp('%s') AND to_timestamp('%s') ORDER BY TIME", mac, new Timestamp(beginTimeStamp * 1000), new TimeStamp(endTimeStamp * 1000));
+        try {
+            PreparedStatement pstmt = this.conn.getConnection().prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         return null;
     }
 
