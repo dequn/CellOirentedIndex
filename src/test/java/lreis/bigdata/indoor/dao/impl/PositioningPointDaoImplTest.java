@@ -4,7 +4,7 @@ import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.utils.RecordUtils;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by dq on 5/13/16.
  */
-public class POIDaoImplTest {
+public class PositioningPointDaoImplTest {
 
 
     @BeforeClass
@@ -37,8 +37,8 @@ public class POIDaoImplTest {
 
 
         IPOIDao dao = DaoFactory.getHBasePOIDao();
-        POI poi = new POI("ACF7F348B123", RecordUtils.calcTimeStamp("2014-04-01 18:56:15"), (float) 58.544, (float) -81.318, "20010");
-        dao.insertPOI(poi);
+        PositioningPoint positioningPoint = new PositioningPoint("ACF7F348B123", RecordUtils.calcTimeStamp("2014-04-01 18:56:15"), (float) 58.544, (float) -81.318, "20010");
+        dao.insertPOI(positioningPoint);
         dao.close();
 
 
@@ -50,9 +50,9 @@ public class POIDaoImplTest {
     public void postgreSQLInsertPOI() {
         IPOIDao dao = DaoFactory.getPostgrePOIDao();
         try {
-            POI poi = new POI("ACF7F348B123", RecordUtils.calcTimeStamp("2014-04-01 18:56:15"), (float) 58.544, (float) -81.318, "20010");
+            PositioningPoint positioningPoint = new PositioningPoint("ACF7F348B123", RecordUtils.calcTimeStamp("2014-04-01 18:56:15"), (float) 58.544, (float) -81.318, "20010");
 
-            dao.insertPOI(poi);
+            dao.insertPOI(positioningPoint);
             dao.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +86,6 @@ public class POIDaoImplTest {
     //C86F1D78824413963455500204
 
 
-
     @Test
     public void postgreSQLGetBeenToCellsTest() {
 
@@ -103,15 +102,17 @@ public class POIDaoImplTest {
             for (
                     TraceNode node : list
                     ) {
-                writer.write(String.format("%s,%s,%s,%d\n", node.getCell().getName(), new Timestamp(node.getEntryTime()*1000).toString(), new Timestamp(node.getExitTime()*1000).toString(),node.getExitTime() - node.getEntryTime()));
+                writer.write(String.format("%s,%s,%s,%d\n", node.getSemanticCell().getName(), new Timestamp(node.getEntryTime()).toString(), new Timestamp(node.getExitTime()).toString(), node.getExitTime() - node.getEntryTime()));
 
-                System.out.println(node.getCell().getName() + "," + (node.getExitTime() - node.getEntryTime()));
+                System.out.println(node.getSemanticCell().getName() + "," + (node.getExitTime() - node.getEntryTime()));
             }
             writer.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

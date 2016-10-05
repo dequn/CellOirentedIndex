@@ -4,47 +4,50 @@ package lreis.bigdata.indoor.vo;
  * Created by dq on 5/12/16.
  */
 public class TraceNode {
-    private Integer polygonNum;
-    private Cell cell;
+    private String polygonNum;
+
+    private SemanticCell semanticCell;
+
     private Long entryTime;
     private Long exitTime;
 
 
-    public TraceNode(Integer polygonNum, Long entryTime) {
+    public TraceNode(String polygonNum, Long entryTime) {
 
         this.polygonNum = polygonNum;
         this.entryTime = entryTime;
-        cell = Building.getInstatnce().getCellByNum(polygonNum);
+        semanticCell = Building.getInstatnce().getCellByNum(polygonNum);
     }
 
-    public TraceNode(Cell cell, Long entryTime, Long exitTime) {
-        this.cell = cell;
+    public TraceNode(SemanticCell semanticCell, Long entryTime, Long exitTime) {
+        this.semanticCell = semanticCell;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
     }
 
     public TraceNode() {
+
     }
 
-    public TraceNode(Integer polygonNum, Long outTime, Long entryTime) {
+    public TraceNode(String polygonNum, Long exitTime, Long entryTime) {
         this.polygonNum = polygonNum;
-        this.exitTime = outTime;
+        this.exitTime = exitTime;
         this.entryTime = entryTime;
     }
 
-    public Cell getCell() {
-        return cell;
+    public SemanticCell getSemanticCell() {
+        return semanticCell;
     }
 
-    public void setCell(Cell cell) {
-        this.cell = cell;
+    public void setSemanticCell(SemanticCell semanticCell) {
+        this.semanticCell = semanticCell;
     }
 
-    public Integer getPolygonNum() {
+    public String getPolygonNum() {
         return polygonNum;
     }
 
-    public void setPolygonNum(Integer polygonNum) {
+    public void setPolygonNum(String polygonNum) {
         this.polygonNum = polygonNum;
     }
 

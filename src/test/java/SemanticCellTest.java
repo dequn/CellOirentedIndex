@@ -3,7 +3,7 @@ import org.junit.Test;
 /**
  * Created by dq on 4/25/16.
  */
-public class CellTest {
+public class SemanticCellTest {
 
     @Test
     public void getName() throws Exception {

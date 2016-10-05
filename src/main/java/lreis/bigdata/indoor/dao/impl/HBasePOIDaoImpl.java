@@ -3,7 +3,7 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.vo.Building;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -45,15 +45,15 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
     }
 
-    public boolean insertPOI(POI poi) throws IOException {
+    public boolean insertPOI(PositioningPoint positioningPoint) throws IOException {
 
-        if (poi == null
+        if (positioningPoint == null
                 ) {
             return false;
         }
 
         String rowkey =
-                POI.calRowkey(poi);
+                PositioningPoint.calRowkey(positioningPoint);
         if (rowkey == null) {
             return false;
         }
@@ -63,13 +63,11 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
         Put put = new Put(bRow);
 
-        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(new Timestamp(poi.getTime() * 1000).toString()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(poi.getMac()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(poi.getFloorNum()));
-        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes((Integer.toString((int) (poi.getX() * 1000)))));
-        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes((Integer.toString((int) (poi.getY() * -1000)))));
-
-
+        put.addColumn(this.columnFamily, Bytes.toBytes("time"), Bytes.toBytes(new Timestamp(positioningPoint.getTime()).toString()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("mac"), Bytes.toBytes(positioningPoint.getMac()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("floor"), Bytes.toBytes(positioningPoint.getFloorNum()));
+        put.addColumn(this.columnFamily, Bytes.toBytes("x"), Bytes.toBytes((Integer.toString((int) (positioningPoint.getX() * 1000)))));
+        put.addColumn(this.columnFamily, Bytes.toBytes("y"), Bytes.toBytes((Integer.toString((int) (positioningPoint.getY() * -1000)))));
 
 
         try {
@@ -106,7 +104,6 @@ public class HBasePOIDaoImpl implements IPOIDao {
         RowFilter filter = new RowFilter(CompareFilter.CompareOp.GREATER_OR_EQUAL, comp);
 
 
-
         BinaryPrefixComparator comp2 = new BinaryPrefixComparator(Bytes.toBytes(String.format("%s%d0300", mac, endTimeStamp)));
         RowFilter filter2 = new RowFilter(CompareFilter.CompareOp.LESS_OR_EQUAL, comp2);
 
@@ -129,11 +126,11 @@ public class HBasePOIDaoImpl implements IPOIDao {
         for (Iterator<Result> it = resultScanner.iterator(); it.hasNext(); ) {
             Result res = it.next();
             String row = new String(res.getRow());
-            if (last == null || Integer.parseInt(row.substring(22)) != last.getPolygonNum()) {
-                if(last!=null) {
+            if (last == null || !row.substring(22).equals(last.getPolygonNum())) {
+                if (last != null) {
                     last.setExitTime(Long.parseLong(row.substring(12, 22)));
                 }
-                last = new TraceNode(Integer.parseInt(row.substring(22)), Long.parseLong(row.substring(12, 22)), Long.parseLong(row.substring(12, 22)));
+                last = new TraceNode(row.substring(22), Long.parseLong(row.substring(12, 22)), Long.parseLong(row.substring(12, 22)));
                 result.add(last);
             } else {
                 last.setExitTime(Long.parseLong(row.substring(12, 22)));
@@ -145,7 +142,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
     }
 
     @Override
-    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
+    public List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
 
         if (mac == null || mac.equals("") || mac.length() != 12) {
             return null;
@@ -154,7 +151,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
             return null;
         }
 
-        List<POI> res = new ArrayList<POI>();
+        List<PositioningPoint> res = new ArrayList<PositioningPoint>();
 
         FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
 
@@ -203,13 +200,13 @@ public class HBasePOIDaoImpl implements IPOIDao {
                             ("floor")));
 
 
-            POI poi = new POI(mac, time, (float) x / 1000, (float) y / -1000, floor);
-            poi.setCellIn(Building.getInstatnce().getCellByNum(Integer.parseInt(row
-                    .substring(0, 4))));
+            PositioningPoint positioningPoint = new PositioningPoint(mac, time, (float) x / 1000, (float) y / -1000, floor);
+            positioningPoint.setSemanticCellIn(Building.getInstatnce().getCellByNum(row
+                    .substring(0, 4)));
 
-            res.add(poi);
+            res.add(positioningPoint);
 
-            Collections.sort(res, new POI());
+            Collections.sort(res, new PositioningPoint());
 
         }
 
@@ -218,12 +215,11 @@ public class HBasePOIDaoImpl implements IPOIDao {
     }
 
 
-    private boolean add2Index(String row ) throws IOException {
-
+    private boolean add2Index(String row) throws IOException {
 
 
         Put p = new Put(Bytes.toBytes(row));
-        p.addColumn(Bytes.toBytes("0"),Bytes.toBytes(""),Bytes.toBytes(""));
+        p.addColumn(Bytes.toBytes("0"), Bytes.toBytes(""), Bytes.toBytes(""));
         idxTable.mutate(p);
         return true;
 
@@ -235,7 +231,8 @@ public class HBasePOIDaoImpl implements IPOIDao {
     public void close() throws IOException {
         this.poiTable.close();
         this.idxTable.close();
-        this.conn.close();;
+        this.conn.close();
+        ;
     }
 
 

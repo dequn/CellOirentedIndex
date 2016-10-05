@@ -10,9 +10,12 @@ import java.text.SimpleDateFormat;
 public class RecordUtils {
 
     public static long calcTimeStamp(String strTime) throws ParseException {
+
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Long time = sdf.parse(strTime).getTime() / 1000;
+        Long time = sdf.parse(strTime).getTime();
         return time;
+
+
     }
 
 }

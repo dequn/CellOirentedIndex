@@ -4,7 +4,7 @@ import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dao.impl.PostgrePOIDaoImpl;
 import lreis.bigdata.indoor.dbc.PostgreConn;
 import lreis.bigdata.indoor.factory.DbcFactory;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 
 import java.io.IOException;
@@ -26,8 +26,8 @@ public class PostgrePOIDaoProxy implements IPOIDao {
 
 
     @Override
-    public boolean insertPOI(POI poi) {
-        return this.dao.insertPOI(poi);
+    public boolean insertPOI(PositioningPoint positioningPoint) {
+        return this.dao.insertPOI(positioningPoint);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class PostgrePOIDaoProxy implements IPOIDao {
     }
 
     @Override
-    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException {
+    public List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException {
         return null;
     }
 

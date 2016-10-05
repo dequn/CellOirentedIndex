@@ -3,7 +3,7 @@ package lreis.bigdata.indoor;
 import lreis.bigdata.indoor.utils.RecordUtils;
 import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.Floor;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -42,7 +42,7 @@ public class TestStatic {
     };
 
 
-    public static ArrayList<POI> pois = new ArrayList<POI>();
+    public static ArrayList<PositioningPoint> positioningPoints = new ArrayList<PositioningPoint>();
 
 
     public static void BuildingInit() {
@@ -67,7 +67,7 @@ public class TestStatic {
                     Float x = Float.parseFloat(items[2]) / 1000;
                     Float y = Float.parseFloat(items[3]) / -1000;
                     long time = RecordUtils.calcTimeStamp(items[4]);
-                    pois.add(new POI(mac, time, x, y, floorNum));
+                    positioningPoints.add(new PositioningPoint(mac, time, x, y, floorNum));
                 }
                 reader.close();
 

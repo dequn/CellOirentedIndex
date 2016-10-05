@@ -1,6 +1,5 @@
 package lreis.bigdata.indoor.dbc;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +19,7 @@ public class PhoenixConn implements IConnection {
     }
 
     @Override
-    public Connection getConnection()  {
+    public Connection getConnection() {
         return this.conn;
     }
 

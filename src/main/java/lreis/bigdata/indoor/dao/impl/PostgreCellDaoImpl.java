@@ -2,8 +2,8 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dbc.PostgreConn;
-import lreis.bigdata.indoor.vo.Cell;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
+import lreis.bigdata.indoor.vo.SemanticCell;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -27,9 +27,9 @@ public class PostgreCellDaoImpl implements ICellDao {
     }
 
     @Override
-    public List<POI> getPOIsByCell(Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+    public List<PositioningPoint> getPOIsByCell(SemanticCell semanticCell, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
 
-        if (cell == null || cell.equals("")) {
+        if (semanticCell == null || semanticCell.equals("")) {
             return null;
         }
         if (beginTimeStamp > endTimeStamp) {
@@ -37,27 +37,27 @@ public class PostgreCellDaoImpl implements ICellDao {
         }
 
 
-        List<POI> result = new ArrayList<POI>();
+        List<PositioningPoint> result = new ArrayList<PositioningPoint>();
 
 
         Statement stat = this.pConn.getConnection().createStatement();
 
 
         String sql = String.format("SELECT * FROM imo WHERE rowkey LIKE '%04d%%' AND " +
-                "time BETWEEN '%s' AND '%s'", cell.getNodeNum(), new Timestamp
-                (beginTimeStamp * 1000), new Timestamp(endTimeStamp * 1000));
+                "time BETWEEN '%s' AND '%s'", semanticCell.getNodeNum(), new Timestamp
+                (beginTimeStamp), new Timestamp(endTimeStamp ));
         ResultSet rs = stat.executeQuery(sql);
 
         while (rs.next()) {
-            POI poi = new POI();
+            PositioningPoint positioningPoint = new PositioningPoint();
 
-            poi.setX(((float) rs.getInt("x") / 1000));
-            poi.setY(((float) rs.getInt("y") / -1000));
-            poi.setMac(rs.getString("mac"));
-            poi.setFloorNum(rs.getString("floor"));
-            poi.setTime(rs.getTimestamp("time").getTime());
+            positioningPoint.setX(((float) rs.getInt("x") / 1000));
+            positioningPoint.setY(((float) rs.getInt("y") / -1000));
+            positioningPoint.setMac(rs.getString("mac"));
+            positioningPoint.setFloorNum(rs.getString("floor"));
+            positioningPoint.setTime(rs.getTimestamp("time").getTime());
 
-            result.add(poi);
+            result.add(positioningPoint);
         }
 
 
@@ -65,15 +65,15 @@ public class PostgreCellDaoImpl implements ICellDao {
     }
 
     @Override
-    public int countMacInCell(Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
-        List<POI> pois = this.getPOIsByCell(cell, beginTimeStamp, endTimeStamp);
-        if (pois == null || pois.size() == 0) {
+    public int countMacInCell(SemanticCell semanticCell, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+        List<PositioningPoint> positioningPoints = this.getPOIsByCell(semanticCell, beginTimeStamp, endTimeStamp);
+        if (positioningPoints == null || positioningPoints.size() == 0) {
             return 0;
         }
         HashSet<String> macs = new HashSet<String>();
 
-        for (POI poi : pois) {
-            macs.add(poi.getMac());
+        for (PositioningPoint positioningPoint : positioningPoints) {
+            macs.add(positioningPoint.getMac());
         }
 
         return macs.size();
@@ -81,13 +81,13 @@ public class PostgreCellDaoImpl implements ICellDao {
     }
 
     @Override
-    public List<POI> getPOISBeenToAllCells(List<Cell> cells, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<PositioningPoint> getPOISBeenToAllCells(List<SemanticCell> semanticCells, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
-        if (cells == null || cells.size() == 0) {
+        if (semanticCells == null || semanticCells.size() == 0) {
             return null;
         }
 
-        List<POI> result = null;
+        List<PositioningPoint> result = null;
 
 
         return null;

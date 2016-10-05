@@ -2,12 +2,17 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.IConnection;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.utils.RecordUtils;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
-import org.apache.commons.net.ntp.TimeStamp;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,21 +30,21 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
     }
 
     @Override
-    public boolean insertPOI(POI poi) throws IOException {
-        if (poi == null) {
+    public boolean insertPOI(PositioningPoint positioningPoint) throws IOException {
+        if (positioningPoint == null) {
             return false;
         }
 
         String rowkey =
-                POI.calRowkey(poi, POI.QueryMethod.STR);
+                PositioningPoint.calRowkey(positioningPoint, PositioningPoint.QueryMethod.STR);
         if (rowkey == null) {
             return false;
         }
 
 
         String sql = String.format("UPSERT INTO bigjoy.imos(id,floor,time,mac,x,y,cell) VALUES ('%s', '%s', '%s','%s', %s ,%s ,'%s')", rowkey,
-                poi.getFloorNum(), new Timestamp(poi.getTime() * 1000), poi.getMac(), (int) (poi.getX() * 1000),
-                (int) (poi.getY() * -1000), poi.getCellIn().getNodeNum().toString());
+                positioningPoint.getFloorNum(), new Timestamp(positioningPoint.getTime()), positioningPoint.getMac(), (int) (positioningPoint.getX() * 1000),
+                (int) (positioningPoint.getY() * -1000), positioningPoint.getSemanticCellIn().getNodeNum().toString());
 
 
         try {
@@ -58,12 +63,12 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
     }
 
     @Override
-    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+    @NotNull
+    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException {
 
+        List<TraceNode> res = new ArrayList<>();
 
-        List<TraceNode> res = new ArrayList<TraceNode>();
-
-        if (mac == null || mac.equals("")) {
+        if (mac == null || mac.equals("") || mac.length() != 12) {
             return res;
         }
 
@@ -71,24 +76,55 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
             return res;
         }
 
-        String sql = String.format("SELECT mac, cell, time FROM bigjoy.imos WHERE mac = '%S' ADN time BETWEEN to_timestamp('%s') AND to_timestamp('%s') ORDER BY TIME", mac, new Timestamp(beginTimeStamp * 1000), new TimeStamp(endTimeStamp * 1000));
-        try {
-            PreparedStatement pstmt = this.conn.getConnection().prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
+        String sql = String.format("SELECT mac, cell, time FROM bigjoy.imos WHERE mac = '%s' AND time between to_timestamp('%s') AND  to_timestamp('%s') ORDER BY TIME", mac, new Timestamp(beginTimeStamp), new Timestamp(endTimeStamp));
 
-            while (rs.next()) {
 
+        Statement statement = this.conn.getConnection().createStatement();
+        ResultSet rs = statement.executeQuery(sql);
+
+
+        TraceNode last = null;
+
+        while (rs.next()) {
+
+            String cellNum = rs.getString("cell");
+            String time = rs.getString("time");
+
+
+            TraceNode node = new TraceNode();
+            node.setPolygonNum(cellNum);
+
+            try {
+                node.setEntryTime(RecordUtils.calcTimeStamp(time));
+                node.setExitTime(RecordUtils.calcTimeStamp(time));
+
+                if (last == null || !last.getPolygonNum().equals(node.getPolygonNum())) {
+                    if (last == null) {
+                        last = node;
+                    } else {
+                        last.setExitTime(RecordUtils.calcTimeStamp(time));
+                    }
+                    res.add(node);
+
+                } else {
+                    last.setExitTime(RecordUtils.calcTimeStamp(time));
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+
         }
 
 
-        return null;
+        return res;
+
     }
 
     @Override
-    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
+    public List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
+
         return null;
     }
 

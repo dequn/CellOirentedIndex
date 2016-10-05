@@ -4,9 +4,9 @@ package lreis.bigdata.indoor.index;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.index.strtree.STRtree;
-import lreis.bigdata.indoor.vo.Cell;
 import lreis.bigdata.indoor.vo.Floor;
 import lreis.bigdata.indoor.vo.Grid;
+import lreis.bigdata.indoor.vo.SemanticCell;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.HashMap;
@@ -22,12 +22,12 @@ public class GridIndex {
     static double Fractor = 0.8;
     static double MinGridArea = 100.0;
     Floor floor;
-    HashMap<Grid, Cell> grid2CellMap;
+    HashMap<Grid, SemanticCell> grid2CellMap;
     STRtree gridIndex = null;
 
     public GridIndex(Floor floor) {
         this.floor = floor;
-        this.grid2CellMap = new HashMap<Grid, Cell>();
+        this.grid2CellMap = new HashMap<Grid, SemanticCell>();
         this.init();
 
     }
@@ -45,7 +45,7 @@ public class GridIndex {
         return floor;
     }
 
-    public HashMap<Grid, Cell> getGrid2CellMap() {
+    public HashMap<Grid, SemanticCell> getGrid2CellMap() {
         return grid2CellMap;
     }
 
@@ -55,9 +55,9 @@ public class GridIndex {
         }
 
         //get the bounding box of the floor.
-        Geometry geom = (Geometry) floor.getCells().get(0).getGeom().clone();
-        for (Cell cell : floor.getCells()) {
-            geom = geom.union(cell.getGeom());
+        Geometry geom = (Geometry) floor.getSemanticCells().get(0).getGeom().clone();
+        for (SemanticCell semanticCell : floor.getSemanticCells()) {
+            geom = geom.union(semanticCell.getGeom());
         }
 
         Grid wholeGrid = new Grid(geom.getEnvelope(), "");
@@ -68,31 +68,31 @@ public class GridIndex {
         while (!queue.isEmpty()) {
             Grid g = queue.poll();
 
-            List<Cell> cells = this.floor.getStrTree().query(g.getGeom().getEnvelopeInternal());
+            List<SemanticCell> semanticCells = this.floor.getStrTree().query(g.getGeom().getEnvelopeInternal());
 
-            if (cells.size() == 0) {
+            if (semanticCells.size() == 0) {
                 //no overlap
                 grid2CellMap.put(g, null);
-            } else if (cells.size() == 1) {
+            } else if (semanticCells.size() == 1) {
                 // only one overlap
-                grid2CellMap.put(g, cells.get(0));
+                grid2CellMap.put(g, semanticCells.get(0));
             } else {
 
                 double sumArea = 0.0;
                 double maxArea = 0.0;
-                Cell maxCell = null;
+                SemanticCell maxSemanticCell = null;
 
-                for (Cell cell : cells) {
-                    double intersectionArea = g.getGeom().intersection(cell.getGeom()).getArea();
+                for (SemanticCell semanticCell : semanticCells) {
+                    double intersectionArea = g.getGeom().intersection(semanticCell.getGeom()).getArea();
                     sumArea += intersectionArea;
                     if (intersectionArea > maxArea) {
                         maxArea = intersectionArea;
-                        maxCell = cell;
+                        maxSemanticCell = semanticCell;
                     }
                 }
                 //meet one of the two requirements
                 if (maxArea >= sumArea * GridIndex.Fractor || sumArea < GridIndex.MinGridArea) {
-                    grid2CellMap.put(g, maxCell);
+                    grid2CellMap.put(g, maxSemanticCell);
                 } else { // need quarter the grid and add into the queue.
                     CollectionUtils.addAll(queue, g.quarter());
                 }
@@ -106,7 +106,7 @@ public class GridIndex {
     }
 
 
-    public List<Cell> query(Point point) {
+    public List<SemanticCell> query(Point point) {
         return this.gridIndex.query(point.getEnvelopeInternal());
     }
 

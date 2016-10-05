@@ -5,15 +5,19 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * Created by dq on 4/6/16.
  */
-public class Cell {
+public class SemanticCell {
 
     protected String name;
-    protected Integer nodeNum;
+    protected String nodeNum;
+
     protected String floorNum;
+
     protected String category;
+
     protected Geometry geom;
 
-    public Cell() {
+
+    public SemanticCell() {
     }
 
     public String getName() {
@@ -24,11 +28,11 @@ public class Cell {
         this.name = name;
     }
 
-    public Integer getNodeNum() {
+    public String getNodeNum() {
         return nodeNum;
     }
 
-    public void setNodeNum(Integer nodeNum) {
+    public void setNodeNum(String nodeNum) {
         this.nodeNum = nodeNum;
     }
 

@@ -3,7 +3,7 @@ package lreis.bigdata.indoor;
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -136,8 +136,8 @@ public class QueryEfficiencyTest {
 
         TestStatic.BuildingInit();
         for (int i = 0; i < 14; i++) {
-            endTimes[i] = new Timestamp(beginTime * 1000 + (i + 1) * 3600 * 1000)
-                    .getTime()/1000;
+            endTimes[i] = new Timestamp(beginTime + (i + 1) * 3600 * 1000)
+                    .getTime();
         }
 
     }
@@ -177,11 +177,11 @@ public class QueryEfficiencyTest {
 
                 for (long endTime : QueryEfficiencyTest.endTimes) {
                     long tb = System.currentTimeMillis();
-                    List<POI> list = hDao.getTraceByMac(mac, beginTime, endTime);
+                    List<PositioningPoint> list = hDao.getTraceByMac(mac, beginTime, endTime);
                     long te = System.currentTimeMillis();
                     writer.write(String.format("%s,%s,%s,%s", mac, new Timestamp
-                            (beginTime * 1000).toString(), new Timestamp
-                            (endTime * 1000).toString(), te - tb, list != null ? list
+                            (beginTime).toString(), new Timestamp
+                            (endTime).toString(), te - tb, list != null ? list
                             .size() : 0));
 
                     tb = System.currentTimeMillis();
@@ -203,7 +203,6 @@ public class QueryEfficiencyTest {
     }
 
 
-
     @Test
     public void compareGetBeenToCells() {
         try {
@@ -222,8 +221,8 @@ public class QueryEfficiencyTest {
                     List<TraceNode> list = hDao.getBeenToCellsByMac(mac, beginTime, endTime);
                     long te = System.currentTimeMillis();
                     writer.write(String.format("%s,%s,%s,%s,%s", mac, new Timestamp
-                            (beginTime * 1000).toString(), new Timestamp
-                            (endTime * 1000).toString(), te - tb, list != null ? list
+                            (beginTime).toString(), new Timestamp
+                            (endTime).toString(), te - tb, list != null ? list
                             .size() : 0));
 
                     tb = System.currentTimeMillis();
@@ -240,6 +239,8 @@ public class QueryEfficiencyTest {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

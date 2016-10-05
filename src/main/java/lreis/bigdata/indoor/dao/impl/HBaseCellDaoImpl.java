@@ -2,7 +2,8 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.utils.RecordUtils;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
+import lreis.bigdata.indoor.vo.SemanticCell;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.TableName;
@@ -32,27 +33,27 @@ public class HBaseCellDaoImpl implements ICellDao {
     }
 
     /**
-     * return List of POIs, beginTimeStamp and endTimeStamp are unix TimeStamps without milliseconds.
+     * return List of POIs, beginTimeStamp and endTimeStamp are unix TimeStamps with milliseconds.
      *
-     * @param cell
+     * @param semanticCell
      * @param beginTimeStamp
      * @param endTimeStamp
-     * @return List<POI>
+     * @return List<PositioningPoint>
      * @throws IOException
      */
-    public List<POI> getPOIsByCell(lreis.bigdata.indoor.vo.Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<PositioningPoint> getPOIsByCell(SemanticCell semanticCell, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
-        if (cell == null) {
+        if (semanticCell == null) {
             return null;
         }
         if (beginTimeStamp > endTimeStamp) {
             return null;
         }
 
-        List<POI> list = new ArrayList<POI>();
+        List<PositioningPoint> list = new ArrayList<PositioningPoint>();
 
 
-        int num = cell.getNodeNum();
+        String num = semanticCell.getNodeNum();
 
 
         FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
@@ -79,7 +80,7 @@ public class HBaseCellDaoImpl implements ICellDao {
             Result result = it.next();
             List<Cell> hCells = result.listCells();
 
-            POI poi = new POI();
+            PositioningPoint positioningPoint = new PositioningPoint();
 
             for (Cell c : hCells) {
 
@@ -87,56 +88,56 @@ public class HBaseCellDaoImpl implements ICellDao {
                 String value = new String(CellUtil.cloneValue(c), "UTF-8");
 
                 if (qualifier.equals("x")) {
-                    poi.setX(Float.parseFloat(value) / 1000);
+                    positioningPoint.setX(Float.parseFloat(value) / 1000);
                 }
                 if (qualifier.equals("y")) {
-                    poi.setX(Float.parseFloat(value) / -1000);
+                    positioningPoint.setX(Float.parseFloat(value) / -1000);
 
                 }
                 if (qualifier.equals("floor")) {
 
-                    poi.setFloorNum(value);
+                    positioningPoint.setFloorNum(value);
                 }
                 if (qualifier.equals("mac")) {
 
-                    poi.setMac(value);
+                    positioningPoint.setMac(value);
                 }
                 if (qualifier.equals("time")) {
                     try {
                         long time = RecordUtils.calcTimeStamp(value);
-                        poi.setTime(time);
+                        positioningPoint.setTime(time);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
             }
-            list.add(poi);
+            list.add(positioningPoint);
         }
 
 
         return list;
     }
 
-    public int countMacInCell(lreis.bigdata.indoor.vo.Cell cell, Long beginTimeStamp, Long endTimeStamp) throws IOException {
-        List<POI> list = this.getPOIsByCell(cell, beginTimeStamp, endTimeStamp);
+    public int countMacInCell(SemanticCell semanticCell, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+        List<PositioningPoint> list = this.getPOIsByCell(semanticCell, beginTimeStamp, endTimeStamp);
         Map<String, Integer> map = new HashMap<String, Integer>();
-        for (POI poi : list) {
-            if (map.containsKey(poi.getMac())) {
-                map.put(poi.getMac(), map.get(poi.getMac()) + 1);
+        for (PositioningPoint positioningPoint : list) {
+            if (map.containsKey(positioningPoint.getMac())) {
+                map.put(positioningPoint.getMac(), map.get(positioningPoint.getMac()) + 1);
             } else {
-                map.put(poi.getMac(), 1);
+                map.put(positioningPoint.getMac(), 1);
             }
         }
         return map.size();
 
     }
 
-    public List<POI> getPOISBeenToAllCells(List<lreis.bigdata.indoor.vo.Cell> cells, Long beginTimeStamp, Long endTimeStamp) throws IOException {
+    public List<PositioningPoint> getPOISBeenToAllCells(List<SemanticCell> semanticCells, Long beginTimeStamp, Long endTimeStamp) throws IOException {
 
         FilterList filter = new FilterList(FilterList.Operator.MUST_PASS_ONE);
 
-        for (lreis.bigdata.indoor.vo.Cell cell : cells) {
-            Integer num = cell.getNodeNum();
+        for (SemanticCell semanticCell : semanticCells) {
+            String num = semanticCell.getNodeNum();
             FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);
 
             BinaryPrefixComparator comp = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, beginTimeStamp)));
@@ -172,7 +173,7 @@ public class HBaseCellDaoImpl implements ICellDao {
             map.get(node).add(mac);
         }
 
-        Set<String> result = map.get(cells.get(0));
+        Set<String> result = map.get(semanticCells.get(0));
 
         for (Set<String> s : map.values()) {
             result.retainAll(s);

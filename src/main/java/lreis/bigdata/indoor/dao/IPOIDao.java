@@ -1,7 +1,8 @@
 package lreis.bigdata.indoor.dao;
 
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,8 +13,9 @@ import java.util.List;
  */
 public interface IPOIDao {
 
-    boolean insertPOI(POI poi) throws IOException;
+    boolean insertPOI(PositioningPoint positioningPoint) throws IOException;
 
+    @NotNull
     /**
      * return a list of cells the mac has been , maybe and allow return to a cell on second time ,so use a list.
      *
@@ -23,9 +25,11 @@ public interface IPOIDao {
      * @return
      * @throws IOException
      */
-    List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException;
+    List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException;
 
-    List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException;
+    @NotNull
+    List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException;
+
 
     public void close() throws IOException, SQLException, ClassNotFoundException;
 }

@@ -24,10 +24,14 @@ public class Floor {
 
     private String floorShp = null;
     private String floorNum = null;
-    private List<Cell> cells = null;
-    private STRtree strTree = null;// spatial index of cells
-    private HashMap<String, ArrayList<Cell>> name2CellMap = null;// use for get cells by name.
-    private HashMap<Integer, Cell> num2CellMap = null;// user fot get cell by cell num.
+
+    private List<SemanticCell> semanticCells = null;
+
+    private STRtree strTree = null;// spatial index of semanticCells
+
+    private HashMap<String, ArrayList<SemanticCell>> name2CellMap = null;// use for get semanticCells by name.
+    private HashMap<String, SemanticCell> num2CellMap = null;// user fot get cell by cell num.
+
     private GridIndex gridIndex = null;//grid index
 
 
@@ -49,14 +53,14 @@ public class Floor {
         return floorShp;
     }
 
-    public List<Cell> getCells() {
+    public List<SemanticCell> getSemanticCells() {
         if (this.floorShp == null) {
             return null;
         }
-        if (this.cells == null) {
+        if (this.semanticCells == null) {
             this.readCells();
         }
-        return this.cells;
+        return this.semanticCells;
     }
 
 
@@ -72,9 +76,9 @@ public class Floor {
         return this.strTree;
     }
 
-    public Cell queryInSTR(Point p) {
-        List<Cell> list = this.strTree.query(p.getEnvelopeInternal());
-        for (Cell c : list) {
+    public SemanticCell queryInSTR(Point p) {
+        List<SemanticCell> list = this.strTree.query(p.getEnvelopeInternal());
+        for (SemanticCell c : list) {
             if (c.getGeom().contains(p)) {
                 return c;
             }
@@ -82,8 +86,8 @@ public class Floor {
         return null;
     }
 
-    public Cell queryInGrid(Point p) {
-        List<Cell> list = this.gridIndex.query(p);
+    public SemanticCell queryInGrid(Point p) {
+        List<SemanticCell> list = this.gridIndex.query(p);
         if (list.size() == 1) {
             return list.get(0);
         } else {
@@ -92,7 +96,7 @@ public class Floor {
     }
 
 
-    public List<Cell> getCellsByName(String name) {
+    public List<SemanticCell> getCellsByName(String name) {
         if (this.floorShp == null) {
             return null;
         }
@@ -104,7 +108,7 @@ public class Floor {
 
 
     private void readCells() {
-        this.cells = new ArrayList<Cell>();
+        this.semanticCells = new ArrayList<SemanticCell>();
         ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
         try {
             ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(this.floorShp).toURI().toURL());
@@ -120,18 +124,21 @@ public class Floor {
                 SimpleFeature feature = iterator.next();
 
                 Geometry geom = (Geometry) feature.getDefaultGeometry();
-                Integer nodeNum = ((Long) feature.getAttribute("poi_no")).intValue();
+
+                String nodeNum = ((String) feature.getAttribute("poi_no"));
+
                 String name = (String) feature.getAttribute("name_CHN");
+
                 String category = feature.getAttribute("style").toString();
 
-                Cell cell = new Cell();
-                cell.setFloorNum(floorNum);
-                cell.setName(name);
-                cell.setNodeNum(nodeNum);
-                cell.setGeom(geom);
-                cell.setCategory(category);
+                SemanticCell semanticCell = new SemanticCell();
+                semanticCell.setFloorNum(floorNum);
+                semanticCell.setName(name);
+                semanticCell.setNodeNum(nodeNum);
+                semanticCell.setGeom(geom);
+                semanticCell.setCategory(category);
 
-                this.cells.add(cell);
+                this.semanticCells.add(semanticCell);
 
             }
 
@@ -149,28 +156,28 @@ public class Floor {
     private void buildIndex() {
 
         if (floorShp == null) return;
-        if (this.cells == null) this.readCells();
+        if (this.semanticCells == null) this.readCells();
 
 
         // init three indices
         this.strTree = new STRtree();
-        this.name2CellMap = new HashMap<String, ArrayList<Cell>>();
-        this.num2CellMap = new HashMap<Integer, Cell>();
+        this.name2CellMap = new HashMap<String, ArrayList<SemanticCell>>();
+        this.num2CellMap = new HashMap<>();
 
-        for (Cell cell : this.cells) {
+        for (SemanticCell semanticCell : this.semanticCells) {
 
             //spatial index
-            Envelope envelope = cell.getGeom().getEnvelopeInternal();
-            this.strTree.insert(envelope, cell);
+            Envelope envelope = semanticCell.getGeom().getEnvelopeInternal();
+            this.strTree.insert(envelope, semanticCell);
 
             //name index
-            if (name2CellMap.get(cell.getName()) == null) {
-                name2CellMap.put(cell.getName(), new ArrayList<Cell>());
+            if (name2CellMap.get(semanticCell.getName()) == null) {
+                name2CellMap.put(semanticCell.getName(), new ArrayList<SemanticCell>());
             }
-            name2CellMap.get(cell.getName()).add(cell);
+            name2CellMap.get(semanticCell.getName()).add(semanticCell);
 
             //num index
-            num2CellMap.put(cell.getNodeNum(), cell);
+            num2CellMap.put(semanticCell.getNodeNum(), semanticCell);
         }
 
 

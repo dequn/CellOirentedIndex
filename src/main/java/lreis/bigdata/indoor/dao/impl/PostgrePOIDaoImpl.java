@@ -3,7 +3,7 @@ package lreis.bigdata.indoor.dao.impl;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.PostgreConn;
 import lreis.bigdata.indoor.vo.Building;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 
 import java.io.IOException;
@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,23 +27,22 @@ public class PostgrePOIDaoImpl implements IPOIDao {
     }
 
     @Override
-    public boolean insertPOI(POI poi) {
+    public boolean insertPOI(PositioningPoint positioningPoint) {
 
-        if (poi == null
+        if (positioningPoint == null
                 ) {
             return false;
         }
 
         String rowkey =
-                POI.calRowkey(poi);
+                PositioningPoint.calRowkey(positioningPoint);
         if (rowkey == null) {
             return false;
         }
         String sql = String.format("INSERT INTO imo(rowkey,x,y,mac,time,floor) VALUES" +
-                        " ('%s',%s,%s,'%s','%s','%s')", rowkey, (int) (poi.getX() * 1000),
-                (int) (poi.getY() * -1000), poi.getMac(), new Timestamp(poi.getTime()
-                        * 1000),
-                poi
+                        " ('%s',%s,%s,'%s','%s','%s')", rowkey, (int) (positioningPoint.getX() * 1000),
+                (int) (positioningPoint.getY() * -1000), positioningPoint.getMac(), new Timestamp(positioningPoint.getTime()),
+                positioningPoint
                         .getFloorNum());
 
 
@@ -67,7 +65,7 @@ public class PostgrePOIDaoImpl implements IPOIDao {
         }
 
 
-        POI[] trace = this.getTraceByMac(mac, beginTimeStamp, endTimeStamp).toArray(new POI[0]);
+        PositioningPoint[] trace = this.getTraceByMac(mac, beginTimeStamp, endTimeStamp).toArray(new PositioningPoint[0]);
 
         if (trace.length == 0) {
             return null;
@@ -75,14 +73,14 @@ public class PostgrePOIDaoImpl implements IPOIDao {
 
         List<TraceNode> result = new ArrayList<TraceNode>();
 
-        result.add(new TraceNode(trace[0].getCellIn(), trace[0].getTime(),
+        result.add(new TraceNode(trace[0].getSemanticCellIn(), trace[0].getTime(),
                 trace[0].getTime()));
 
         TraceNode last = result.get(0);
         for (int i = 1; i < trace.length; i++) {
-            if (trace[i].getCellIn() != last.getCell()) {
+            if (trace[i].getSemanticCellIn() != last.getSemanticCell()) {
                 last.setExitTime(trace[i].getTime());
-                last = new TraceNode(trace[i].getCellIn(), trace[i].getTime(),
+                last = new TraceNode(trace[i].getSemanticCellIn(), trace[i].getTime(),
                         trace[i].getTime());
                 result.add(last);
             } else {
@@ -95,31 +93,31 @@ public class PostgrePOIDaoImpl implements IPOIDao {
     }
 
     @Override
-    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException {
+    public List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException {
         if (mac == null || mac.equals("") || mac.length() != 12) {
             return null;
         }
 
-        List<POI> result = new ArrayList<POI>();
+        List<PositioningPoint> result = new ArrayList<PositioningPoint>();
         String sql = String.format("SELECT * FROM imo WHERE mac = '%s' AND time " +
-                "BETWEEN '%s' AND '%s' ORDER BY time", mac, new Timestamp(beginTimeStamp * 1000), new
-                Timestamp(endTimeStamp * 1000));
+                "BETWEEN '%s' AND '%s' ORDER BY time", mac, new Timestamp(beginTimeStamp), new
+                Timestamp(endTimeStamp));
 
         Statement stat = this.pConn.getConnection().createStatement();
 
         ResultSet rs = stat.executeQuery(sql);
 
         while (rs.next()) {
-            POI poi = new POI();
+            PositioningPoint positioningPoint = new PositioningPoint();
 
-            poi.setX(((float) rs.getInt("x") / 1000));
-            poi.setY(((float) rs.getInt("y") / -1000));
-            poi.setMac(rs.getString("mac"));
-            poi.setFloorNum(rs.getString("floor"));
-            poi.setTime(rs.getTimestamp("time").getTime() / 1000);
-            poi.setCellIn(Building.getInstatnce().getCellByNum(Integer.parseInt(rs.getString("rowkey").substring
-                    (0, 4))));
-            result.add(poi);
+            positioningPoint.setX(((float) rs.getInt("x") / 1000));
+            positioningPoint.setY(((float) rs.getInt("y") / -1000));
+            positioningPoint.setMac(rs.getString("mac"));
+            positioningPoint.setFloorNum(rs.getString("floor"));
+            positioningPoint.setTime(rs.getTimestamp("time").getTime());
+            positioningPoint.setSemanticCellIn(Building.getInstatnce().getCellByNum(rs.getString("rowkey").substring
+                    (0, 4)));
+            result.add(positioningPoint);
         }
 
         return result;

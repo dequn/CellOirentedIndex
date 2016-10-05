@@ -11,21 +11,22 @@ import java.util.Comparator;
 /**
  * Created by dq on 4/29/16.
  */
-public class POI implements Comparator<POI> {
+public class PositioningPoint implements Comparator<PositioningPoint> {
     private String mac;
-
     private Long time;
+
     private Float x;
     private Float y;
+
     private String floorNum;
     private Point point;
+    private SemanticCell semanticCellIn = null;
 
-    private Cell cellIn = null;
 
-    public POI() {
+    public PositioningPoint() {
     }
 
-    public POI(String mac, long time, float x, float y, String floorNum) {
+    public PositioningPoint(String mac, long time, float x, float y, String floorNum) {
         this.mac = mac;
         this.floorNum = floorNum;
         this.x = x;
@@ -38,40 +39,40 @@ public class POI implements Comparator<POI> {
     }
 
     @Contract("null -> null")
-    public static String calRowkey(POI poi, QueryMethod method) {
-        if (poi == null) {
+    public static String calRowkey(PositioningPoint positioningPoint, QueryMethod method) {
+        if (positioningPoint == null) {
             return null;
         }
-        Cell cell = Building.getInstatnce().queryCell(poi,
+        SemanticCell semanticCell = Building.getInstatnce().queryCell(positioningPoint,
                 method);
-        if (cell == null) {
+        if (semanticCell == null) {
             return null;
         }
-        poi.setCellIn(cell);
-        return String.format("%04d%s%s", cell.getNodeNum(), poi.getTime(), poi.getMac());
+        positioningPoint.setSemanticCellIn(semanticCell);
+        return String.format("%04d%s%s", semanticCell.getNodeNum(), positioningPoint.getTime(), positioningPoint.getMac());
     }
 
     @Contract("null -> null")
-    public static String calRowkey(POI poi) {
-        return POI.calRowkey(poi, QueryMethod.Grid);
+    public static String calRowkey(PositioningPoint positioningPoint) {
+        return PositioningPoint.calRowkey(positioningPoint, QueryMethod.Grid);
     }
 
     @Contract("null -> null")
-    public static String calMacIndexRowkey(POI poi) {
+    public static String calMacIndexRowkey(PositioningPoint positioningPoint) {
 
-        if (poi == null) {
+        if (positioningPoint == null) {
             return null;
         }
-        return String.format("%s%s%04d", poi.getMac(), poi.getTime(), Building.getInstatnce().queryCell
-                (poi, QueryMethod.Grid));
+        return String.format("%s%s%04d", positioningPoint.getMac(), positioningPoint.getTime(), Building.getInstatnce().queryCell
+                (positioningPoint, QueryMethod.Grid));
     }
 
-    public Cell getCellIn() {
-        return cellIn;
+    public SemanticCell getSemanticCellIn() {
+        return semanticCellIn;
     }
 
-    public void setCellIn(Cell cellIn) {
-        this.cellIn = cellIn;
+    public void setSemanticCellIn(SemanticCell semanticCellIn) {
+        this.semanticCellIn = semanticCellIn;
     }
 
     private void updatePoint() {
@@ -131,7 +132,7 @@ public class POI implements Comparator<POI> {
     }
 
     @Override
-    public int compare(POI o1, POI o2) {
+    public int compare(PositioningPoint o1, PositioningPoint o2) {
         return (int) (o1.time - o2.time);
     }
 

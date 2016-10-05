@@ -87,16 +87,5 @@ public class HBaseConnection {
     }
 
 
-//    protected void finalize() {
-//        if (this.conn != null) {
-//            try {
-//                this.close() ;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
-
 
 }

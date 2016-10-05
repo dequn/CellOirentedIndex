@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * Created by dq on 4/29/16.
  */
 public class DbcFactory {
+
     @Contract(" -> !null")
     public static HBaseConnection getHBaseConnection() {
         return new HBaseConnection();
@@ -32,7 +33,7 @@ public class DbcFactory {
 
 
     @Nullable
-    public static PhoenixConn getPhoenixConn(){
+    public static PhoenixConn getPhoenixConn() {
         try {
             return new PhoenixConn();
         } catch (ClassNotFoundException e) {

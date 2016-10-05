@@ -3,14 +3,13 @@ package lreis.bigdata.indoor.main;
 import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
-import lreis.bigdata.indoor.vo.POI;
-import org.junit.Before;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 
 /**
  * Created by zdq on 7/8/16.
@@ -34,8 +33,8 @@ public class IngestPoints {
 
         try {
             dao = DaoFactory.getHBasePOIDao();
-            for ( POI poi : TestStatic.pois) {
-                this.dao.insertPOI(poi);
+            for ( PositioningPoint positioningPoint : TestStatic.positioningPoints) {
+                this.dao.insertPOI(positioningPoint);
             }
             this.dao.close();
         } catch (IOException e) {
@@ -55,8 +54,8 @@ public class IngestPoints {
         try {
             dao = DaoFactory.getPostgrePOIDao();
             for (
-                    POI poi : TestStatic.pois) {
-                this.dao.insertPOI(poi);
+                    PositioningPoint positioningPoint : TestStatic.positioningPoints) {
+                this.dao.insertPOI(positioningPoint);
 
             }
             this.dao.close();
@@ -77,8 +76,8 @@ public class IngestPoints {
 
         try {
             dao = DaoFactory.getPhoenixPOIDao();
-            for (POI poi : TestStatic.pois) {
-                this.dao.insertPOI(poi);
+            for (PositioningPoint positioningPoint : TestStatic.positioningPoints) {
+                this.dao.insertPOI(positioningPoint);
             }
             this.dao.close();
         } catch (ClassNotFoundException e) {

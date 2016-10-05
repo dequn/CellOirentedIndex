@@ -4,7 +4,7 @@ import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dao.impl.PhoenixPOIDaoImpl;
 import lreis.bigdata.indoor.dbc.PhoenixConn;
 import lreis.bigdata.indoor.factory.DbcFactory;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 
 import java.io.IOException;
@@ -25,17 +25,17 @@ public class PhoenixPOIDaoProxy implements IPOIDao{
 
 
     @Override
-    public boolean insertPOI(POI poi) throws IOException {
-        return this.dao.insertPOI(poi);
+    public boolean insertPOI(PositioningPoint positioningPoint) throws IOException {
+        return this.dao.insertPOI(positioningPoint);
     }
 
     @Override
-    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
-        return null;
+    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException {
+        return this.dao.getBeenToCellsByMac(mac, beginTimeStamp, endTimeStamp);
     }
 
     @Override
-    public List<POI> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
+    public List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException {
         return null;
     }
 

@@ -4,8 +4,8 @@ import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.vo.Building;
-import lreis.bigdata.indoor.vo.Cell;
-import lreis.bigdata.indoor.vo.POI;
+import lreis.bigdata.indoor.vo.PositioningPoint;
+import lreis.bigdata.indoor.vo.SemanticCell;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Q on 2016/7/5.
  */
-public class PostgreCellDaoImplTest {
+public class PostgreSemanticCellDaoImplTest {
 
     static ICellDao dao = null;
 
@@ -37,17 +37,17 @@ public class PostgreCellDaoImplTest {
     @Test
     public void getPOIsByCell() throws Exception {
 
-        Cell cell = Building.getInstatnce().getCellByNum(201);
+        SemanticCell semanticCell = Building.getInstatnce().getCellByNum("201");
 
-        List<POI> result = this.dao.getPOIsByCell(cell, 1396281619L, 1396281625L);
+        List<PositioningPoint> result = this.dao.getPOIsByCell(semanticCell, 1396281619L, 1396281625L);
 
 
     }
 
     @Test
     public void countMacInCell() throws Exception {
-        Cell cell = Building.getInstatnce().getCellByNum(201);
-        int num = this.dao.countMacInCell(cell, 1396281619L, 1396281625L);
+        SemanticCell semanticCell = Building.getInstatnce().getCellByNum("201");
+        int num = this.dao.countMacInCell(semanticCell, 1396281619L, 1396281625L);
     }
 
     @Ignore
