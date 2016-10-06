@@ -23,10 +23,13 @@ public class TestStatic {
 //            "D:\\big_joy\\floors\\20040.dbf"
 //
 //
-            "/home/zdq/big_joy/floors/20010.dbf",
-            "/home/zdq/big_joy/floors/20020.dbf",
-            "/home/zdq/big_joy/floors/20030.dbf",
-            "/home/zdq/big_joy/floors/20040.dbf",
+            "/home/zdq/big_joy/floors/10010.dbf",
+//            "/home/zdq/big_joy/floors/10020.dbf",
+//
+//            "/home/zdq/big_joy/floors/20010.dbf",
+//            "/home/zdq/big_joy/floors/20020.dbf",
+//            "/home/zdq/big_joy/floors/20030.dbf",
+//            "/home/zdq/big_joy/floors/20040.dbf",
     };
 
     static final String[] pointFiles = new String[]{
@@ -35,10 +38,13 @@ public class TestStatic {
 //            "D:\\big_joy\\points\\0401\\20030.csv",
 //            "D:\\big_joy\\points\\0401\\20040.csv",
 
-            "/home/zdq/big_joy/points/0401/20010.csv",
-            "/home/zdq/big_joy/points/0401/20020.csv",
-            "/home/zdq/big_joy/points/0401/20030.csv",
-            "/home/zdq/big_joy/points/0401/20040.csv",
+            "/home/zdq/big_joy/points/0401/10010.csv",
+//            "/home/zdq/big_joy/points/0401/10020.csv",
+//
+//            "/home/zdq/big_joy/points/0401/20010.csv",
+//            "/home/zdq/big_joy/points/0401/20020.csv",
+//            "/home/zdq/big_joy/points/0401/20030.csv",
+//            "/home/zdq/big_joy/points/0401/20040.csv",
     };
 
 

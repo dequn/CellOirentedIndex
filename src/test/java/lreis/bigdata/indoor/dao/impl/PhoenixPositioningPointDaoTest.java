@@ -52,7 +52,7 @@ public class PhoenixPositioningPointDaoTest {
 
             IPOIDao dao = DaoFactory.getPhoenixPOIDao();
 
-            List<TraceNode> list = dao.getBeenToCellsByMac("000003FD2D06", RecordUtils.calcTimeStamp("2014-04-01 08:00:00"), RecordUtils.calcTimeStamp("2014-04-01 20:00:00"));
+            List<TraceNode> list = dao.getBeenToCellsByMac("00037F000000", RecordUtils.calcTimeStamp("2014-04-01 08:00:00"), RecordUtils.calcTimeStamp("2014-04-01 20:00:00"));
 
             TraceUtils.fixTrace(list);
 

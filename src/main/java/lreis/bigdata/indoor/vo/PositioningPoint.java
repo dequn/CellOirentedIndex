@@ -49,7 +49,7 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
             return null;
         }
         positioningPoint.setSemanticCellIn(semanticCell);
-        return String.format("%04d%s%s", semanticCell.getNodeNum(), positioningPoint.getTime(), positioningPoint.getMac());
+        return String.format("%s%s%s", semanticCell.getNodeNum(), positioningPoint.getTime(), positioningPoint.getMac());
     }
 
     @Contract("null -> null")

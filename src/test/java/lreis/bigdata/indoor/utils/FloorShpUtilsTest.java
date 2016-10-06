@@ -15,12 +15,29 @@ public class FloorShpUtilsTest {
     public void setPolygonNum() throws Exception {
 
         List<String> files = new ArrayList<String>();
-        files.add("/home/zdq/big_joy/floors/20040.dbf");
-        files.add("/home/zdq/big_joy/floors/20030.dbf");
-        files.add("/home/zdq/big_joy/floors/20020.dbf");
-        files.add("/home/zdq/big_joy/floors/20010.dbf");
+        List<Integer> beginNum = new ArrayList<>();
 
-        FloorShpUtils.setPolygonNum(files);
+
+
+        files.add("/home/zdq/big_joy/floors/20040.dbf");
+        beginNum.add(20040000);
+
+        files.add("/home/zdq/big_joy/floors/20030.dbf");
+        beginNum.add(20030000);
+
+        files.add("/home/zdq/big_joy/floors/20020.dbf");
+        beginNum.add(20020000);
+
+        files.add("/home/zdq/big_joy/floors/20010.dbf");
+        beginNum.add(20010000);
+
+        files.add("/home/zdq/big_joy/floors/10020.dbf");
+        beginNum.add(10020000);
+
+        files.add("/home/zdq/big_joy/floors/10010.dbf");
+        beginNum.add(10010000);
+
+        FloorShpUtils.setPolygonNum(files, beginNum);
 
     }
 

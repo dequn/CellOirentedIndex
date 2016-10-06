@@ -2,7 +2,6 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.IConnection;
-import lreis.bigdata.indoor.utils.RecordUtils;
 import lreis.bigdata.indoor.vo.PositioningPoint;
 import lreis.bigdata.indoor.vo.TraceNode;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +40,9 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
         }
 
 
-        String sql = String.format("UPSERT INTO bigjoy.imos(id,floor,time,mac,x,y,cell) VALUES ('%s', '%s', '%s','%s', %s ,%s ,'%s')", rowkey,
+        String sql = String.format("UPSERT INTO bigjoy.imos(id,floor,time,mac,x,y,sem_cell,ltime) VALUES ('%s', '%s', '%s','%s', %s ,%s ,'%s',%s)", rowkey,
                 positioningPoint.getFloorNum(), new Timestamp(positioningPoint.getTime()), positioningPoint.getMac(), (int) (positioningPoint.getX() * 1000),
-                (int) (positioningPoint.getY() * -1000), positioningPoint.getSemanticCellIn().getNodeNum().toString());
+                (int) (positioningPoint.getY() * -1000), positioningPoint.getSemanticCellIn().getNodeNum().toString(), positioningPoint.getTime());
 
 
         try {
@@ -76,7 +74,7 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
             return res;
         }
 
-        String sql = String.format("SELECT mac, cell, time FROM bigjoy.imos WHERE mac = '%s' AND time between to_timestamp('%s') AND  to_timestamp('%s') ORDER BY TIME", mac, new Timestamp(beginTimeStamp), new Timestamp(endTimeStamp));
+        String sql = String.format("SELECT mac, sem_cell, ltime, time FROM bigjoy.imos WHERE mac = '%s' AND ltime between %s AND  %s ORDER BY LTIME", mac, beginTimeStamp, endTimeStamp);
 
 
         Statement statement = this.conn.getConnection().createStatement();
@@ -87,31 +85,27 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
         while (rs.next()) {
 
-            String cellNum = rs.getString("cell");
-            String time = rs.getString("time");
+            String cellNum = rs.getString("sem_cell");
+            long time = rs.getLong("ltime");
 
 
             TraceNode node = new TraceNode();
             node.setPolygonNum(cellNum);
 
-            try {
-                node.setEntryTime(RecordUtils.calcTimeStamp(time));
-                node.setExitTime(RecordUtils.calcTimeStamp(time));
 
-                if (last == null || !last.getPolygonNum().equals(node.getPolygonNum())) {
-                    if (last == null) {
-                        last = node;
-                    } else {
-                        last.setExitTime(RecordUtils.calcTimeStamp(time));
-                    }
-                    res.add(node);
+            node.setEntryTime((time));
+            node.setExitTime((time));
 
+            if (last == null || !last.getPolygonNum().equals(node.getPolygonNum())) {
+                if (last == null) {
+                    last = node;
                 } else {
-                    last.setExitTime(RecordUtils.calcTimeStamp(time));
+                    last.setExitTime((time));
                 }
+                res.add(node);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
+            } else {
+                last.setExitTime((time));
             }
 
 

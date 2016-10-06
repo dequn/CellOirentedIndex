@@ -125,7 +125,7 @@ public class Floor {
 
                 Geometry geom = (Geometry) feature.getDefaultGeometry();
 
-                String nodeNum = ((String) feature.getAttribute("poi_no"));
+                String nodeNum = (String.valueOf( feature.getAttribute("poi_no")));
 
                 String name = (String) feature.getAttribute("name_CHN");
 

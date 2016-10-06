@@ -1,3 +1,5 @@
-CREATE TABLE IF NOT EXISTS bigjoy.imos (id CHAR(26) NOT NULL PRIMARY KEY, floor CHAR(5), time TIMESTAMP, mac CHAR(12), x INTEGER, y INTEGER, semanticCell CHAR(4));
+CREATE TABLE IF NOT EXISTS bigjoy.imos (id CHAR(33) NOT NULL PRIMARY KEY, floor CHAR(5), time TIMESTAMP, mac CHAR(12), x INTEGER, y INTEGER, sem_cell CHAR(8), ltime BIGINT);
 ALTER TABLE bigjoy.imos SET IMMUTABLE_ROWS=true;
 
+CREATE INDEX MAC_TIME_IDX ON bigjoy.imos (mac,ltime) INCLUDE (sem_cell, time, x, y , floor);
+CREATE INDEX CELL_TIME_IDX ON bigjoy.imos (sem_cell,ltime) INCLUDE (mac ,time ,x, y, floor);

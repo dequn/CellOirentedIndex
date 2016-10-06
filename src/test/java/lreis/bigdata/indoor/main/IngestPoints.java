@@ -73,7 +73,6 @@ public class IngestPoints {
     public void PhoenixIngest(){
 
 
-
         try {
             dao = DaoFactory.getPhoenixPOIDao();
             for (PositioningPoint positioningPoint : TestStatic.positioningPoints) {

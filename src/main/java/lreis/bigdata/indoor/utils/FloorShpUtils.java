@@ -45,24 +45,27 @@ public class FloorShpUtils {
      *
      * @param floorFiles
      */
-    public static void setPolygonNum(List<String> floorFiles) {
+    public static void setPolygonNum(List<String> floorFiles,List<Integer> beginNum) {
         ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
-        int i = 1;
+
+
         try {
-            for (String file :
-                    floorFiles) {
+            for (int i= 0; i<floorFiles.size();i++) {
+
+                String file = floorFiles.get(i);
                 ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(file).toURI().toURL());
                 sds.setCharset(Charset.forName("UTF-8"));
 
 
                 FeatureWriter<SimpleFeatureType, SimpleFeature> writer = sds.getFeatureWriter(sds.getTypeNames()[0], Transaction.AUTO_COMMIT);
 
+                int codeNum = beginNum.get(i);
 
                 while (writer.hasNext()) {
-                    System.out.println(i);
+                    System.out.println(codeNum);
                     SimpleFeature feature = writer.next();
-                    feature.setAttribute("poi_no", String.format("%04d", i));
-                    i++;
+                    feature.setAttribute("poi_no", String.format("%04d", codeNum));
+                    codeNum++;
                     writer.write();
                 }
 

@@ -93,7 +93,7 @@ public class PositioningPointDaoImplTest {
 
         try {
             long bt = System.currentTimeMillis();
-            List<TraceNode> list = dao.getBeenToCellsByMac("C86F1D788244", 1396310400L, 1396346400L);
+            List<TraceNode> list = dao.getBeenToCellsByMac("00037F000000", 1396310400L, 1396346400L);
             long et = System.currentTimeMillis();
             System.out.println(et - bt);
 
