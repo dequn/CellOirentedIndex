@@ -3,3 +3,19 @@ ALTER TABLE bigjoy.imos SET IMMUTABLE_ROWS=true;
 
 CREATE INDEX MAC_TIME_IDX ON bigjoy.imos (mac,ltime) INCLUDE (sem_cell, time, x, y , floor);
 CREATE INDEX CELL_TIME_IDX ON bigjoy.imos (sem_cell,ltime) INCLUDE (mac ,time ,x, y, floor);
+
+
+
+
+
+
+CREATE TABLE BIGJOY.STOPS (mac char(12) not null, sem_cell CHAR(8), entry_time BIGINT not null, exit_time BIGINT,CONSTRAINT pk PRIMARY KEY (mac,entry_time));
+alter table bigjoy.stops set immutable_rows = true;
+CREATE INDEX stops_entry_time_mac_idx ON BIGJOY.stops (entry_time,mac);
+
+
+
+CREATE TABLE BIGJOY.TRAJS(mac char(12) not null, day char(10) not null, traj varchar, constraint pk PRIMARY key(MAC,DAY));
+alter table bigjoy.TRAJS set immutable_rows = true;
+CREATE INDEX traj_day_mac_idx on BIGJOY.TRAJS (DAY,MAC,TRAJ);
+

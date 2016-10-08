@@ -1,4 +1,15 @@
+import lreis.bigdata.indoor.vo.SemanticCell;
 import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import static lreis.bigdata.indoor.utils.TraceUtils.MEANING_LESS_NAMES;
 
 /**
  * Created by dq on 4/25/16.
@@ -52,6 +63,29 @@ public class SemanticCellTest {
 
     @Test
     public void setGeom() throws Exception {
+
+    }
+
+
+    @Test
+    public void test() {
+
+        Set<String> MEANING_LESS_NAMES = new HashSet<String>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("/resources/MEANING_LESS_NAMES"))) {
+
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                MEANING_LESS_NAMES.add(line.trim());
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

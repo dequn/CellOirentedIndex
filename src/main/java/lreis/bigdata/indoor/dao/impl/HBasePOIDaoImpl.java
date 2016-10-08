@@ -4,7 +4,7 @@ package lreis.bigdata.indoor.dao.impl;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.*;
@@ -87,7 +87,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
 
     @Override
-    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+    public List<SemStop> getStops(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
 
         if (mac == null || mac.equals("") || mac.length() != 12) {
             return null;
@@ -96,7 +96,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
             return null;
         }
 
-        List<TraceNode> result = new ArrayList<TraceNode>();
+        List<SemStop> result = new ArrayList<SemStop>();
 
         FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
 
@@ -122,7 +122,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
         Table table = this.conn.getTable(TableName.valueOf(this.idxTableName));
         ResultScanner resultScanner = table.getScanner(scan);
 
-        TraceNode last = null;
+        SemStop last = null;
         for (Iterator<Result> it = resultScanner.iterator(); it.hasNext(); ) {
             Result res = it.next();
             String row = new String(res.getRow());
@@ -130,7 +130,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
                 if (last != null) {
                     last.setExitTime(Long.parseLong(row.substring(12, 22)));
                 }
-                last = new TraceNode(row.substring(22), Long.parseLong(row.substring(12, 22)), Long.parseLong(row.substring(12, 22)));
+                last = new SemStop(row.substring(22), Long.parseLong(row.substring(12, 22)), Long.parseLong(row.substring(12, 22)));
                 result.add(last);
             } else {
                 last.setExitTime(Long.parseLong(row.substring(12, 22)));
@@ -139,6 +139,11 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
 
         return result;
+    }
+
+    @Override
+    public List<SemStop> getStops(String mac) throws SQLException, IOException, ClassNotFoundException {
+        return null;
     }
 
     @Override
@@ -201,7 +206,7 @@ public class HBasePOIDaoImpl implements IPOIDao {
 
 
             PositioningPoint positioningPoint = new PositioningPoint(mac, time, (float) x / 1000, (float) y / -1000, floor);
-            positioningPoint.setSemanticCellIn(Building.getInstatnce().getCellByNum(row
+            positioningPoint.setSemanticCellIn(Building.getInstatnce().getSemCellByNum(row
                     .substring(0, 4)));
 
             res.add(positioningPoint);

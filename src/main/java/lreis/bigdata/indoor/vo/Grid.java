@@ -9,24 +9,25 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * Created by Q on 2016/6/20.
  */
 public class Grid {
-    private String num;
+
+    private String gridNum;
     private Geometry geom;
 
-    public Grid(Geometry geom, String num) {
+    public Grid(Geometry geom, String gridNum) {
         this.geom = geom;
-        this.num = num;
+        this.gridNum = gridNum;
     }
 
     public Grid() {
 
     }
 
-    public String getNum() {
-        return num;
+    public String getGridNum() {
+        return gridNum;
     }
 
-    public void setNum(String num) {
-        this.num = num;
+    public void setGridNum(String gridNum) {
+        this.gridNum = gridNum;
     }
 
     public Geometry getGeom() {
@@ -69,10 +70,10 @@ public class Grid {
         Geometry ru = factory.createPolygon(factory.createLinearRing(new Coordinate[]{rightUp, new Coordinate(mid.x, rightUp.y), mid, new Coordinate(rightUp.x, mid.y), rightUp}), null);
         Geometry lu = factory.createPolygon(factory.createLinearRing(new Coordinate[]{leftUp, new Coordinate(leftUp.x, mid.y), mid, new Coordinate(mid.x, rightUp.y), leftUp}), null);
 
-        grids[0] = new Grid(lb, this.num + "00");
-        grids[1] = new Grid(rb, this.num + "10");
-        grids[2] = new Grid(lu, this.num + "01");
-        grids[3] = new Grid(ru, this.num + "11");
+        grids[0] = new Grid(lb, this.gridNum + "00");
+        grids[1] = new Grid(rb, this.gridNum + "10");
+        grids[2] = new Grid(lu, this.gridNum + "01");
+        grids[3] = new Grid(ru, this.gridNum + "11");
 
         return grids;
     }

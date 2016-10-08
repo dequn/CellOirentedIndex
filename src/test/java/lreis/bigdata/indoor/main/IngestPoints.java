@@ -21,7 +21,6 @@ public class IngestPoints {
 
     @BeforeClass
     public static void beforClass() {
-        TestStatic.BuildingInit();
         TestStatic.readPOIs();
     }
 

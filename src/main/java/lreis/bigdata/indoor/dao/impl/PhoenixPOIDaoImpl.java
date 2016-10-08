@@ -2,8 +2,9 @@ package lreis.bigdata.indoor.dao.impl;
 
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.IConnection;
+import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
         String sql = String.format("UPSERT INTO bigjoy.imos(id,floor,time,mac,x,y,sem_cell,ltime) VALUES ('%s', '%s', '%s','%s', %s ,%s ,'%s',%s)", rowkey,
                 positioningPoint.getFloorNum(), new Timestamp(positioningPoint.getTime()), positioningPoint.getMac(), (int) (positioningPoint.getX() * 1000),
-                (int) (positioningPoint.getY() * -1000), positioningPoint.getSemanticCellIn().getNodeNum().toString(), positioningPoint.getTime());
+                (int) (positioningPoint.getY() * -1000), positioningPoint.getSemanticCellIn().getPolygonNum().toString(), positioningPoint.getTime());
 
 
         try {
@@ -62,9 +63,9 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
     @Override
     @NotNull
-    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException {
+    public List<SemStop> getStops(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException {
 
-        List<TraceNode> res = new ArrayList<>();
+        List<SemStop> res = new ArrayList<>();
 
         if (mac == null || mac.equals("") || mac.length() != 12) {
             return res;
@@ -76,12 +77,18 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
         String sql = String.format("SELECT mac, sem_cell, ltime, time FROM bigjoy.imos WHERE mac = '%s' AND ltime between %s AND  %s ORDER BY LTIME", mac, beginTimeStamp, endTimeStamp);
 
+        if (beginTimeStamp == 0 && endTimeStamp == 0) {
+
+            sql = String.format("SELECT mac, sem_cell, ltime, time FROM bigjoy.imos WHERE mac = '%s' ORDER BY ltime", mac);
+        }
+
 
         Statement statement = this.conn.getConnection().createStatement();
         ResultSet rs = statement.executeQuery(sql);
 
 
-        TraceNode last = null;
+        SemStop last = null;
+        Building building = Building.getInstatnce();
 
         while (rs.next()) {
 
@@ -89,20 +96,22 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
             long time = rs.getLong("ltime");
 
 
-            TraceNode node = new TraceNode();
+            SemStop node = new SemStop();
             node.setPolygonNum(cellNum);
 
 
             node.setEntryTime((time));
             node.setExitTime((time));
 
+
+            node.setSemanticCell(building.getSemCellByNum(cellNum));
+
             if (last == null || !last.getPolygonNum().equals(node.getPolygonNum())) {
-                if (last == null) {
-                    last = node;
-                } else {
+                if (last != null) {
                     last.setExitTime((time));
                 }
                 res.add(node);
+                last = node;
 
             } else {
                 last.setExitTime((time));
@@ -114,6 +123,11 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
         return res;
 
+    }
+
+    @Override
+    public List<SemStop> getStops(String mac) throws SQLException, IOException, ClassNotFoundException {
+        return getStops(mac, 0L, 0L);
     }
 
     @Override

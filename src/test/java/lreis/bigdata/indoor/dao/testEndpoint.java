@@ -1,3 +1,5 @@
+package lreis.bigdata.indoor.dao;
+
 import lreis.bigdata.indoor.factory.DbcFactory;
 import lreis.bigdata.indoor.index.coprocessor.BuildMacIndex;
 import org.apache.hadoop.hbase.TableName;

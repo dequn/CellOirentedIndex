@@ -44,7 +44,7 @@ public class PostgreCellDaoImpl implements ICellDao {
 
 
         String sql = String.format("SELECT * FROM imo WHERE rowkey LIKE '%04d%%' AND " +
-                "time BETWEEN '%s' AND '%s'", semanticCell.getNodeNum(), new Timestamp
+                "time BETWEEN '%s' AND '%s'", semanticCell.getPolygonNum(), new Timestamp
                 (beginTimeStamp), new Timestamp(endTimeStamp ));
         ResultSet rs = stat.executeQuery(sql);
 

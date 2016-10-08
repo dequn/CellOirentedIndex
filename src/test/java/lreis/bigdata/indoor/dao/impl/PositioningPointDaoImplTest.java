@@ -5,7 +5,7 @@ import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.utils.RecordUtils;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,7 +27,6 @@ public class PositioningPointDaoImplTest {
     @BeforeClass
     public static void beforClass() {
 
-        TestStatic.BuildingInit();
 //        TestStatic.readPOIs();
     }
 
@@ -73,12 +72,12 @@ public class PositioningPointDaoImplTest {
 //        00037F000000
         IPOIDao dao = DaoFactory.getHBasePOIDao();
         long bt = System.currentTimeMillis();
-        List<TraceNode> list = dao.getBeenToCellsByMac("4860BC7068D3", 1396310400L, 1396335600L);
+        List<SemStop> list = dao.getStops("4860BC7068D3", 1396310400L, 1396335600L);
 
         long et = System.currentTimeMillis();
         System.out.println(et - bt);
 
-        for (TraceNode node : list) {
+        for (SemStop node : list) {
             System.out.println(node.getPolygonNum() + node.getEntryTime() + node.getExitTime());
         }
 
@@ -93,14 +92,14 @@ public class PositioningPointDaoImplTest {
 
         try {
             long bt = System.currentTimeMillis();
-            List<TraceNode> list = dao.getBeenToCellsByMac("00037F000000", 1396310400L, 1396346400L);
+            List<SemStop> list = dao.getStops("00037F000000", 1396310400L, 1396346400L);
             long et = System.currentTimeMillis();
             System.out.println(et - bt);
 
 
             FileWriter writer = new FileWriter("/home/zdq/big_joy/semantics_trace.example.txt");
             for (
-                    TraceNode node : list
+                    SemStop node : list
                     ) {
                 writer.write(String.format("%s,%s,%s,%d\n", node.getSemanticCell().getName(), new Timestamp(node.getEntryTime()).toString(), new Timestamp(node.getExitTime()).toString(), node.getExitTime() - node.getEntryTime()));
 

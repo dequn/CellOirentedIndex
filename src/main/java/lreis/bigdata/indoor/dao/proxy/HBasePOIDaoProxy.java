@@ -5,7 +5,7 @@ import lreis.bigdata.indoor.dao.impl.HBasePOIDaoImpl;
 import lreis.bigdata.indoor.dbc.HBaseConnection;
 import lreis.bigdata.indoor.factory.DbcFactory;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,8 +30,13 @@ public class HBasePOIDaoProxy implements IPOIDao {
     }
 
     @Override
-    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException {
-        return this.dao.getBeenToCellsByMac(mac, beginTimeStamp, endTimeStamp);
+    public List<SemStop> getStops(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException {
+        return this.dao.getStops(mac, beginTimeStamp, endTimeStamp);
+    }
+
+    @Override
+    public List<SemStop> getStops(String mac) throws SQLException, IOException, ClassNotFoundException {
+        return null;
     }
 
     @Override

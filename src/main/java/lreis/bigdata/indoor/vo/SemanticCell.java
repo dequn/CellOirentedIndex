@@ -1,6 +1,7 @@
 package lreis.bigdata.indoor.vo;
 
 import com.vividsolutions.jts.geom.Geometry;
+import net.sf.json.JsonConfig;
 
 /**
  * Created by dq on 4/6/16.
@@ -8,12 +9,9 @@ import com.vividsolutions.jts.geom.Geometry;
 public class SemanticCell {
 
     protected String name;
-    protected String nodeNum;
-
+    protected String polygonNum;
     protected String floorNum;
-
     protected String category;
-
     protected Geometry geom;
 
 
@@ -28,12 +26,12 @@ public class SemanticCell {
         this.name = name;
     }
 
-    public String getNodeNum() {
-        return nodeNum;
+    public String getPolygonNum() {
+        return polygonNum;
     }
 
-    public void setNodeNum(String nodeNum) {
-        this.nodeNum = nodeNum;
+    public void setPolygonNum(String polygonNum) {
+        this.polygonNum = polygonNum;
     }
 
     public String getFloorNum() {
@@ -59,6 +57,13 @@ public class SemanticCell {
     public void setGeom(Geometry geom) {
         this.geom = geom;
     }
+
+    @Override
+    public String toString() {
+        return name.toString();
+    }
+
+
 
 }
 

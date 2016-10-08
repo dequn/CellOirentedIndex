@@ -4,7 +4,7 @@ import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dbc.PostgreConn;
 import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -59,7 +59,7 @@ public class PostgrePOIDaoImpl implements IPOIDao {
     }
 
     @Override
-    public List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
+    public List<SemStop> getStops(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException {
         if (mac == null || mac.equals("") || mac.length() != 12) {
             return null;
         }
@@ -71,16 +71,16 @@ public class PostgrePOIDaoImpl implements IPOIDao {
             return null;
         }
 
-        List<TraceNode> result = new ArrayList<TraceNode>();
+        List<SemStop> result = new ArrayList<SemStop>();
 
-        result.add(new TraceNode(trace[0].getSemanticCellIn(), trace[0].getTime(),
+        result.add(new SemStop(trace[0].getSemanticCellIn(), trace[0].getTime(),
                 trace[0].getTime()));
 
-        TraceNode last = result.get(0);
+        SemStop last = result.get(0);
         for (int i = 1; i < trace.length; i++) {
             if (trace[i].getSemanticCellIn() != last.getSemanticCell()) {
                 last.setExitTime(trace[i].getTime());
-                last = new TraceNode(trace[i].getSemanticCellIn(), trace[i].getTime(),
+                last = new SemStop(trace[i].getSemanticCellIn(), trace[i].getTime(),
                         trace[i].getTime());
                 result.add(last);
             } else {
@@ -90,6 +90,11 @@ public class PostgrePOIDaoImpl implements IPOIDao {
 
         return result;
 
+    }
+
+    @Override
+    public List<SemStop> getStops(String mac) throws SQLException, IOException, ClassNotFoundException {
+        return null;
     }
 
     @Override
@@ -115,7 +120,7 @@ public class PostgrePOIDaoImpl implements IPOIDao {
             positioningPoint.setMac(rs.getString("mac"));
             positioningPoint.setFloorNum(rs.getString("floor"));
             positioningPoint.setTime(rs.getTimestamp("time").getTime());
-            positioningPoint.setSemanticCellIn(Building.getInstatnce().getCellByNum(rs.getString("rowkey").substring
+            positioningPoint.setSemanticCellIn(Building.getInstatnce().getSemCellByNum(rs.getString("rowkey").substring
                     (0, 4)));
             result.add(positioningPoint);
         }

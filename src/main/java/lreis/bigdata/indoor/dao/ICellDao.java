@@ -18,4 +18,6 @@ public interface ICellDao {
 
     List<PositioningPoint> getPOISBeenToAllCells(List<SemanticCell> semanticCells, Long beginTimeStamp, Long endTimeStamp) throws IOException;
 
+//    String getSemInfo(SemanticCell semanticCell);
+
 }

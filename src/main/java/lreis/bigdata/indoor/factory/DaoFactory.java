@@ -2,6 +2,7 @@ package lreis.bigdata.indoor.factory;
 
 import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dao.IPOIDao;
+import lreis.bigdata.indoor.dao.ISemStopsDao;
 import lreis.bigdata.indoor.dao.proxy.*;
 
 import java.io.IOException;
@@ -31,5 +32,9 @@ public class DaoFactory {
 
     public static IPOIDao getPhoenixPOIDao() {
         return new PhoenixPOIDaoProxy();
+    }
+
+    public static ISemStopsDao getPhoenixSemStopsDao() {
+        return new PhoenixSemStopsDaoProxy();
     }
 }

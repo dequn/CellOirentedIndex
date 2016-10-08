@@ -13,13 +13,16 @@ import java.util.Comparator;
  */
 public class PositioningPoint implements Comparator<PositioningPoint> {
     private String mac;
-    private Long time;
+    private long time;
 
-    private Float x;
-    private Float y;
+    private float x;
+    private float y;
 
     private String floorNum;
     private Point point;
+
+
+    private String semCellNum = null;
     private SemanticCell semanticCellIn = null;
 
 
@@ -43,13 +46,13 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
         if (positioningPoint == null) {
             return null;
         }
-        SemanticCell semanticCell = Building.getInstatnce().queryCell(positioningPoint,
+        SemanticCell semanticCell = Building.getInstatnce().querySemCell(positioningPoint,
                 method);
         if (semanticCell == null) {
             return null;
         }
         positioningPoint.setSemanticCellIn(semanticCell);
-        return String.format("%s%s%s", semanticCell.getNodeNum(), positioningPoint.getTime(), positioningPoint.getMac());
+        return String.format("%s%s%s", semanticCell.getPolygonNum(), positioningPoint.getTime(), positioningPoint.getMac());
     }
 
     @Contract("null -> null")
@@ -63,8 +66,15 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
         if (positioningPoint == null) {
             return null;
         }
-        return String.format("%s%s%04d", positioningPoint.getMac(), positioningPoint.getTime(), Building.getInstatnce().queryCell
-                (positioningPoint, QueryMethod.Grid));
+
+
+        SemanticCell semCell =
+                Building.getInstatnce().querySemCell
+                        (positioningPoint, QueryMethod.Grid);
+
+        return String.format("%s%s%04d", positioningPoint.getMac(), positioningPoint.getTime(), semCell);
+
+
     }
 
     public SemanticCell getSemanticCellIn() {
@@ -76,9 +86,7 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
     }
 
     private void updatePoint() {
-        if (this.x == null || this.y == null) {
-            return;
-        }
+
         Coordinate coordinate = new Coordinate(this.x, this.y);
         GeometryFactory gf = new GeometryFactory();
         this.point = gf.createPoint(coordinate);
@@ -92,29 +100,29 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
         this.mac = mac;
     }
 
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(Long time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
-    public Float getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(Float x) {
+    public void setX(float x) {
         this.x = x;
         this.updatePoint();
 
     }
 
-    public Float getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(Float y) {
+    public void setY(float y) {
         this.y = y;
         this.updatePoint();
     }

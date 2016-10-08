@@ -24,7 +24,6 @@ public class PostgreSemanticCellDaoImplTest {
     @BeforeClass
     public static void before() {
         dao = DaoFactory.getPostgreCellDao();
-        TestStatic.BuildingInit();
         TestStatic.readPOIs();
     }
 
@@ -37,7 +36,7 @@ public class PostgreSemanticCellDaoImplTest {
     @Test
     public void getPOIsByCell() throws Exception {
 
-        SemanticCell semanticCell = Building.getInstatnce().getCellByNum("201");
+        SemanticCell semanticCell = Building.getInstatnce().getSemCellByNum("201");
 
         List<PositioningPoint> result = this.dao.getPOIsByCell(semanticCell, 1396281619L, 1396281625L);
 
@@ -46,7 +45,7 @@ public class PostgreSemanticCellDaoImplTest {
 
     @Test
     public void countMacInCell() throws Exception {
-        SemanticCell semanticCell = Building.getInstatnce().getCellByNum("201");
+        SemanticCell semanticCell = Building.getInstatnce().getSemCellByNum("201");
         int num = this.dao.countMacInCell(semanticCell, 1396281619L, 1396281625L);
     }
 

@@ -4,7 +4,7 @@ import lreis.bigdata.indoor.dao.ICellDao;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -134,7 +134,6 @@ public class QueryEfficiencyTest {
     static {
 
 
-        TestStatic.BuildingInit();
         for (int i = 0; i < 14; i++) {
             endTimes[i] = new Timestamp(beginTime + (i + 1) * 3600 * 1000)
                     .getTime();
@@ -218,7 +217,7 @@ public class QueryEfficiencyTest {
 
                 for (long endTime : QueryEfficiencyTest.endTimes) {
                     long tb = System.currentTimeMillis();
-                    List<TraceNode> list = hDao.getBeenToCellsByMac(mac, beginTime, endTime);
+                    List<SemStop> list = hDao.getStops(mac, beginTime, endTime);
                     long te = System.currentTimeMillis();
                     writer.write(String.format("%s,%s,%s,%s,%s", mac, new Timestamp
                             (beginTime).toString(), new Timestamp
@@ -226,7 +225,7 @@ public class QueryEfficiencyTest {
                             .size() : 0));
 
                     tb = System.currentTimeMillis();
-                    list = pDao.getBeenToCellsByMac(mac, beginTime, endTime);
+                    list = pDao.getStops(mac, beginTime, endTime);
                     te = System.currentTimeMillis();
 
                     writer.write(String.format(",%s,%s\n", te - tb, list != null ? list

@@ -9,17 +9,49 @@ import java.util.Map;
  * Created by Q on 2016/6/20.
  */
 public class Building {
+    static final String[] floorShps = new String[]{
+//            "D:\\big_joy\\floors\\20010.dbf",
+//            "D:\\big_joy\\floors\\20020.dbf",
+//            "D:\\big_joy\\floors\\20030.dbf",
+//            "D:\\big_joy\\floors\\20040.dbf"
 
-    private static Building instance = null;
+
+//            "/home/zdq/big_joy/floors/10010.dbf",
+//            "/home/zdq/big_joy/floors/10020.dbf",
+//            "/home/zdq/big_joy/floors/20010.dbf",
+//            "/home/zdq/big_joy/floors/20020.dbf",
+//            "/home/zdq/big_joy/floors/20030.dbf",
+//            "/home/zdq/big_joy/floors/20040.dbf",
+
+
+            "/Users/dq/paper_relate/big_joy/floors/10010.dbf",
+            "/Users/dq/paper_relate/big_joy/floors/10020.dbf",
+            "/Users/dq/paper_relate/big_joy/floors/20010.dbf",
+            "/Users/dq/paper_relate/big_joy/floors/20020.dbf",
+            "/Users/dq/paper_relate/big_joy/floors/20030.dbf",
+            "/Users/dq/paper_relate/big_joy/floors/20040.dbf",
+
+
+    };
+
+    private static class BuildingHolder {
+        private static final Building instance = new Building();
+
+        static {
+            for (String file : floorShps) {
+//            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
+//            building.addFloor(new Floor(file.substring(25, 30), file));// for linux
+                instance.addFloor(new Floor(file.substring(38, 43), file));// for mac
+            }
+        }
+
+    }
+
 
     private HashMap<String, Floor> floors = new HashMap<String, Floor>();// get floor by floorNum.
-    private Map<String, SemanticCell> semanticCells = new HashMap<>();
-
-
-
+    private Map<String, SemanticCell> semCells = new HashMap<>();
 
     private Building() {
-
     }
 
     /**
@@ -30,7 +62,7 @@ public class Building {
      * @param method
      * @return List<SemanticCell>
      */
-    public static SemanticCell queryCell(Floor floor, PositioningPoint positioningPoint, PositioningPoint.QueryMethod method) {
+    public static SemanticCell querySemCell(Floor floor, PositioningPoint positioningPoint, PositioningPoint.QueryMethod method) {
         if (method == PositioningPoint.QueryMethod.Grid) {
             return floor.queryInGrid(positioningPoint.getPoint());
         } else if (method == PositioningPoint.QueryMethod.STR) {
@@ -41,31 +73,28 @@ public class Building {
 
     }
 
-    public static Building getInstatnce() {
-        if (instance == null) {
-            instance = new Building();
-        }
-        return instance;
+    public static final Building getInstatnce() {
+        return BuildingHolder.instance;
     }
 
     public void addFloor(Floor floor) {
         floors.put(floor.getFloorNum(), floor);
 
         for (SemanticCell semanticCell : floor.getSemanticCells()) {
-            semanticCells.put(semanticCell.getNodeNum(), semanticCell);
+            semCells.put(semanticCell.getPolygonNum(), semanticCell);
         }
 
     }
 
-    public SemanticCell queryCell(PositioningPoint positioningPoint, PositioningPoint.QueryMethod method) {
-        return queryCell(this.floors.get(positioningPoint.getFloorNum()), positioningPoint, method);
+    public SemanticCell querySemCell(PositioningPoint positioningPoint, PositioningPoint.QueryMethod method) {
+        return querySemCell(this.floors.get(positioningPoint.getFloorNum()), positioningPoint, method);
     }
 
     public Floor getFloor(String floorNum) {
         return floors.get(floorNum);
     }
 
-    public List<SemanticCell> getCellsByName(String name) {
+    public List<SemanticCell> getSemCellsByName(String name) {
         List<SemanticCell> result = new ArrayList<SemanticCell>();
         for (Floor floor : floors.values()) {
             result.addAll(floor.getCellsByName(name));
@@ -73,8 +102,8 @@ public class Building {
         return result;
     }
 
-    public SemanticCell getCellByNum(String strNum) {
-        return semanticCells.get(strNum);
+    public SemanticCell getSemCellByNum(String strNum) {
+        return semCells.get(strNum);
     }
 
 }

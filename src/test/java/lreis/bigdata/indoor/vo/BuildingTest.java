@@ -32,7 +32,7 @@ public class BuildingTest {
 
                     for (int i = 0; i < compareNum; i++) {
                         PositioningPoint positioningPoint = TestStatic.positioningPoints.get(i);
-                        Building.queryCell(Building.getInstatnce().getFloor(positioningPoint.getFloorNum()),
+                        Building.querySemCell(Building.getInstatnce().getFloor(positioningPoint.getFloorNum()),
                                 positioningPoint, PositioningPoint
                                         .QueryMethod.Grid);
                     }
@@ -42,7 +42,7 @@ public class BuildingTest {
                     start = System.currentTimeMillis();
                     for (int i = 0; i < compareNum; i++) {
                         PositioningPoint positioningPoint = TestStatic.positioningPoints.get(i);
-                        Building.queryCell(Building.getInstatnce().getFloor(positioningPoint.getFloorNum()), positioningPoint, PositioningPoint.QueryMethod.STR);
+                        Building.querySemCell(Building.getInstatnce().getFloor(positioningPoint.getFloorNum()), positioningPoint, PositioningPoint.QueryMethod.STR);
                     }
                     stop = System.currentTimeMillis();
                     writer.write(String.format(",%s\n", stop - start));

@@ -1,15 +1,22 @@
 package lreis.bigdata.indoor.dao.impl;
 
+import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
+import lreis.bigdata.indoor.dao.ISemStopsDao;
+import lreis.bigdata.indoor.dbc.PhoenixConn;
 import lreis.bigdata.indoor.factory.DaoFactory;
+import lreis.bigdata.indoor.factory.DbcFactory;
 import lreis.bigdata.indoor.utils.RecordUtils;
 import lreis.bigdata.indoor.utils.TraceUtils;
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.List;
 
@@ -20,7 +27,6 @@ public class PhoenixPositioningPointDaoTest {
     @BeforeClass
     public static void beforClass() {
 
-//        TestStatic.BuildingInit();
 //        TestStatic.readPOIs();
     }
 
@@ -52,17 +58,51 @@ public class PhoenixPositioningPointDaoTest {
 
             IPOIDao dao = DaoFactory.getPhoenixPOIDao();
 
-            List<TraceNode> list = dao.getBeenToCellsByMac("00037F000000", RecordUtils.calcTimeStamp("2014-04-01 08:00:00"), RecordUtils.calcTimeStamp("2014-04-01 20:00:00"));
-
+            List<SemStop> list = dao.getStops("00037F000000");
             TraceUtils.fixTrace(list);
 
-            System.out.println(list);
 
+            ISemStopsDao stopDao = DaoFactory.getPhoenixSemStopsDao();
+            stopDao.upsert("00037F000000", list);
+
+            System.out.println(list);
 
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+
+    }
+
+
+    @Test
+    public void testStops() throws SQLException, IOException, ClassNotFoundException {
+
+        PhoenixConn conn = DbcFactory.getPhoenixConn();
+
+        String sql = "SELECT MAC FROM BIGJOY.MACS";
+
+        Statement stmt = conn.getConnection().createStatement();
+
+        ResultSet rs = stmt.executeQuery(sql);
+
+        IPOIDao dao = DaoFactory.getPhoenixPOIDao();
+        ISemStopsDao stopDao =  DaoFactory.getPhoenixSemStopsDao();
+
+        while (rs.next()) {
+            String mac = rs.getString("mac");
+            List<SemStop> stops = dao.getStops(mac);
+            TraceUtils.fixTrace(stops);
+
+            if (stops.size() != 0) {
+                stopDao.upsert(mac, stops);
+                stopDao.upsertTraj(mac, "2014-04-01", stops);
+            }
+
+        }
+
+
+        conn.close();
 
 
     }

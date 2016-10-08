@@ -134,7 +134,7 @@ public class Floor {
                 SemanticCell semanticCell = new SemanticCell();
                 semanticCell.setFloorNum(floorNum);
                 semanticCell.setName(name);
-                semanticCell.setNodeNum(nodeNum);
+                semanticCell.setPolygonNum(nodeNum);
                 semanticCell.setGeom(geom);
                 semanticCell.setCategory(category);
 
@@ -177,7 +177,7 @@ public class Floor {
             name2CellMap.get(semanticCell.getName()).add(semanticCell);
 
             //num index
-            num2CellMap.put(semanticCell.getNodeNum(), semanticCell);
+            num2CellMap.put(semanticCell.getPolygonNum(), semanticCell);
         }
 
 

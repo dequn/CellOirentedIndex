@@ -1,7 +1,7 @@
 package lreis.bigdata.indoor.dao;
 
 import lreis.bigdata.indoor.vo.PositioningPoint;
-import lreis.bigdata.indoor.vo.TraceNode;
+import lreis.bigdata.indoor.vo.SemStop;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -25,7 +25,9 @@ public interface IPOIDao {
      * @return
      * @throws IOException
      */
-    List<TraceNode> getBeenToCellsByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException;
+    List<SemStop> getStops(String mac, Long beginTimeStamp, Long endTimeStamp) throws IOException, SQLException, ClassNotFoundException;
+
+    List<SemStop> getStops(String mac) throws SQLException, IOException, ClassNotFoundException;
 
     @NotNull
     List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException;

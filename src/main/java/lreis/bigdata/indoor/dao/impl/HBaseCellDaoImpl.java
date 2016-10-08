@@ -53,7 +53,7 @@ public class HBaseCellDaoImpl implements ICellDao {
         List<PositioningPoint> list = new ArrayList<PositioningPoint>();
 
 
-        String num = semanticCell.getNodeNum();
+        String num = semanticCell.getPolygonNum();
 
 
         FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);// must between beginTime and endTime
@@ -137,7 +137,7 @@ public class HBaseCellDaoImpl implements ICellDao {
         FilterList filter = new FilterList(FilterList.Operator.MUST_PASS_ONE);
 
         for (SemanticCell semanticCell : semanticCells) {
-            String num = semanticCell.getNodeNum();
+            String num = semanticCell.getPolygonNum();
             FilterList fl = new FilterList(FilterList.Operator.MUST_PASS_ALL);
 
             BinaryPrefixComparator comp = new BinaryPrefixComparator(Bytes.toBytes(String.format("%04d%d", num, beginTimeStamp)));

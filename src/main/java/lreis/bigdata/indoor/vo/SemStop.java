@@ -3,36 +3,43 @@ package lreis.bigdata.indoor.vo;
 /**
  * Created by dq on 5/12/16.
  */
-public class TraceNode {
+public class SemStop {
     private String polygonNum;
-
     private SemanticCell semanticCell;
 
-    private Long entryTime;
-    private Long exitTime;
+    private long entryTime;
+    private long exitTime;
+    private long stayTime;
 
 
-    public TraceNode(String polygonNum, Long entryTime) {
+    public long getStayTime() {
+        return stayTime;
+    }
+
+    public SemStop(String polygonNum, Long entryTime) {
 
         this.polygonNum = polygonNum;
         this.entryTime = entryTime;
-        semanticCell = Building.getInstatnce().getCellByNum(polygonNum);
+//        semanticCell = Building.getInstatnce().getSemCellByNum(polygonNum);
     }
 
-    public TraceNode(SemanticCell semanticCell, Long entryTime, Long exitTime) {
+    public SemStop(SemanticCell semanticCell, Long entryTime, Long exitTime) {
         this.semanticCell = semanticCell;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
+
+        this.calStopTime();
     }
 
-    public TraceNode() {
+    public SemStop() {
 
     }
 
-    public TraceNode(String polygonNum, Long exitTime, Long entryTime) {
+    public SemStop(String polygonNum, Long exitTime, Long entryTime) {
         this.polygonNum = polygonNum;
         this.exitTime = exitTime;
         this.entryTime = entryTime;
+        this.calStopTime();
     }
 
     public SemanticCell getSemanticCell() {
@@ -51,21 +58,28 @@ public class TraceNode {
         this.polygonNum = polygonNum;
     }
 
-    public Long getEntryTime() {
+    public long getEntryTime() {
         return entryTime;
     }
 
-    public void setEntryTime(Long entryTime) {
+    public void setEntryTime(long entryTime) {
         this.entryTime = entryTime;
+        this.calStopTime();
+
     }
 
-    public Long getExitTime() {
+    public long getExitTime() {
         return exitTime;
     }
 
-    public void setExitTime(Long exitTime) {
+    public void setExitTime(long exitTime) {
         this.exitTime = exitTime;
+        this.calStopTime();
     }
 
+
+    public void calStopTime() {
+        this.stayTime = this.exitTime - this.entryTime;
+    }
 
 }
