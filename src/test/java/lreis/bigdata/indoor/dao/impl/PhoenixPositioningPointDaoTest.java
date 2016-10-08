@@ -57,13 +57,13 @@ public class PhoenixPositioningPointDaoTest {
 
 
             IPOIDao dao = DaoFactory.getPhoenixPOIDao();
-
-            List<SemStop> list = dao.getStops("00037F000000");
+// FF770C0D0E0F
+            List<SemStop> list = dao.getStops("FE3C8C1D9A5C");
             TraceUtils.fixTrace(list);
 
 
-            ISemStopsDao stopDao = DaoFactory.getPhoenixSemStopsDao();
-            stopDao.upsert("00037F000000", list);
+//            ISemStopsDao stopDao = DaoFactory.getPhoenixSemStopsDao();
+//            stopDao.upsert("00037F000000", list);
 
             System.out.println(list);
 
@@ -80,25 +80,21 @@ public class PhoenixPositioningPointDaoTest {
 
         PhoenixConn conn = DbcFactory.getPhoenixConn();
 
-        String sql = "SELECT MAC FROM BIGJOY.MACS";
+        String sql = "SELECT MAC FROM BIGJOY.MACS WHERE MAC= 'FF770C0D0E0F'";
 
         Statement stmt = conn.getConnection().createStatement();
 
         ResultSet rs = stmt.executeQuery(sql);
 
         IPOIDao dao = DaoFactory.getPhoenixPOIDao();
-        ISemStopsDao stopDao =  DaoFactory.getPhoenixSemStopsDao();
+        ISemStopsDao stopDao = DaoFactory.getPhoenixSemStopsDao();
 
         while (rs.next()) {
             String mac = rs.getString("mac");
             List<SemStop> stops = dao.getStops(mac);
             TraceUtils.fixTrace(stops);
-
-            if (stops.size() != 0) {
-                stopDao.upsert(mac, stops);
-                stopDao.upsertTraj(mac, "2014-04-01", stops);
-            }
-
+            stopDao.upsert(mac, stops);
+            stopDao.upsertTraj(mac, "2014-04-01", stops);
         }
 
 

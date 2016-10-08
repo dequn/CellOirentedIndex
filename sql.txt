@@ -15,7 +15,7 @@ CREATE INDEX stops_entry_time_mac_idx ON BIGJOY.stops (entry_time,mac);
 
 
 
-CREATE TABLE BIGJOY.TRAJS(mac char(12) not null, day char(10) not null, traj varchar, constraint pk PRIMARY key(MAC,DAY));
+CREATE TABLE BIGJOY.TRAJS(mac char(12) not null, length integer not null, day char(10) not null, traj varchar, constraint pk PRIMARY key(MAC,length,DAY));
 alter table bigjoy.TRAJS set immutable_rows = true;
-CREATE INDEX traj_day_mac_idx on BIGJOY.TRAJS (DAY,MAC,TRAJ);
+CREATE INDEX traj_day_mac_idx on BIGJOY.TRAJS (DAY,length,mac) include(traj);
 

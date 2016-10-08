@@ -56,7 +56,7 @@ public class PhoenixSemStopsDaoImpl implements ISemStopsDao {
     public void upsertTraj(String mac, String date, List<SemStop> stops) throws SQLException, ClassNotFoundException {
 
 
-        String sql = String.format("UPSERT INTO BIGJOY.TRAJS(mac,day,traj) VALUES ('%s',?,?)", mac);
+        String sql = String.format("UPSERT INTO BIGJOY.TRAJS(mac,length,day,traj) VALUES ('%s',?,?,?)", mac);
 
         PreparedStatement pstmt = this.conn.getConnection().prepareStatement(sql);
 
@@ -70,7 +70,8 @@ public class PhoenixSemStopsDaoImpl implements ISemStopsDao {
         });
         JSONArray arr = JSONArray.fromObject(stops.toArray(), config);
         pstmt.setString(1, date);
-        pstmt.setString(2, arr.toString());
+        pstmt.setInt(2, stops.size());
+        pstmt.setString(3, arr.toString());
         pstmt.executeUpdate();
 
         this.conn.getConnection().commit();
