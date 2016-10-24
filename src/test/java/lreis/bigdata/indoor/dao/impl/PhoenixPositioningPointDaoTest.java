@@ -76,29 +76,41 @@ public class PhoenixPositioningPointDaoTest {
 
 
     @Test
-    public void testStops() throws SQLException, IOException, ClassNotFoundException {
+    public void testStops() {
 
-        PhoenixConn conn = DbcFactory.getPhoenixConn();
 
-        String sql = "SELECT MAC FROM BIGJOY.MACS WHERE MAC= 'FF770C0D0E0F'";
 
-        Statement stmt = conn.getConnection().createStatement();
+        try {
+            PhoenixConn conn = DbcFactory.getPhoenixConn();
 
-        ResultSet rs = stmt.executeQuery(sql);
+            String sql = "SELECT MAC FROM BIGJOY.MACS ORDER BY MAC";
 
-        IPOIDao dao = DaoFactory.getPhoenixPOIDao();
-        ISemStopsDao stopDao = DaoFactory.getPhoenixSemStopsDao();
+            Statement stmt = conn.getConnection().createStatement();
 
-        while (rs.next()) {
-            String mac = rs.getString("mac");
-            List<SemStop> stops = dao.getStops(mac);
-            TraceUtils.fixTrace(stops);
-            stopDao.upsert(mac, stops);
-            stopDao.upsertTraj(mac, "2014-04-01", stops);
+            ResultSet rs = stmt.executeQuery(sql);
+
+            IPOIDao dao = DaoFactory.getPhoenixPOIDao();
+            ISemStopsDao stopDao = DaoFactory.getPhoenixSemStopsDao();
+
+            while (rs.next()) {
+                String mac = rs.getString("mac");
+                List<SemStop> stops = dao.getStops(mac);
+                TraceUtils.fixTrace(stops);
+                stopDao.upsert(mac, stops);
+                stopDao.upsertTraj(mac, "2014-04-01", stops);
+            }
+
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
 
-        conn.close();
 
 
     }

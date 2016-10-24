@@ -16,20 +16,21 @@ public class Building {
 //            "D:\\big_joy\\floors\\20040.dbf"
 
 
-//            "/home/zdq/big_joy/floors/10010.dbf",
-//            "/home/zdq/big_joy/floors/10020.dbf",
-//            "/home/zdq/big_joy/floors/20010.dbf",
-//            "/home/zdq/big_joy/floors/20020.dbf",
-//            "/home/zdq/big_joy/floors/20030.dbf",
-//            "/home/zdq/big_joy/floors/20040.dbf",
+            "/home/zdq/big_joy/floors/10010.dbf",
+            "/home/zdq/big_joy/floors/10020.dbf",
+            "/home/zdq/big_joy/floors/20010.dbf",
+            "/home/zdq/big_joy/floors/20020.dbf",
+            "/home/zdq/big_joy/floors/20030.dbf",
+            "/home/zdq/big_joy/floors/20040.dbf",
+            "/home/zdq/big_joy/floors/20050.dbf",
 
 
-            "/Users/dq/paper_relate/big_joy/floors/10010.dbf",
-            "/Users/dq/paper_relate/big_joy/floors/10020.dbf",
-            "/Users/dq/paper_relate/big_joy/floors/20010.dbf",
-            "/Users/dq/paper_relate/big_joy/floors/20020.dbf",
-            "/Users/dq/paper_relate/big_joy/floors/20030.dbf",
-            "/Users/dq/paper_relate/big_joy/floors/20040.dbf",
+//            "/Users/dq/paper_relate/big_joy/floors/10010.dbf",
+//            "/Users/dq/paper_relate/big_joy/floors/10020.dbf",
+//            "/Users/dq/paper_relate/big_joy/floors/20010.dbf",
+//            "/Users/dq/paper_relate/big_joy/floors/20020.dbf",
+//            "/Users/dq/paper_relate/big_joy/floors/20030.dbf",
+//            "/Users/dq/paper_relate/big_joy/floors/20040.dbf",
 
 
     };
@@ -40,8 +41,8 @@ public class Building {
         static {
             for (String file : floorShps) {
 //            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
-//            building.addFloor(new Floor(file.substring(25, 30), file));// for linux
-                instance.addFloor(new Floor(file.substring(38, 43), file));// for mac
+            instance.addFloor(new Floor(file.substring(25, 30), file));// for linux
+//                instance.addFloor(new Floor(file.substring(38, 43), file));// for mac
             }
         }
 

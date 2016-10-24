@@ -69,8 +69,8 @@ public class PhoenixSemStopsDaoImpl implements ISemStopsDao {
             }
         });
         JSONArray arr = JSONArray.fromObject(stops.toArray(), config);
-        pstmt.setString(1, date);
-        pstmt.setInt(2, stops.size());
+        pstmt.setInt(1, stops.size());
+        pstmt.setString(2, date);
         pstmt.setString(3, arr.toString());
         pstmt.executeUpdate();
 

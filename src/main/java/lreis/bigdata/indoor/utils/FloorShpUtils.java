@@ -64,7 +64,7 @@ public class FloorShpUtils {
                 while (writer.hasNext()) {
                     System.out.println(codeNum);
                     SimpleFeature feature = writer.next();
-                    feature.setAttribute("poi_no", String.format("%04d", codeNum));
+                    feature.setAttribute("poi_no", codeNum);
                     codeNum++;
                     writer.write();
                 }
