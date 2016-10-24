@@ -126,8 +126,6 @@
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: commons-daemon:commons-daemon:1.0.13" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty:3.6.2.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.phoenix:phoenix:4.7.0-HBase-1.1" level="project" />
-    <orderEntry type="library" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.phoenix:phoenix-core:4.7.0-HBase-1.1" level="project" />
     <orderEntry type="library" name="Maven: co.cask.tephra:tephra-api:0.7.0" level="project" />
     <orderEntry type="library" name="Maven: co.cask.tephra:tephra-core:0.7.0" level="project" />
@@ -165,6 +163,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:bson:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.3.0" level="project" />

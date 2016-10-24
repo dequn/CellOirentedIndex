@@ -45,12 +45,12 @@
             <version>${hbase.version}</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.apache.phoenix</groupId>
-            <artifactId>phoenix</artifactId>
+            <artifactId>phoenix-core</artifactId>
             <version>4.7.0-HBase-1.1</version>
         </dependency>
-
 
 
         <dependency>
@@ -90,23 +90,17 @@
 
         <!-- https://mvnrepository.com/artifact/net.sf.ezmorph/ezmorph -->
         <!--<dependency>-->
-            <!--<groupId>net.sf.ezmorph</groupId>-->
-            <!--<artifactId>ezmorph</artifactId>-->
-            <!--<version>1.0.4</version>-->
-            <!--&lt;!&ndash;<classifier>jdk15</classifier>&ndash;&gt;-->
+        <!--<groupId>net.sf.ezmorph</groupId>-->
+        <!--<artifactId>ezmorph</artifactId>-->
+        <!--<version>1.0.4</version>-->
+        <!--&lt;!&ndash;<classifier>jdk15</classifier>&ndash;&gt;-->
         <!--</dependency>-->
-
 
 
     </dependencies>
 
 
     <repositories>
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net repository</name>
-            <url>http://download.java.net/maven/3</url>
-        </repository>
 
         <repository>
             <id>osgeo</id>
@@ -119,10 +113,15 @@
             <url>http://maven.apache.org</url>
         </repository>
 
-        <repository>
-            <id>apache release</id>
-            <url>https://repository.apache.org/content/repositories/releases/</url>
-        </repository>
+        <!--<repository>-->
+        <!--<id>maven2-repository.dev.java.net</id>-->
+        <!--<name>Java.net repository</name>-->
+        <!--<url>http://download.java.net/maven/3</url>-->
+        <!--<repository>-->
+        <!--<id>apache release</id>-->
+        <!--<url>https://repository.apache.org/content/repositories/releases/</url>-->
+        <!--</repository>-->
+
     </repositories>
 
 

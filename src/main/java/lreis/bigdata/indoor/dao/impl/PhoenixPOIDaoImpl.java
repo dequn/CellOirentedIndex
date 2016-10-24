@@ -36,6 +36,7 @@ public class PhoenixPOIDaoImpl implements IPOIDao {
 
         String rowkey =
                 PositioningPoint.calRowkey(positioningPoint, PositioningPoint.QueryMethod.STR);
+
         if (rowkey == null) {
             return false;
         }

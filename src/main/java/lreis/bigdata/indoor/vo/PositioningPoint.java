@@ -144,7 +144,7 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
         return (int) (o1.time - o2.time);
     }
 
-    public enum QueryMethod {Grid, STR}
+    public static enum QueryMethod {Grid, STR}
 
 }
 
