@@ -1,2 +1,5 @@
 .idea/
 target/
+input/
+output/
+classes/

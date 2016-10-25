@@ -22,6 +22,19 @@ public class PointWritable implements Writable, DBWritable {
     PositioningPoint point;
 
 
+    public PointWritable(){
+
+    }
+
+    public  PointWritable(String rowkey,PositioningPoint point){
+        this.rowkey = rowkey;
+        this.point = point;
+
+
+    }
+
+
+
     public String getRowkey() {
         return rowkey;
     }
@@ -40,7 +53,6 @@ public class PointWritable implements Writable, DBWritable {
 
     @Override
     public void write(DataOutput dataOutput) throws IOException {
-
     }
 
     @Override
@@ -56,7 +68,7 @@ public class PointWritable implements Writable, DBWritable {
         pstmt.setTimestamp(3, new Timestamp(this.point.getTime()));
         pstmt.setString(4, this.point.getMac());
         pstmt.setInt(5, (int) this.point.getX() * 1000);
-        pstmt.setInt(6, (int) this.point.getY() * 1000);
+        pstmt.setInt(6, (int) this.point.getY() * -1000);
         pstmt.setString(7, this.point.getSemanticCellIn().getPolygonNum());
         pstmt.setLong(8, this.point.getTime());
 

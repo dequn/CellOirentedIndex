@@ -38,8 +38,20 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
 
         this.updatePoint();
 
+    }
+
+
+    public PositioningPoint(PositioningPoint point){
+        this.mac = point.getMac();
+        this.floorNum = point.getFloorNum();
+        this.x = point.getX();
+        this.y = point.getY();
+        this.time = point.getTime();
+        this.updatePoint();
 
     }
+
+
 
     @Contract("null -> null")
     public static String calRowkey(PositioningPoint positioningPoint, QueryMethod method) {
