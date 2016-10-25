@@ -237,7 +237,6 @@ public class HBasePOIDaoImpl implements IPOIDao {
         this.poiTable.close();
         this.idxTable.close();
         this.conn.close();
-        ;
     }
 
 

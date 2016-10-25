@@ -16,13 +16,13 @@ public class Building {
 //            "D:\\big_joy\\floors\\20040.dbf"
 
 
-            "/home/zdq/big_joy/floors/10010.dbf",
-            "/home/zdq/big_joy/floors/10020.dbf",
-            "/home/zdq/big_joy/floors/20010.dbf",
-            "/home/zdq/big_joy/floors/20020.dbf",
-            "/home/zdq/big_joy/floors/20030.dbf",
-            "/home/zdq/big_joy/floors/20040.dbf",
-            "/home/zdq/big_joy/floors/20050.dbf",
+            "floors/10010.dbf",
+            "floors/10020.dbf",
+            "floors/20010.dbf",
+            "floors/20020.dbf",
+            "floors/20030.dbf",
+            "floors/20040.dbf",
+            "floors/20050.dbf",
 
 
 //            "/Users/dq/paper_relate/big_joy/floors/10010.dbf",
@@ -41,7 +41,7 @@ public class Building {
         static {
             for (String file : floorShps) {
 //            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
-            instance.addFloor(new Floor(file.substring(25, 30), file));// for linux
+            instance.addFloor(new Floor(file.substring(7, 12), file));// for linux
 //                instance.addFloor(new Floor(file.substring(38, 43), file));// for mac
             }
         }

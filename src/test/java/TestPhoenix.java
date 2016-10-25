@@ -1,3 +1,4 @@
+import lreis.bigdata.indoor.vo.Building;
 import org.junit.Test;
 
 import java.sql.*;
@@ -32,5 +33,13 @@ public class TestPhoenix {
         statement.close();
         con.commit();
         con.close();
+    }
+
+
+    @Test
+    public void getBuilding(){
+        Building b = Building.getInstatnce();
+        System.out.print(b);
+
     }
 }

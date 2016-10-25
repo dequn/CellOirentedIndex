@@ -33,5 +33,5 @@ public interface IPOIDao {
     List<PositioningPoint> getTraceByMac(String mac, Long beginTimeStamp, Long endTimeStamp) throws SQLException, IOException;
 
 
-    public void close() throws IOException, SQLException, ClassNotFoundException;
+    void close() throws IOException, SQLException, ClassNotFoundException;
 }

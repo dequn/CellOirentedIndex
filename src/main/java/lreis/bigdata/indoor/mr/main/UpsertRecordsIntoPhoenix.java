@@ -137,7 +137,21 @@ public class UpsertRecordsIntoPhoenix {
 
         Configuration conf = HBaseConfiguration.create();
 
+
+        conf.set("mapred.job.tracker", "local");
+        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
+        conf.set("mapreduce.framework.name", "yarn");
+        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
+        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
+        System.setProperty("hadoop.home.dir", "/usr/local/hadoop");
+
+
+
+
         Job job = Job.getInstance(conf, "Ingest Points");
+
+
+        job.setJar("/home/zdq/IdeaProjects/paper_test/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
 
         job.setMapperClass(UpsertMapper.class);
         job.setReducerClass(UpsertReducer.class);

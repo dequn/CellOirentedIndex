@@ -965,7 +965,7 @@ public final class BuildMacIndex {
             switch (method.getIndex()) {
                 case 0:
                     this.buildMacIndex(controller, (lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest) request,
-                            com.google.protobuf.RpcUtil.<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse>specializeCallback(
+                            com.google.protobuf.RpcUtil.specializeCallback(
                                     done));
                     return;
                 default:
@@ -1009,7 +1009,7 @@ public final class BuildMacIndex {
             /**
              * <code>rpc buildMacIndex(.buildMacIndexRequest) returns (.buildMacIndexResponse);</code>
              */
-            public abstract void buildMacIndex(
+            void buildMacIndex(
                     com.google.protobuf.RpcController controller,
                     lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request,
                     com.google.protobuf.RpcCallback<lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse> done);
@@ -1017,7 +1017,7 @@ public final class BuildMacIndex {
         }
 
         public interface BlockingInterface {
-            public lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildMacIndex(
+            lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexResponse buildMacIndex(
                     com.google.protobuf.RpcController controller,
                     lreis.bigdata.indoor.index.coprocessor.BuildMacIndex.buildMacIndexRequest request)
                     throws com.google.protobuf.ServiceException;

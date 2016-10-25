@@ -51,10 +51,7 @@ public class MacTimeWritable implements WritableComparable<MacTimeWritable> {
 
     public boolean equals(MacTimeWritable obj) {
 
-        if (this.mac.equals(obj.getMac()) && this.time.equals(obj.getTime())) {
-            return true;
-        }
-        return false;
+        return this.mac.equals(obj.getMac()) && this.time.equals(obj.getTime());
     }
 
 
