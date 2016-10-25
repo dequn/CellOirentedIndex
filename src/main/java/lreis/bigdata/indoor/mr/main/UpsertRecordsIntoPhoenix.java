@@ -31,19 +31,14 @@ import java.text.ParseException;
 public class UpsertRecordsIntoPhoenix {
 
 
-    public static class UpsertMapper extends Mapper<Object, Text,Text, Text> {
-
-
-
-
-
+    public static class UpsertMapper extends Mapper<Object, Text, Text, Text> {
 
 
         @Override
         protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
 
-            context.write(value,value);
+            context.write(value, value);
 
 
 //            String line = value.toString();
@@ -79,7 +74,6 @@ public class UpsertRecordsIntoPhoenix {
         }
 
 
-
     }
 
     public static class UpsertReducer extends Reducer<Text, Text, NullWritable, PointWritable> {
@@ -90,7 +84,7 @@ public class UpsertRecordsIntoPhoenix {
 
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
-             mos = new MultipleOutputs(context);
+            mos = new MultipleOutputs(context);
         }
 
         @Override
@@ -115,9 +109,9 @@ public class UpsertRecordsIntoPhoenix {
                 String id = PositioningPoint.calRowkey(pp, PositioningPoint.QueryMethod.STR);
 
                 if (id == null) {// output to a file
-                    mos.write("text",NullWritable.get(),value);
+                    mos.write("text", NullWritable.get(), value);
                 } else {
-                    PointWritable point = new PointWritable(id,pp);
+                    PointWritable point = new PointWritable(id, pp);
 //                    context.write(NullWritable.get(), point);
                     mos.write("db", NullWritable.get(), point);
                 }
@@ -138,40 +132,32 @@ public class UpsertRecordsIntoPhoenix {
         Configuration conf = HBaseConfiguration.create();
 
 
-        conf.set("mapred.job.tracker", "local");
-        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
-        conf.set("mapreduce.framework.name", "yarn");
-        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
-        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
-        System.setProperty("hadoop.home.dir", "/usr/local/hadoop");
-
-
+//        conf.set("mapred.job.tracker", "local");
+//        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
+//        conf.set("mapreduce.framework.name", "yarn");
+//        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
+//        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
+//        System.setProperty("hadoop.home.dir", "/usr/local/bin/hadoop");
 
 
         Job job = Job.getInstance(conf, "Ingest Points");
 
 
-        job.setJar("/home/zdq/IdeaProjects/paper_test/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
+//        job.setJar("/Users/dq/IdeaProjects/CellOirentedIndex/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
 
         job.setMapperClass(UpsertMapper.class);
         job.setReducerClass(UpsertReducer.class);
 
         MultipleOutputs.addNamedOutput(job, "db", PhoenixOutputFormat.class, NullWritable.class, PointWritable.class);
-        MultipleOutputs.addNamedOutput(job,"text", TextOutputFormat.class,NullWritable.class,Text.class);
+        MultipleOutputs.addNamedOutput(job, "text", TextOutputFormat.class, NullWritable.class, Text.class);
 
 
-
-
-//        job.setOutputFormatClass(PhoenixOutputFormat.class);
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Text.class);
 
-//        job.setOutputKeyClass(NullWritable.class);
-//        job.setOutputValueClass(PointWritable.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job,new Path(args[1]));
-
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
 
 //        PhoenixMapReduceUtil.setOutput(job, "BIGJOY.IMOS2", "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME");
@@ -181,7 +167,6 @@ public class UpsertRecordsIntoPhoenix {
         PhoenixConfigurationUtil.setUpsertColumnNames(job.getConfiguration(), "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME".split(","));
 
         TableMapReduceUtil.addDependencyJars(job);
-
 
 
         job.waitForCompletion(true);

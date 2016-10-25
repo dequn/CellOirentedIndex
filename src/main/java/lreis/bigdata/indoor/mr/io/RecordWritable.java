@@ -1,4 +1,4 @@
-package lreis.bigdata.indoor.mr;
+package lreis.bigdata.indoor.mr.io;
 
 import org.apache.hadoop.io.Writable;
 

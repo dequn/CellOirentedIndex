@@ -1,5 +1,8 @@
 package lreis.bigdata.indoor.vo;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +12,9 @@ import java.util.Map;
  * Created by Q on 2016/6/20.
  */
 public class Building {
+
+    static Logger logger = Logger.getLogger(Building.class.getName());
+
     static final String[] floorShps = new String[]{
 //            "D:\\big_joy\\floors\\20010.dbf",
 //            "D:\\big_joy\\floors\\20020.dbf",
@@ -38,10 +44,24 @@ public class Building {
     private static class BuildingHolder {
         private static final Building instance = new Building();
 
+
         static {
+            BasicConfigurator.configure();
+
             for (String file : floorShps) {
 //            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
-            instance.addFloor(new Floor(file.substring(7, 12), file));// for linux
+
+                logger.warn(BuildingHolder.class.getResource("/").getPath());
+
+//                System.out.println();
+
+                String path = Building.class.getResource("/" + file).getPath();
+
+                System.out.println(path);
+
+                String[] files = path.split("/");
+
+                instance.addFloor(new Floor(files[files.length - 1].substring(0, 5), path));// for linux
 //                instance.addFloor(new Floor(file.substring(38, 43), file));// for mac
             }
         }

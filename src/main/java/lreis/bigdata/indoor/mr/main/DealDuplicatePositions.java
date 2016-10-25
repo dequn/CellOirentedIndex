@@ -1,7 +1,7 @@
 package lreis.bigdata.indoor.mr.main;
 
-import lreis.bigdata.indoor.mr.MacTimeWritable;
-import lreis.bigdata.indoor.mr.RecordWritable;
+import lreis.bigdata.indoor.mr.io.MacTimeWritable;
+import lreis.bigdata.indoor.mr.io.RecordWritable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
