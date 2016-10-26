@@ -1,8 +1,5 @@
 package lreis.bigdata.indoor.vo;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,32 +10,14 @@ import java.util.Map;
  */
 public class Building {
 
-    static Logger logger = Logger.getLogger(Building.class.getName());
-
-    static final String[] floorShps = new String[]{
-//            "D:\\big_joy\\floors\\20010.dbf",
-//            "D:\\big_joy\\floors\\20020.dbf",
-//            "D:\\big_joy\\floors\\20030.dbf",
-//            "D:\\big_joy\\floors\\20040.dbf"
-
-
-            "floors/10010.dbf",
-            "floors/10020.dbf",
-            "floors/20010.dbf",
-            "floors/20020.dbf",
-            "floors/20030.dbf",
-            "floors/20040.dbf",
-            "floors/20050.dbf",
-
-
-//            "/Users/dq/paper_relate/big_joy/floors/10010.dbf",
-//            "/Users/dq/paper_relate/big_joy/floors/10020.dbf",
-//            "/Users/dq/paper_relate/big_joy/floors/20010.dbf",
-//            "/Users/dq/paper_relate/big_joy/floors/20020.dbf",
-//            "/Users/dq/paper_relate/big_joy/floors/20030.dbf",
-//            "/Users/dq/paper_relate/big_joy/floors/20040.dbf",
-
-
+    public static final String[] floorShps = new String[]{
+            "data/floors/10010.dbf",
+            "data/floors/10020.dbf",
+            "data/floors/20010.dbf",
+            "data/floors/20020.dbf",
+            "data/floors/20030.dbf",
+            "data/floors/20040.dbf",
+            "data/floors/20050.dbf",
     };
 
     private static class BuildingHolder {
@@ -46,23 +25,11 @@ public class Building {
 
 
         static {
-            BasicConfigurator.configure();
-
             for (String file : floorShps) {
-//            building.addFloor(new Floor(file.substring(18, 23), file));// for windows
 
-                logger.warn(BuildingHolder.class.getResource("/").getPath());
-
-//                System.out.println();
-
-                String path = Building.class.getResource("/" + file).getPath();
-
-                System.out.println(path);
-
-                String[] files = path.split("/");
-
-                instance.addFloor(new Floor(files[files.length - 1].substring(0, 5), path));// for linux
-//                instance.addFloor(new Floor(file.substring(38, 43), file));// for mac
+//                String path = Building.class.getResource("/" + file).getPath();
+                String[] files = file.split("/");
+                instance.addFloor(new Floor(files[files.length - 1].substring(0, 5), file));
             }
         }
 
