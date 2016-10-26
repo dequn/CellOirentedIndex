@@ -65,14 +65,14 @@ public class PointWritable implements Writable, DBWritable {
 
         pstmt.setString(1, this.rowkey);
         pstmt.setString(2, this.point.getFloorNum());
-        pstmt.setTimestamp(3, new Timestamp(this.point.getTime()));
+        pstmt.setString(3, new Timestamp(this.point.getTime()).toString());
         pstmt.setString(4, this.point.getMac());
         pstmt.setInt(5, (int) this.point.getX() * 1000);
         pstmt.setInt(6, (int) this.point.getY() * -1000);
         pstmt.setString(7, this.point.getSemanticCellIn().getPolygonNum());
         pstmt.setLong(8, this.point.getTime());
 
-    }
+   }
 
     @Override
     public void readFields(ResultSet resultSet) throws SQLException {

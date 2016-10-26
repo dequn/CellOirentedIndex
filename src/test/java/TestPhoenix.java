@@ -21,18 +21,27 @@ public class TestPhoenix {
         stmt = con.createStatement();
 
 
-        stmt.executeUpdate("create table test (mykey VARCHAR not null primary key, mycolumn varchar)");
-        stmt.executeUpdate("upsert into test values ('1','Hello')");
-        stmt.executeUpdate("upsert into test values ('2','World!')");
-
-        PreparedStatement statement = con.prepareStatement("select * from test");
+//        stmt.executeUpdate("create table test (mykey VARCHAR not null primary key, mycolumn varchar)");
+//        stmt.executeUpdate("upsert into test values ('1','Hello')");
+//        stmt.executeUpdate("upsert into test values ('2','World!')");
+//
+        PreparedStatement statement = con.prepareStatement("select * from bigjoy.imos");
         rset = statement.executeQuery();
+
+
+
         while (rset.next()) {
-            System.out.println(rset.getString("mycolumn"));
+            System.out.println(rset.getString("time"));
         }
         statement.close();
         con.commit();
         con.close();
+    }
+
+    @Test
+    public void testTimeStamp(){
+
+
     }
 
 

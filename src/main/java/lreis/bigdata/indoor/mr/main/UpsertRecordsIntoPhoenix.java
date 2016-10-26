@@ -41,36 +41,6 @@ public class UpsertRecordsIntoPhoenix {
             context.write(value, value);
 
 
-//            String line = value.toString();
-//
-//            String items[] = line.split(",");
-//            String mac = items[0];
-//            String floorNum = items[1];
-//            Float x = Float.parseFloat(items[2]) / 1000;
-//            Float y = Float.parseFloat(items[3]) / -1000;
-//            long time = 0;
-//
-//            try {
-//                time = RecordUtils.calcTimeStamp(items[4]);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//
-//
-//            PositioningPoint pp = new PositioningPoint(mac, time, x, y, floorNum);
-//            String id = PositioningPoint.calRowkey(pp, PositioningPoint.QueryMethod.STR);
-//
-//            if (id == null) {// output to a file
-//
-//            } else {
-//                PointWritable point = new PointWritable(id,pp);
-//                context.write(new Text(line), point);
-//
-//            }
-
-
         }
 
 
@@ -88,7 +58,9 @@ public class UpsertRecordsIntoPhoenix {
         }
 
         @Override
-        protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        protected void reduce(Text key, Iterable<Text> values, Context context) {
+
+
             for (Text value : values) {
                 String line = value.toString();
 
@@ -98,24 +70,46 @@ public class UpsertRecordsIntoPhoenix {
                 float x = Float.parseFloat(items[2]) / 1000;
                 float y = Float.parseFloat(items[3]) / -1000;
                 long time = 0;
-
                 try {
+
+
                     time = RecordUtils.calcTimeStamp(items[4]);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    try {
+                        mos.write("text", NullWritable.get(), value, "UPSERT_ERROR");
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    continue;
                 }
 
                 PositioningPoint pp = new PositioningPoint(mac, time, x, y, floorNum);
                 String id = PositioningPoint.calRowkey(pp, PositioningPoint.QueryMethod.STR);
 
-                if (id == null) {// output to a file
-                    mos.write("text", NullWritable.get(), value);
+                if (id == null || id.length() != 33) {// output to a file
+                    try {
+                        mos.write("text", NullWritable.get(), value, "UPSERT_ERROR");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     PointWritable point = new PointWritable(id, pp);
-//                    context.write(NullWritable.get(), point);
-                    mos.write("db", NullWritable.get(), point);
+                    try {
+                        mos.write("db", NullWritable.get(), point);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
+
+
         }
 
 
@@ -142,9 +136,6 @@ public class UpsertRecordsIntoPhoenix {
 
         Job job = Job.getInstance(conf, "Ingest Points");
 
-
-//        job.setJar("/Users/dq/IdeaProjects/CellOirentedIndex/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
-
         job.setMapperClass(UpsertMapper.class);
         job.setReducerClass(UpsertReducer.class);
 
@@ -163,7 +154,7 @@ public class UpsertRecordsIntoPhoenix {
 //        PhoenixMapReduceUtil.setOutput(job, "BIGJOY.IMOS2", "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME");
 
 
-        PhoenixConfigurationUtil.setOutputTableName(job.getConfiguration(), "BIGJOY.IMOS2");
+        PhoenixConfigurationUtil.setOutputTableName(job.getConfiguration(), "BIGJOY.IMOS");
         PhoenixConfigurationUtil.setUpsertColumnNames(job.getConfiguration(), "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME".split(","));
 
         TableMapReduceUtil.addDependencyJars(job);
