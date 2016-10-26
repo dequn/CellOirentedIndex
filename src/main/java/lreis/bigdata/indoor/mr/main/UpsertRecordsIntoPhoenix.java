@@ -33,7 +33,6 @@ public class UpsertRecordsIntoPhoenix {
 
     public static class UpsertMapper extends Mapper<Object, Text, Text, Text> {
 
-
         @Override
         protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
