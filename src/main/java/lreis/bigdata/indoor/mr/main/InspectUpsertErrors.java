@@ -21,7 +21,7 @@ import java.text.ParseException;
 public class InspectUpsertErrors {
 
 
-    public class InpsectMapper extends Mapper<Object, Text, NullWritable, Text> {
+    public static class InpsectMapper extends Mapper<Object, Text, NullWritable, Text> {
 
         MultipleOutputs mos;
 
@@ -57,7 +57,6 @@ public class InspectUpsertErrors {
                 mos.write(NullWritable.get(), value, "NULL");
             } else if (id.length() != 33) {
                 mos.write(NullWritable.get(), value, "LENGTH_ERROR");
-
             }
 
         }
