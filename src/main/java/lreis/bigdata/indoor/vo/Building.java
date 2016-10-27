@@ -51,7 +51,10 @@ public class Building {
      * @return List<SemanticCell>
      */
     public static SemanticCell querySemCell(Floor floor, PositioningPoint positioningPoint, PositioningPoint.QueryMethod method) {
-        if (method == PositioningPoint.QueryMethod.Grid) {
+
+        if (floor == null) {
+            return null;
+        } else if (method == PositioningPoint.QueryMethod.Grid) {
             return floor.queryInGrid(positioningPoint.getPoint());
         } else if (method == PositioningPoint.QueryMethod.STR) {
             return floor.queryInSTR(positioningPoint.getPoint());
