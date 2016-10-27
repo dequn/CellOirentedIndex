@@ -15,17 +15,17 @@ public class SetShpPolygonNum {
     public static void main(String[] args) {
 
 
-        List<String> files = new ArrayList<>();
-        List<Integer> beginNums = new ArrayList<>();
-
-
-        for (String shp : Building.floorShps) {
-            beginNums.add(Integer.parseInt(shp.substring(7, 12)) * 1000);
-            String path = Building.class.getResource("/" + shp).getPath();
-            files.add(path);
-        }
-
-        FloorShpUtils.setPolygonNum(files, beginNums);
+//        List<String> files = new ArrayList<>();
+//        List<Integer> beginNums = new ArrayList<>();
+//
+//
+//        for (String shp : Building.floorShps) {
+//            beginNums.add(Integer.parseInt(shp.substring(7, 12)) * 1000);
+//            String path = Building.class.getResource("/" + shp).getPath();
+//            files.add(path);
+//        }
+//
+//        FloorShpUtils.setPolygonNum(files, beginNums);
 
 
         Building b = Building.getInstatnce();

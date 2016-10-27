@@ -57,7 +57,7 @@ public class UpsertRecordsIntoPhoenix {
         }
 
         @Override
-        protected void reduce(Text key, Iterable<Text> values, Context context) {
+        protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 
             for (Text value : values) {
@@ -70,40 +70,27 @@ public class UpsertRecordsIntoPhoenix {
                 float y = Float.parseFloat(items[3]) / -1000;
                 long time = 0;
                 try {
-
-
                     time = RecordUtils.calcTimeStamp(items[4]);
                 } catch (ParseException e) {
-                    try {
-                        mos.write("text", NullWritable.get(), value, "UPSERT_ERROR");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
+                    mos.write("text", NullWritable.get(), value, "TIME_PARSE_ERROR");
                     continue;
                 }
 
                 PositioningPoint pp = new PositioningPoint(mac, time, x, y, floorNum);
                 String id = PositioningPoint.calRowkey(pp, PositioningPoint.QueryMethod.STR);
 
-                if (id == null || id.length() != 33) {// output to a file
-                    try {
-                        mos.write("text", NullWritable.get(), value, "UPSERT_ERROR");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                if (id == null ) {// output to a file
+                    if(items[2].equals("0") && items[3].equals(")")){
+                        mos.write("text", NullWritable.get(), value, "LOCATION_0_0");
+                    }else {
+                        mos.write("text", NullWritable.get(), value, "NOT_DROPED_IN_A_CELL");
                     }
+
                 } else {
                     PointWritable point = new PointWritable(id, pp);
-                    try {
-                        mos.write("db", NullWritable.get(), point);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+                    mos.write("db", NullWritable.get(), point);
+
 
                 }
             }
