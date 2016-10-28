@@ -1,12 +1,10 @@
 package lreis.bigdata.indoor.dao.impl;
 
-import com.vividsolutions.jts.geom.Geometry;
 import lreis.bigdata.indoor.dao.ISemStopsDao;
 import lreis.bigdata.indoor.dbc.IConnection;
 import lreis.bigdata.indoor.vo.SemStop;
 import lreis.bigdata.indoor.vo.SemanticCell;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 

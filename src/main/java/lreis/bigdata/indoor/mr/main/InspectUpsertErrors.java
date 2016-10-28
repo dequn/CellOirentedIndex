@@ -21,6 +21,27 @@ import java.text.ParseException;
 public class InspectUpsertErrors {
 
 
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+
+
+        Configuration conf = new Configuration();
+
+        Job job = Job.getInstance(conf, "Inspect Upsert Error");
+
+        job.setJarByClass(InspectUpsertErrors.class);
+
+        job.setMapperClass(InpsectMapper.class);
+        job.setMapOutputKeyClass(NullWritable.class);
+        job.setMapOutputValueClass(Text.class);
+
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        job.waitForCompletion(true);
+
+    }
+
     public static class InpsectMapper extends Mapper<Object, Text, NullWritable, Text> {
 
         MultipleOutputs mos;
@@ -66,28 +87,6 @@ public class InspectUpsertErrors {
             super.cleanup(context);
             mos.close();
         }
-
-    }
-
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
-
-        Configuration conf = new Configuration();
-
-        Job job = Job.getInstance(conf, "Inspect Upsert Error");
-
-        job.setJarByClass(InspectUpsertErrors.class);
-
-        job.setMapperClass(InpsectMapper.class);
-        job.setMapOutputKeyClass(NullWritable.class);
-        job.setMapOutputValueClass(Text.class);
-
-
-        FileInputFormat.addInputPath(job,new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-        job.waitForCompletion(true);
 
     }
 

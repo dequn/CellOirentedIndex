@@ -1,4 +1,4 @@
-package lreis.bigdata.indoor.index;
+package lreis.bigdata.indoor.index.coprocessor;
 
 import lreis.bigdata.indoor.dbc.HBaseConnection;
 import lreis.bigdata.indoor.factory.DbcFactory;

@@ -27,6 +27,34 @@ public class DealDuplicatePositions {
     public static final int MAX_DISTANCE = 1000;
     public static final String DUPLICATE_POSITIONS = "DUPLICATE_POSITIONS";
 
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+
+
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf, "Deal Duplicates Positions");
+
+        job.setJarByClass(DealDuplicatePositions.class);
+
+        job.setMapperClass(DealDuplicatePositionMapper.class);
+        job.setReducerClass(DealDuplicatePositionReducer.class);
+
+
+        job.setMapOutputKeyClass(MacTimeWritable.class);
+        job.setMapOutputValueClass(RecordWritable.class);
+
+        job.setOutputKeyClass(NullWritable.class);
+        job.setOutputValueClass(RecordWritable.class);
+
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+
+
+    }
+
     public static class DealDuplicatePositionMapper extends Mapper<Object, Text, MacTimeWritable, RecordWritable> {
 
 
@@ -55,7 +83,6 @@ public class DealDuplicatePositions {
         }
 
     }
-
 
     public static class DealDuplicatePositionReducer extends Reducer<MacTimeWritable, RecordWritable, NullWritable, RecordWritable> {
 
@@ -160,35 +187,6 @@ public class DealDuplicatePositions {
         protected void cleanup(Context context) throws IOException, InterruptedException {
             mos.close();
         }
-    }
-
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
-
-        Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Deal Duplicates Positions");
-
-        job.setJarByClass(DealDuplicatePositions.class);
-
-        job.setMapperClass(DealDuplicatePositionMapper.class);
-        job.setReducerClass(DealDuplicatePositionReducer.class);
-
-
-        job.setMapOutputKeyClass(MacTimeWritable.class);
-        job.setMapOutputValueClass(RecordWritable.class);
-
-        job.setOutputKeyClass(NullWritable.class);
-        job.setOutputValueClass(RecordWritable.class);
-
-
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
-
-
     }
 
 

@@ -157,7 +157,7 @@ public class Floor {
      */
     private void buildIndex() {
 
-        if(this.semanticCells == null){
+        if (this.semanticCells == null) {
             this.readCells();
         }
 

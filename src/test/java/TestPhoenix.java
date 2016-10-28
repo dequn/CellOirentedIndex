@@ -9,8 +9,6 @@ import java.sql.*;
 public class TestPhoenix {
 
 
-
-
     @Test
     public void ConnectionTest() throws SQLException, ClassNotFoundException {
         Statement stmt = null;
@@ -29,7 +27,6 @@ public class TestPhoenix {
         rset = statement.executeQuery();
 
 
-
         while (rset.next()) {
             System.out.println(rset.getString("time"));
         }
@@ -39,14 +36,14 @@ public class TestPhoenix {
     }
 
     @Test
-    public void testTimeStamp(){
+    public void testTimeStamp() {
 
 
     }
 
 
     @Test
-    public void getBuilding(){
+    public void getBuilding() {
         Building b = Building.getInstatnce();
         System.out.print(b);
 

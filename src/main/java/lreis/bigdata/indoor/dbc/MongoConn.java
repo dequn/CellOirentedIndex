@@ -3,7 +3,6 @@ package lreis.bigdata.indoor.dbc;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.apache.hadoop.yarn.webapp.hamlet.HamletSpec;
 
 /**
  * Created by dq on 10/6/16.

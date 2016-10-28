@@ -25,14 +25,13 @@ public class IngestPoints {
     }
 
 
-
     @Ignore
     @Test
     public void HBaseIngest() {
 
         try {
             dao = DaoFactory.getHBasePOIDao();
-            for ( PositioningPoint positioningPoint : TestStatic.positioningPoints) {
+            for (PositioningPoint positioningPoint : TestStatic.positioningPoints) {
                 this.dao.insertPOI(positioningPoint);
             }
             this.dao.close();
@@ -69,7 +68,7 @@ public class IngestPoints {
     }
 
     @Test
-    public void PhoenixIngest(){
+    public void PhoenixIngest() {
 
 
         try {
@@ -88,8 +87,6 @@ public class IngestPoints {
 
 
     }
-
-
 
 
 }

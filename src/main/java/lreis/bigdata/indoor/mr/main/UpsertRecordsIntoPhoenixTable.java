@@ -27,6 +27,37 @@ import java.text.ParseException;
 public class UpsertRecordsIntoPhoenixTable {
 
 
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+
+
+        Configuration conf = HBaseConfiguration.create();
+
+
+        Job job = Job.getInstance(conf, "Ingest Points");
+
+        job.setMapperClass(UpsertMapper.class);
+
+        job.setNumReduceTasks(0);
+
+        job.setMapOutputValueClass(MultipleOutputs.class);
+
+
+        MultipleOutputs.addNamedOutput(job, "db", PhoenixOutputFormat.class, NullWritable.class, PointWritable.class);
+        MultipleOutputs.addNamedOutput(job, "text", TextOutputFormat.class, NullWritable.class, Text.class);
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        PhoenixConfigurationUtil.setOutputTableName(job.getConfiguration(), "BIGJOY.IMOS");
+        PhoenixConfigurationUtil.setUpsertColumnNames(job.getConfiguration(), "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME".split(","));
+
+        TableMapReduceUtil.addDependencyJars(job);
+
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+
+    }
+
     public static class UpsertMapper extends Mapper<Object, Text, NullWritable, MultipleOutputs> {
 
         MultipleOutputs mos;
@@ -57,7 +88,6 @@ public class UpsertRecordsIntoPhoenixTable {
             long time = 0;
 
 
-
             try {
                 time = RecordUtils.calcTimeStamp(items[0]);
             } catch (ParseException e) {
@@ -84,39 +114,6 @@ public class UpsertRecordsIntoPhoenixTable {
 
         }
 
-
-    }
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
-
-        Configuration conf = HBaseConfiguration.create();
-
-
-
-
-        Job job = Job.getInstance(conf, "Ingest Points");
-
-        job.setMapperClass(UpsertMapper.class);
-
-        job.setNumReduceTasks(0);
-
-        job.setMapOutputValueClass(MultipleOutputs.class);
-
-
-        MultipleOutputs.addNamedOutput(job, "db", PhoenixOutputFormat.class, NullWritable.class, PointWritable.class);
-        MultipleOutputs.addNamedOutput(job, "text", TextOutputFormat.class, NullWritable.class, Text.class);
-
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-        PhoenixConfigurationUtil.setOutputTableName(job.getConfiguration(), "BIGJOY.IMOS");
-        PhoenixConfigurationUtil.setUpsertColumnNames(job.getConfiguration(), "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME".split(","));
-
-        TableMapReduceUtil.addDependencyJars(job);
-
-
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
 
     }
 

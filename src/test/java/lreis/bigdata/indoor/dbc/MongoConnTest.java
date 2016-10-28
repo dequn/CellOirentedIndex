@@ -1,13 +1,10 @@
 package lreis.bigdata.indoor.dbc;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.junit.Test;
@@ -17,7 +14,6 @@ import java.util.List;
 
 import static com.mongodb.client.model.Filters.or;
 import static com.mongodb.client.model.Filters.regex;
-import static org.junit.Assert.*;
 
 /**
  * Created by dq on 10/6/16.

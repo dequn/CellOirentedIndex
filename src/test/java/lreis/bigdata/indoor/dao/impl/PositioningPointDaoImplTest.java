@@ -1,6 +1,5 @@
 package lreis.bigdata.indoor.dao.impl;
 
-import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.factory.DaoFactory;
 import lreis.bigdata.indoor.utils.RecordUtils;

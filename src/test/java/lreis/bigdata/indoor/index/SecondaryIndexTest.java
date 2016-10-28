@@ -1,5 +1,6 @@
 package lreis.bigdata.indoor.index;
 
+import lreis.bigdata.indoor.index.coprocessor.SecondaryIndex;
 import org.junit.Test;
 
 /**

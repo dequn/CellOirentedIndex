@@ -1,8 +1,6 @@
 package lreis.bigdata.indoor;
 
 import lreis.bigdata.indoor.utils.RecordUtils;
-import lreis.bigdata.indoor.vo.Building;
-import lreis.bigdata.indoor.vo.Floor;
 import lreis.bigdata.indoor.vo.PositioningPoint;
 
 import java.io.BufferedReader;

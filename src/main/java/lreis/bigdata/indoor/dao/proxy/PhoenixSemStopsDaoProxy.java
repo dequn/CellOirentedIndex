@@ -1,7 +1,6 @@
 package lreis.bigdata.indoor.dao.proxy;
 
 import lreis.bigdata.indoor.dao.ISemStopsDao;
-import lreis.bigdata.indoor.dao.impl.PhoenixPOIDaoImpl;
 import lreis.bigdata.indoor.dao.impl.PhoenixSemStopsDaoImpl;
 import lreis.bigdata.indoor.dbc.PhoenixConn;
 import lreis.bigdata.indoor.factory.DbcFactory;
@@ -33,6 +32,6 @@ public class PhoenixSemStopsDaoProxy implements ISemStopsDao {
     @Override
     public void upsertTraj(String mac, String date, List<SemStop> stops) throws SQLException, ClassNotFoundException {
         this.dao
-                .upsertTraj(mac,date,stops);
+                .upsertTraj(mac, date, stops);
     }
 }

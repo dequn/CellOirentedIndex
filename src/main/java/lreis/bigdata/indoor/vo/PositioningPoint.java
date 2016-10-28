@@ -41,7 +41,7 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
     }
 
 
-    public PositioningPoint(PositioningPoint point){
+    public PositioningPoint(PositioningPoint point) {
         this.mac = point.getMac();
         this.floorNum = point.getFloorNum();
         this.x = point.getX();
@@ -50,7 +50,6 @@ public class PositioningPoint implements Comparator<PositioningPoint> {
         this.updatePoint();
 
     }
-
 
 
     @Contract("null -> null")

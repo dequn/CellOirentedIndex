@@ -12,10 +12,6 @@ public class SemStop {
     private long stayTime;
 
 
-    public long getStayTime() {
-        return stayTime;
-    }
-
     public SemStop(String polygonNum, Long entryTime) {
 
         this.polygonNum = polygonNum;
@@ -40,6 +36,10 @@ public class SemStop {
         this.exitTime = exitTime;
         this.entryTime = entryTime;
         this.calStopTime();
+    }
+
+    public long getStayTime() {
+        return stayTime;
     }
 
     public SemanticCell getSemanticCell() {

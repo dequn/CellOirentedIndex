@@ -45,12 +45,12 @@ public class FloorShpUtils {
      *
      * @param floorFiles
      */
-    public static void setPolygonNum(List<String> floorFiles,List<Integer> beginNum) {
+    public static void setPolygonNum(List<String> floorFiles, List<Integer> beginNum) {
         ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
 
 
         try {
-            for (int i= 0; i<floorFiles.size();i++) {
+            for (int i = 0; i < floorFiles.size(); i++) {
 
                 String file = floorFiles.get(i);
                 ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(file).toURI().toURL());

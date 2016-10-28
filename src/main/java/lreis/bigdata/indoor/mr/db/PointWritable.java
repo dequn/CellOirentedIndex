@@ -22,17 +22,16 @@ public class PointWritable implements Writable, DBWritable {
     PositioningPoint point;
 
 
-    public PointWritable(){
+    public PointWritable() {
 
     }
 
-    public  PointWritable(String rowkey,PositioningPoint point){
+    public PointWritable(String rowkey, PositioningPoint point) {
         this.rowkey = rowkey;
         this.point = point;
 
 
     }
-
 
 
     public String getRowkey() {
@@ -72,7 +71,7 @@ public class PointWritable implements Writable, DBWritable {
         pstmt.setString(7, this.point.getSemanticCellIn().getPolygonNum());
         pstmt.setLong(8, this.point.getTime());
 
-   }
+    }
 
     @Override
     public void readFields(ResultSet resultSet) throws SQLException {

@@ -1,7 +1,6 @@
 package lreis.bigdata.indoor.vo;
 
 import com.vividsolutions.jts.geom.Geometry;
-import net.sf.json.JsonConfig;
 
 /**
  * Created by dq on 4/6/16.
@@ -62,7 +61,6 @@ public class SemanticCell {
     public String toString() {
         return name.toString();
     }
-
 
 
 }

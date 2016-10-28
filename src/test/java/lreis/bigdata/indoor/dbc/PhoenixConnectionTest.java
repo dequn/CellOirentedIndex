@@ -12,10 +12,10 @@ import java.sql.SQLException;
 public class PhoenixConnectionTest {
 
     @Test
-    public void GetConnectionTest(){
+    public void GetConnectionTest() {
 
-        IConnection conn  = DbcFactory.getPhoenixConn();
-        if(conn !=null){
+        IConnection conn = DbcFactory.getPhoenixConn();
+        if (conn != null) {
             System.out.print("get conn ok");
             try {
                 conn.close();

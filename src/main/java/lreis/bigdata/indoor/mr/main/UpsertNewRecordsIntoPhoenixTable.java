@@ -2,7 +2,6 @@ package lreis.bigdata.indoor.mr.main;
 
 import lreis.bigdata.indoor.mr.db.PointWritable;
 import lreis.bigdata.indoor.utils.RecordUtils;
-import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.PositioningPoint;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -26,6 +25,47 @@ import java.text.ParseException;
  * Created by dq on 10/27/16.
  */
 public class UpsertNewRecordsIntoPhoenixTable {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+
+
+        Configuration conf = HBaseConfiguration.create();
+
+//        conf.set("hbase.zookeeper.quorum", "hadoop-master,hadoop-slave1,hadoop-slave2");
+//        conf.set("hbase.zookeeper.property.clientPort", "2181");
+//
+//
+//        conf.set("mapred.job.tracker", "local");
+//        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
+//        conf.set("mapreduce.framework.name", "yarn");
+//        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
+//        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
+//        System.setProperty("hadoop.home.dir", "/usr/local/bin/hadoop");
+
+
+        Job job = Job.getInstance(conf, "Ingest New Points");
+
+//        job.setJar("/home/hadoop/IdeaProjects/CellOirentedIndex/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
+        job.setMapperClass(UpsertNewRecordMapper.class);
+        job.setNumReduceTasks(0);
+
+        job.setMapOutputValueClass(MultipleOutputs.class);
+
+        MultipleOutputs.addNamedOutput(job, "db", PhoenixOutputFormat.class, NullWritable.class, PointWritable.class);
+        MultipleOutputs.addNamedOutput(job, "text", TextOutputFormat.class, NullWritable.class, Text.class);
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        PhoenixConfigurationUtil.setOutputTableName(job.getConfiguration(), "BIGJOY.IMOS");
+        PhoenixConfigurationUtil.setUpsertColumnNames(job.getConfiguration(), "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME".split(","));
+
+        TableMapReduceUtil.addDependencyJars(job);
+
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+
+    }
+
     public static class UpsertNewRecordMapper extends Mapper<Object, Text, NullWritable, MultipleOutputs> {
 
         MultipleOutputs mos;
@@ -81,48 +121,6 @@ public class UpsertNewRecordsIntoPhoenixTable {
 
         }
 
-
-    }
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
-
-        Configuration conf = HBaseConfiguration.create();
-
-//        conf.set("hbase.zookeeper.quorum", "hadoop-master,hadoop-slave1,hadoop-slave2");
-//        conf.set("hbase.zookeeper.property.clientPort", "2181");
-//
-//
-//        conf.set("mapred.job.tracker", "local");
-//        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
-//        conf.set("mapreduce.framework.name", "yarn");
-//        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
-//        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
-//        System.setProperty("hadoop.home.dir", "/usr/local/bin/hadoop");
-
-
-
-        Job job = Job.getInstance(conf, "Ingest New Points");
-
-//        job.setJar("/home/hadoop/IdeaProjects/CellOirentedIndex/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
-        job.setMapperClass(UpsertNewRecordMapper.class);
-        job.setNumReduceTasks(0);
-
-        job.setMapOutputValueClass(MultipleOutputs.class);
-
-        MultipleOutputs.addNamedOutput(job, "db", PhoenixOutputFormat.class, NullWritable.class, PointWritable.class);
-        MultipleOutputs.addNamedOutput(job, "text", TextOutputFormat.class, NullWritable.class, Text.class);
-
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-        PhoenixConfigurationUtil.setOutputTableName(job.getConfiguration(), "BIGJOY.IMOS");
-        PhoenixConfigurationUtil.setUpsertColumnNames(job.getConfiguration(), "ID,FLOOR,TIME,MAC,X,Y,SEM_CELL,LTIME".split(","));
-
-        TableMapReduceUtil.addDependencyJars(job);
-
-
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
 
     }
 }

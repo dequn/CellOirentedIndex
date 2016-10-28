@@ -1,5 +1,7 @@
 package lreis.bigdata.indoor.vo;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,26 +21,9 @@ public class Building {
             "data/floors/20040.dbf",
             "data/floors/20050.dbf",
     };
-
-    private static class BuildingHolder {
-        private static final Building instance = new Building();
-
-
-        static {
-            for (String file : floorShps) {
-
-//                String path = Building.class.getResource("/" + file).getPath();
-                String[] files = file.split("/");
-                instance.addFloor(new Floor(files[files.length - 1].substring(0, 5), file));
-            }
-        }
-
-    }
-
-
+    static Logger logger = Logger.getLogger(Building.class);
     private HashMap<String, Floor> floors = new HashMap<String, Floor>();// get floor by floorNum.
     private Map<String, SemanticCell> semCells = new HashMap<>();
-
     private Building() {
     }
 
@@ -95,6 +80,27 @@ public class Building {
 
     public SemanticCell getSemCellByNum(String strNum) {
         return semCells.get(strNum);
+    }
+
+    private static class BuildingHolder {
+        private static final Building instance = new Building();
+
+        static {
+            for (String file : floorShps) {
+                //String path = Building.class.getResource("/" + file).getPath();
+                String[] files = file.split("/");
+                instance.addFloor(new Floor(files[files.length - 1].substring(0, 5), file));
+            }
+
+            if (instance.floors.size() == 0) {
+                logger.error("Building init error, please check shp file path.");
+            } else {
+                logger.info("Building init ok!");
+            }
+
+
+        }
+
     }
 
 }

@@ -26,7 +26,6 @@ public class JsonLibTest {
             TraceUtils.fixTrace(list);
 
 
-
 //            JSONArray arr = JSONArray.fromObject(list);
             JSONArray arr = new JSONArray();
             arr.addAll(list);

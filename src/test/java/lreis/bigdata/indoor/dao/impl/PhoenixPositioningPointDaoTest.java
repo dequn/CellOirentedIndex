@@ -1,6 +1,5 @@
 package lreis.bigdata.indoor.dao.impl;
 
-import lreis.bigdata.indoor.TestStatic;
 import lreis.bigdata.indoor.dao.IPOIDao;
 import lreis.bigdata.indoor.dao.ISemStopsDao;
 import lreis.bigdata.indoor.dbc.PhoenixConn;
@@ -79,7 +78,6 @@ public class PhoenixPositioningPointDaoTest {
     public void testStops() {
 
 
-
         try {
             PhoenixConn conn = DbcFactory.getPhoenixConn();
 
@@ -109,8 +107,6 @@ public class PhoenixPositioningPointDaoTest {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
 
 
     }

@@ -1,4 +1,3 @@
-import lreis.bigdata.indoor.vo.SemanticCell;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -6,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
-
-import static lreis.bigdata.indoor.utils.TraceUtils.MEANING_LESS_NAMES;
 
 /**
  * Created by dq on 4/25/16.
