@@ -2,6 +2,7 @@ package lreis.bigdata.indoor.mr.main;
 
 import lreis.bigdata.indoor.mr.db.PointWritable;
 import lreis.bigdata.indoor.utils.RecordUtils;
+import lreis.bigdata.indoor.vo.Building;
 import lreis.bigdata.indoor.vo.PositioningPoint;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -88,12 +89,22 @@ public class UpsertNewRecordsIntoPhoenixTable {
 
         Configuration conf = HBaseConfiguration.create();
 
-        conf.set("hbase.zookeeper.quorum", "hadoop-master,hadoop-slave1,hadoop-slave2");
-        conf.set("hbase.zookeeper.property.clientPort", "2181");
+//        conf.set("hbase.zookeeper.quorum", "hadoop-master,hadoop-slave1,hadoop-slave2");
+//        conf.set("hbase.zookeeper.property.clientPort", "2181");
+//
+//
+//        conf.set("mapred.job.tracker", "local");
+//        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
+//        conf.set("mapreduce.framework.name", "yarn");
+//        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
+//        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
+//        System.setProperty("hadoop.home.dir", "/usr/local/bin/hadoop");
+
 
 
         Job job = Job.getInstance(conf, "Ingest New Points");
 
+//        job.setJar("/home/hadoop/IdeaProjects/CellOirentedIndex/classes/artifacts/CellOrientedIndex_jar/CellOrientedIndex.jar");
         job.setMapperClass(UpsertNewRecordMapper.class);
         job.setNumReduceTasks(0);
 

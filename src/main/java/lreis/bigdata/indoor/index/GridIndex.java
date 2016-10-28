@@ -26,9 +26,13 @@ public class GridIndex {
     STRtree gridIndex = null;
 
     public GridIndex(Floor floor) {
-        this.floor = floor;
-        this.grid2CellMap = new HashMap<Grid, SemanticCell>();
-        this.init();
+
+        if (floor != null) {
+            this.floor = floor;
+            this.grid2CellMap = new HashMap<Grid, SemanticCell>();
+            this.init();
+
+        }
 
     }
 

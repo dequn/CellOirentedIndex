@@ -12,6 +12,7 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.opengis.feature.simple.SimpleFeature;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +23,8 @@ import java.util.List;
  */
 public class Floor {
 
-    private String floorShp = null;
     private String floorNum = null;
+    private URI shpUri = null;
 
     private List<SemanticCell> semanticCells = null;
 
@@ -37,7 +38,13 @@ public class Floor {
 
     public Floor(String floorNum, String floorShp) {
         this.floorNum = floorNum;
-        this.floorShp = floorShp;
+        this.shpUri = new File(floorShp).toURI();
+        this.init();
+    }
+
+    public Floor(String floorNum, URI uri) {
+        this.floorNum = floorNum;
+        this.shpUri = uri;
         this.init();
     }
 
@@ -49,12 +56,8 @@ public class Floor {
         return floorNum;
     }
 
-    public String getFloorShp() {
-        return floorShp;
-    }
-
     public List<SemanticCell> getSemanticCells() {
-        if (this.floorShp == null) {
+        if (this.shpUri == null) {
             return null;
         }
         if (this.semanticCells == null) {
@@ -66,7 +69,7 @@ public class Floor {
 
     public STRtree getStrTree() {
 
-        if (this.floorShp == null) {
+        if (this.shpUri == null) {
             return null;
         }
         if (this.strTree == null) {
@@ -97,7 +100,7 @@ public class Floor {
 
 
     public List<SemanticCell> getCellsByName(String name) {
-        if (this.floorShp == null) {
+        if (this.shpUri == null) {
             return null;
         }
         if (this.name2CellMap == null) {
@@ -107,11 +110,11 @@ public class Floor {
     }
 
 
-    private void readCells() {
+    public void readCells() {
         this.semanticCells = new ArrayList<SemanticCell>();
         ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
         try {
-            ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(new File(this.floorShp).toURI().toURL());
+            ShapefileDataStore sds = (ShapefileDataStore) dataStoreFactory.createDataStore(this.shpUri.toURL());
 
 
             sds.setCharset(Charset.forName("UTF-8"));
@@ -125,7 +128,7 @@ public class Floor {
 
                 Geometry geom = (Geometry) feature.getDefaultGeometry();
 
-                String nodeNum = (String.valueOf( feature.getAttribute("poi_no")));
+                String nodeNum = (String.valueOf(feature.getAttribute("poi_no")));
 
                 String name = (String) feature.getAttribute("name_CHN");
 
@@ -146,7 +149,6 @@ public class Floor {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -155,8 +157,9 @@ public class Floor {
      */
     private void buildIndex() {
 
-        if (floorShp == null) return;
-        if (this.semanticCells == null) this.readCells();
+        if(this.semanticCells == null){
+            this.readCells();
+        }
 
 
         // init three indices
@@ -179,7 +182,6 @@ public class Floor {
             //num index
             num2CellMap.put(semanticCell.getPolygonNum(), semanticCell);
         }
-
 
         this.gridIndex = new GridIndex(this);
     }

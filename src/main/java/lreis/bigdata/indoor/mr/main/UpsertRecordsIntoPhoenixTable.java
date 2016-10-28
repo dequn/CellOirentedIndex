@@ -93,12 +93,7 @@ public class UpsertRecordsIntoPhoenixTable {
         Configuration conf = HBaseConfiguration.create();
 
 
-//        conf.set("mapred.job.tracker", "local");
-//        conf.set("fs.defaultFS", "hdfs://hadoop-master:9000");
-//        conf.set("mapreduce.framework.name", "yarn");
-//        conf.set("yarn.resourcemanager.hostname", "hadoop-master");
-//        conf.set("yarn.resourcemanager.address", "hadoop-master:8032");
-//        System.setProperty("hadoop.home.dir", "/usr/local/bin/hadoop");
+
 
         Job job = Job.getInstance(conf, "Ingest Points");
 
